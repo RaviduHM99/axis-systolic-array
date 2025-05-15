@@ -1,0 +1,110 @@
+# Define the Top Domain
+set_design TOP
+
+# Define the default domain
+create_power_domain -name pdTop -default
+update_power_domain -name pdTop -internal_power_net VDD
+
+# Define PDA - PSO when pso is low
+create_power_domain -name pdA -instances {uA uC} \
+        -shutoff_condition {!uPCM/pso[0]}
+update_power_domain -name pdA -internal_power_net VDDa
+
+# Define PDB - PSO when pso is low
+create_power_domain -name pdB -instances {uB} \
+        -shutoff_condition {!uPCM/pso[1]}
+update_power_domain -name pdB -internal_power_net VDDb
+
+# Nominal operating conditions
+create_nominal_condition -name high -voltage 1.2
+update_nominal_condition -name high -library_set lib_high
+create_nominal_condition -name medium -voltage 1.0
+update_nominal_condition -name medium -library_set lib_medium
+create_nominal_condition -name low -voltage 0.8
+update_nominal_condition -name low -library_set lib_low
+create_nominal_condition -name off -voltage 0
+
+# Define libraries
+define_library_set -name lib_high -libraries Lib1
+define_library_set -name lib2_med -libraries {Lib2 Lib3}
+define_library_set -name lib3_low -libraries Lib4
+
+# Define Operating Corners
+create_operating_corner -name corner1 \
+            -voltage 0.80 -process 1 \
+            -temperature 125 -library_set lib_low
+create_operating_corner -name corner2 \
+            -voltage 1.0 -process 1 \
+            -temperature 125 -library_set lib_med
+create_operating_corner -name corner3 \
+            -voltage 1.2 -process 1 \
+            -temperature 125 -library_set lib_high
+
+# Define Power Modes
+create_power_mode -name PM1 -default \
+    -domain_conditions {pdTop@high pdA@medium pdB@medium}
+update_power_mode -name PM1 -sdc_files PM1.sdc
+create_power_mode -name PM2 \
+    -domain_conditions {pdTop@high pdA@low pdB@low}
+update_power_mode -name PM2 -sdc_files PM2.sdc
+create_power_mode -name PM3 \
+    -domain_conditions {pdTop@high pdA@low pdB@off}
+update_power_mode -name PM3 -sdc_files PM3.sdc
+create_analysis_view -name PM1_view -mode PM1 \
+            -domain_corners {pdTop@corner1 pdA@corner2 pdB@corner3}
+
+# Define Level Shifters
+define_level_shifter_cell \
+        -cells LVLHVT -valid_location from \
+        -input_voltage_range 0.8 \
+        -output_voltage_range 1.2 -ground VSS \
+        -input_power_pin VDD \
+        -output_power_pin VDDH
+
+create_level_shifter_rule -name lsr1 \
+        -to {pdB} -from {pdA}
+update_level_shifter_rules -names lsr1 \
+        -cells LS32 -location to
+create_level_shifter_rule -name lsr2 \
+        -to {pdA} -from {pdB}
+update_level_shifter_rules -names lsr2 \
+        -cells LS23 -location to
+create_level_shifter_rule -name lsr3 \
+        -to {pdTop} -from {pdB}
+update_level_shifter_rules -names lsr3 \
+        -cells LS13 -location to
+create_level_shifter_rule -name lsr4 \
+        -to {pdA} -from {pdTop}
+update_level_shifter_rules -names lsr4 \
+        -cells LS21 -location to
+
+# Define Power Switch Cell for Power Gating
+define_power_switch_cell -cells HDRHVT \
+                -stage_1_enable SLPIN -stage_1_output SLPOUT \
+                -power VDDH -power_switchable VDDI
+create_power_switch_rule -name PSW_RULE -domain ALUP
+
+# Define Isolation Cell 
+deine_isolation_cell -cells ISOHVT \
+            -enable NSLEEP -power VDD -ground VSS
+# All outputs of Power-Domain pdB
+# Isolated high on rising edge of "iso"
+create_isolation_rule \
+            -name ir1 \
+            -from pdB \
+            -pins {uB/en1 ub/en2} \
+            -isolation_condition {uPCM/iso} \
+            -isolation_output high
+update_isolation_rules -names ir1 -cells ISOLS2 \
+            -combine_level_shifting -location to
+
+# Define State Retention Registers
+# State stored on falling edge of restore[0]
+#              and restored on rising-edge
+create_state_retention_rule \
+        -name sr1 \
+        -instances {uB/reg1 uB/reg2} \
+        -restore_edge {uPCM/restore[0]}
+        # -save is by default !restore_edge
+update_state_retention_rule -names SPRG1 \
+        -library_set lib_med -cell_type DRFF

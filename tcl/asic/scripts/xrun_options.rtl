@@ -1,0 +1,14 @@
+# To execute use this command: xrun -f ../scripts.xrun_options.rtl -input restore.tcl (if available)
+-sv
+-v93
+-debug
+-gui
+-delay_trigger
+-timescale 1ns/1ps
++bus_conflict_off
+-define RTL
+-f ../sourcecode/axissa_src_list.txt
+-f ../sourccode/tb/axissa_tb_list.txt
+
+# Optionally add a tcl script to run upon Xcelium Invocation
+# -input ../script/simulation.tcl

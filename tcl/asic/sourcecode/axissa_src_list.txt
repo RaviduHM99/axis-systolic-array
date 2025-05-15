@@ -1,0 +1,6 @@
+// List your RTL files here
+../../rtl/sa/n_delay.sv
+../../rtl/sa/tri_buffer.sv
+../../rtl/sa/mac.sv
+../../rtl/sa/axis_sa.sv
+

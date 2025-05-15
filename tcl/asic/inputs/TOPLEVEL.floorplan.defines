@@ -1,0 +1,46 @@
+# Floorplan
+set design(floorplan_ratio) 0.75
+set design(floorplan_utilization) 0.5
+set design(floorplan_space_to_core) "5 5 5 5" ; # Note that this should be passed as four arguments and not as one
+                                                # Therefore, use the expand list {*} operator!
+
+set design(core_ring_nets) "$design(digital_gnd) $design(digital_vdd)"
+set M2_db [lindex [get_db layers] 1]
+set M3_db [lindex [get_db layers] 2]
+set design(core_ring_width)   [expr 10*[get_db $M3_db .min_width]];
+set design(core_ring_spacing) [expr  5*[get_db $M3_db .min_spacing]];
+set design(core_ring_layers)  "bottom [get_db $M3_db .name] top [get_db $M3_db .name] right [get_db $M2_db .name] left [get_db $M2_db .name]"
+
+#set design(well_tap_interval) 10
+#set design(well_tap_offset) 3
+set design(well_tap_prefix) "WELLTAP"
+
+set design(end_cap_prefix) "ENDCAP"
+
+set design(M2_stripes_width) [expr 10*[get_db $M2_db .min_wdith]]
+set design(M2_stripes_spacing) [expr 10*[get_db $M2_db .min_spacing]]
+set design(M2_stripes_interval) [expr 10*[get_db $M2_db .min_spacing]]
+set design(M2_stripes_from_left) [expr 10*[get_db $M2_db .min_spacing]]
+set design(M2_stripes_nets) "$design(digital_gnd) $design(digital_vdd)"
+
+proc enics_add_m2_stripe_blockage {} {
+    global design
+    # Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them
+    deselect_routes
+    set m1_name [get_db [lindex [get_db layers] 0] .name]
+    set m1_name [get_db [lindex [get_db layers] 1] .name]
+    select_routes -shapes stripe -layer $m2_name -nets $design(M2_stripe_nets)
+    foreach stripe [get_db selected] {
+        create_route_blockage -name M2_pwr_stripe_route_blk \
+        -layer "$m1_name $m2_name" \
+        -spacing [expr 2*[get_db [lindex [get_db layers] 1] .min_spacing]] \
+        -area [get_db $stripe .rect]
+    }
+    deselect_routes
+}
+
+proc enics_delete_m2_stripe_blockage {} {
+    deselect_obj -all
+    select_obj [get_db route_blockages if {.name == M2_pwr_stripe_route_blk}]
+    delete_selected_from_floorplan
+}
