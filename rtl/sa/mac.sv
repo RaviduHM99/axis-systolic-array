@@ -1,6 +1,5 @@
 `timescale 1ns/1ps
 // multiply adder with latency L
-(* use_dsp = "yes" *)
 module mul #(
   parameter  WX=4, WK=8, L=1,
   localparam WY=WX+WK
@@ -11,7 +10,7 @@ module mul #(
   output logic signed [WY-1:0] y
 );
   logic signed [WY-1:0] m;
-  always_ff @(posedge clk)
+  always_ff @(posedge clk or negedge rstn)
     if (!rstn)    m <= '0;
     else if (en)  m <= $signed(x) * $signed(k);
 
@@ -27,7 +26,7 @@ module acc #(
 );
   logic signed [WY-1:0] a;
   // only accumulate valid data
-  always_ff @(posedge clk)
+  always_ff @(posedge clk or negedge rstn)
     if (!rstn)              a <= '0;
     else if (en && x_valid) a <= WY'($signed(x)) + $signed(first ? WY'(0) : a);
 

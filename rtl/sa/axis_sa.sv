@@ -54,14 +54,14 @@ module axis_sa #(
       if (c==0) 
         assign xi[r][c] = xi_delayed[r];  
       else // move x through cols
-        always_ff @(posedge clk)
+        always_ff @(posedge clk or negedge rstn)
           if (!rstn)       xi[r][c] <= '0;
           else if (en_mac) xi[r][c] <= xi[r][c-1];
       
       if (r==0)
         assign ki[r][c] = ki_delayed[c];
       else // move k through rows
-        always_ff @(posedge clk)
+        always_ff @(posedge clk or negedge rstn)
           if (!rstn)       ki[r][c] <= '0;
           else if (en_mac) ki[r][c] <= ki[r-1][c];
     end
@@ -74,7 +74,7 @@ module axis_sa #(
 
   // Accumulators
   for (d=0; d<D; d=d+1)
-    always_ff @(posedge clk)
+    always_ff @(posedge clk or negedge rstn)
       if (!rstn)            m_first[d] <= 1'b1;
       else if (valid[LM+d]) m_first[d] <= vlast[LM+d];
 
@@ -90,13 +90,13 @@ module axis_sa #(
     if (d==0)
       assign r_last[0] = r_valid[0];
     else
-      always_ff @(posedge clk)
+      always_ff @(posedge clk or negedge rstn)
         if (!rstn)                r_last[d] <= 0;
         else if (en_shift) 
           if (d >= C-1 && m_last) r_last[d] <= 0;            // At the last beat, clear all diagonal regs beyond C
           else                    r_last[d] <= r_last[d-1];  // on non-last beats, shift right
   
-    always_ff @(posedge clk)
+    always_ff @(posedge clk or negedge rstn)
       if (!rstn)                a_valid[d] <= 0;
       else if (en_mac)          a_valid[d] <= vlast[LM+LA+d-1];
 
@@ -104,7 +104,7 @@ module axis_sa #(
     assign r_copy   [d] = a_valid[d]  && !r_valid[d]; // copy only if acc can send data (a_valid) and reg is empty (!r_valid)
     assign r_clear  [d] = en_shift    &&  r_last [d]; // clear if current reg is last
 
-    always_ff @(posedge clk)
+    always_ff @(posedge clk or negedge rstn)
       if (!rstn)                               r_valid[d] <= 0;
       else if (d >= C-1 && en_shift && m_last) r_valid[d] <= 0; // At the last beat, clear all diagonal regs beyond C
       else if (r_copy [d])                     r_valid[d] <= 1;
@@ -115,11 +115,11 @@ module axis_sa #(
   for (r=0; r<R; r=r+1)
     for (c=0; c<C; c=c+1)
       if (c==0) begin
-        always_ff @(posedge clk)
+        always_ff @(posedge clk or negedge rstn)
           if (!rstn)                   ro[r][0] <= '0;
           else if (r_copy[`DIAG(r,0)]) ro[r][0] <= ao[r][0];
       end else begin
-        always_ff @(posedge clk)
+        always_ff @(posedge clk or negedge rstn)
           if (!rstn)                   ro[r][c] <= '0;
           else if (r_copy[`DIAG(r,c)]) ro[r][c] <= ao[r][c];
           else if (en_shift)           ro[r][c] <= ro[r][c-1];
