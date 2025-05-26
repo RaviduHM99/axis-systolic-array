@@ -2,13 +2,13 @@
 #           DEFINE THE NAME OF THE TOPLEVEL DESIGN              #
 #              and variables specific to this run               #
 #################################################################
-set design(TOPLEVEL) "<your_DUT_name>"
+set design(TOPLEVEL) "axis_sa"
 
 # Variables
 set runtype "synthesis"
-set mmmc_or_simple "simple"; # "simple" - using "read_lib"
+set mmmc_or_simple "mmmc"; # "simple" - using "read_lib"
                              # "mmmc"   - using "read_mmmc"
-set phys_synth_type "none" ; # "none"   - don't read any tech files
+set phys_synth_type "lef" ; # "none"   - don't read any tech files
                              # "lef"    - only read lef
                              # "floorplan" - read in DEF
 
@@ -17,24 +17,23 @@ set phys_synth_type "none" ; # "none"   - don't read any tech files
 #################################################################
 
 # Load General Procedures
-source ../scripts/procedures.tcl -quiet
+source ../../tcl/asic/scripts/procedures.tcl -quiet
 
 enics_start_stage "start"
 
 set debug_file "debug.txt"
 
 # Load the specific definitions for this project
-source ../inputs/$design(TOPLEVEL).defines -quiet
+source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet
 
 # Load general settings
-source ../scripts/settings.tcl -quiet
+source ../../tcl/asic/scripts/settings.tcl -quiet
 
 # Load the library paths and definitions for this technology
-source ../libraries/libraries.$TECHNOLOGY.tcl -quiet
-source ../libraries/libraries.$SC_TECHNOLOGY.tcl -quiet
-source ../libraries/libraries.$SRAM_TECHNOLOGY.tcl -quiet
+source ../../tcl/asic/libraries/libraries.$TECHNOLOGY.tcl -quiet
+source ../../tcl/asic/libraries/libraries.$SC_TECHNOLOGY.tcl -quiet
 if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
-    source ../libraries/libraries.$IO_TECHNOLOGY.tcl -quiet
+    source ../../tcl/asic/libraries/libraries.$IO_TECHNOLOGY.tcl -quiet
 }
 
 enics_message "Suppressing the following messages that are design specific"
@@ -140,8 +139,8 @@ enics_report_timing $design(synthesis_reports)
 
 # Clock Gating Settings
 # ---------------------
-set_db [get_db design:design(TOPLEVEL)] .lp_clock_gating_min_flops 8
-set_db [get_db design:design(TOPLEVEL)] .lp_clock_gating_style latch
+# set_db [get_db design:design(TOPLEVEL)] .lp_clock_gating_min_flops 8
+# set_db [get_db design:design(TOPLEVEL)] .lp_clock_gating_style latch
 
 # Don't use Scan Cells
 # --------------------
@@ -188,7 +187,6 @@ set post_synth_reports [list \
     report_area \
     report_gates \
     report_hierarchy \
-    report_clock_gating \
     report_design_rules \
     report_dp \
     report_qor \

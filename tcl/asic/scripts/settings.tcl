@@ -8,7 +8,7 @@ if {$runtype == "synthesis"} {
     set_db information_level 9 ; # The log file will rep.
     #set_db hdl_track_filename_row_col true -quiet;
     set_db hdl_language v2001 -quiet
-    set_db lp_insert_clock_gating true
+    set_db lp_insert_clock_gating false
     set_db detailed_sdc_messages true ; # helps read_sdc
 }
 

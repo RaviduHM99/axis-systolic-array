@@ -28,7 +28,7 @@ set tech_files(STANDARD_CELLS_HVT_LEF) $paths(STANDARD_CELLS_HVT)
 
 # Temperatures for Corners
 set tech(TEMPERATURE_BC) -40
-set tech(TEMPERATURE_TC) 0
+set tech(TEMPERATURE_TC) 25
 set tech(TEMPERATURE_WC) 125
 
 # Libs

@@ -66,9 +66,9 @@ proc enics_message {msg {importance low}} {
 proc enics_reload_scripts {} {
     global design env
     # Load general procedures
-    source ../scripts/procedures.tcl -quiet
+    source ../../tcl/asic/scripts/procedures.tcl -quiet
     # Load the specific definitions for this project
-    source ../inputs/$design(TOPLEVEL).defines -quiet
+    source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet
 }
 
 ###################################################
@@ -137,7 +137,7 @@ proc enics_default_cost_groups {} {
 #          -------------
 #   Reports timing and saves it in the appropriate directory
 ###################################################
-proc enics_report_timing {{reports_path "../reports/"}} {
+proc enics_report_timing {{reports_path "../../tcl/asic/reports/"}} {
     global design this_run
     mkdir -pv ${reports_path}/$this_run{stage}/
     set_db timing_report_fields \

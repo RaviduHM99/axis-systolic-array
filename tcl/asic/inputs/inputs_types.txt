@@ -1,7 +1,0 @@
-<TOPLEVEL>.definnes
-<TOPLEVEL>.sdc
-<TOPLEVEL>.mmmc
-<TOPLEVEL>.cpf
-<TOPLEVEL>.ccopt
-<TOPLEVEL>.floorplan.defines
-<TOPLEVEL>.io

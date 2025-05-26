@@ -1,3 +1,0 @@
--- Verilog Behavioural Files for TSMC 65nm IO
-/data/tsmc/65LP/dig_libs/ARM_FEONLY/TS...
-../libraries/dummy_pcorner.v
