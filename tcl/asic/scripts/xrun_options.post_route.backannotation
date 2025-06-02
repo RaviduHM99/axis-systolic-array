@@ -6,11 +6,9 @@
 -timescale 1ns/1ps
 -define GATE_LEVEL
 -define BACKANNOTATION
--defparam sm_tb.WIDTH=4
--define SDF_FILE=\"../export/post_synth/sm.postsyn.sdf"
--f ../sourcecode/dut_src_list_glv.txt
+-define SDF_FILE=\"../../tcl/asic/export/post_synth/axis_sa.postsyn.sdf"
+-define SDF_CORNER=\"MAXIMUM"
+-f ../sourcecode/axis_sa_src_list_glv.txt
 +sdf_verbose
 -sdfstats ../reports/sdf_statistics.rpt
-
-# Optionally add a tcl script to run upon Xcelium Invocation
 -input ../scripts/backannotation.tcl

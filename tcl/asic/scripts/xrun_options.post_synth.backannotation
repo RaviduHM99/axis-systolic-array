@@ -1,0 +1,14 @@
+-gui
+-sv
+-v93
+-debug
+-nospecify
+-timescale 1ns/1ps
+-define GATE_LEVEL
+-define BACKANNOTATION
+-define SDF_FILE=\"../../tcl/asic/export/post_synth/axis_sa.postsyn.sdf"
+-define SDF_CORNER=\"MAXIMUM"
+-f ../sourcecode/axis_sa_src_list_glv.txt
++sdf_verbose
+-sdfstats ../reports/sdf_statistics.rpt
+-input ../scripts/backannotation.tcl

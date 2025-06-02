@@ -34,7 +34,17 @@ module axis_sa_tb;
   wire sk_ready = sx_valid && s_ready;
   wire [R-1:0] m_keep = '1;
 
-  axis_sa #(.R(R), .C(C), .WX(WX), .WK(WK), .WY(WY), .LM(LM), .LA(LA)) DUT (.*);
+  `ifdef GATE_LEVEL
+    axis_sa DUT (.*);
+  `else
+    axis_sa #(.R(R), .C(C), .WX(WX), .WK(WK), .WY(WY), .LM(LM), .LA(LA)) DUT (.*);
+  `endif
+
+  `ifdef BACKANNOTATION
+    initial begin
+      $sdf_annotate(`SDF_FILE, DUT, ,"sdf.log", `SDF_CORNER);
+    end
+  `endif
 
   axis_source #(.WORD_W(WX), .BUS_W(WX*R), .PROB_VALID(P_VALID)) source_x (.clk(clk), .s_valid(sx_valid), .s_ready(sx_ready), .s_last(sx_last), .s_keep(), .s_data(sx_data));
   axis_source #(.WORD_W(WK), .BUS_W(WK*C), .PROB_VALID(P_VALID)) source_k (.clk(clk), .s_valid(sk_valid), .s_ready(sk_ready), .s_last(sk_last), .s_keep(), .s_data(sk_data));

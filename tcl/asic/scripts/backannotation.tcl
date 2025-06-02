@@ -9,7 +9,7 @@
 #     or alternatively
 #       xrun ../scripts/xrun.backannotation
 
-set design(TOPLEVEL) "sm"
+set design(TOPLEVEL) "axis_sa"
 set debug_file "debug.xrun.txt"
 
 # Read in the project definitions/variables

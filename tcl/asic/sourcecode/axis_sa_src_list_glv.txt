@@ -1,14 +1,8 @@
 // If you have Standard Cell Instantatiations, make sure to add this to your source list
--f ../libraries/libraries_TSMC65LP_STD.f
-
-// If you have IOs, make sure to add this to your source list
-// -f ../libraries/libraries.
-
-// If you have memories, add the verilog behavioural model here and add
-//+MEMLOAD="PRELOAD"
+-f ../../tcl/asic/libraries/libraries_TSMC7_STD.f
 
 // List your RTL files here
-../sourcecode/rtl/sm.postsyn.v
+../../tcl/asic/export/post_synth/axis_sa.postsyn.v
 
 // Put your testbench file inside the xrun_options script
-../sourcecode/tb/sm_tb.v
+../../tcl/asic/sourcecode/axis_sa_tb_list.txt

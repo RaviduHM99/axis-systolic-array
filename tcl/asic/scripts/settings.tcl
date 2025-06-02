@@ -102,6 +102,6 @@ if ($runtype == "pnr") {
 }
 
 ###################################
-# General Innovus Settings
+# General Voltus Settings
 ###################################
 if ($runtype == "power") {}

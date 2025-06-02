@@ -5,8 +5,7 @@
 -nospecify
 -timescale 1ns/1ps
 -define GATE_LEVEL
--defparam sm_tb.WIDTH=4
--f ../sourcecode/dut_src_list_glv.txt
+-f ../sourcecode/axis_sa_src_list_glv.txt
 
 # Optionally add a tcl script to run upon Xcelium Invocation
 -input ../scripts/simulation.tcl
