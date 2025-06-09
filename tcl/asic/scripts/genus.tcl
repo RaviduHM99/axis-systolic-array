@@ -6,11 +6,11 @@ set design(TOPLEVEL) "axis_sa"
 
 # Variables
 set runtype "synthesis"
-set mmmc_or_simple "mmmc"; # "simple" - using "read_lib"
+set mmmc_or_simple "mmmc";   # "simple" - using "read_lib"
                              # "mmmc"   - using "read_mmmc"
-set phys_synth_type "lef" ; # "none"   - don't read any tech files
-                             # "lef"    - only read lef
-                             # "floorplan" - read in DEF
+set phys_synth_type "lef" ;  # "none"   - don't read any tech files
+                             # "lef"    - only read lef - RTL Floorplaning Flow
+                             # "floorplan" - read in DEF - iSpatial Flow
 
 #################################################################
 #                     Load Basic Settings                       #
@@ -130,7 +130,7 @@ if {$phys_synth_type == "floorplan"} {
 #################################################################
 #                          Synthesize                           #
 #################################################################
-enics_start_stage "synthesis"
+enics_start_stage "pre_synthesis"
 
 # Define cost groups (reg2reg, in2reg, reg2out, in2out)
 # -----------------------------------------------------
@@ -147,26 +147,42 @@ enics_report_timing $design(synthesis_reports)
 enics_message "Settings Don't Use on scan flip flops"
 foreach cell [get_db lib_cells -if {.scan_enable_pins!=""}] {set_db $cell .avoid true}
 
-# Set Synthesis Efforts
-# ---------------------
-set_db syn_generic_effort low           ; # low|medium|high|express
-set_db syn_map_effort low               ; # low|medium|high
-set_db syn_opt_effort low               ; # low|medium|high|extreme
-set_db opt_spatial_effort standard      ; # legacy|standard|extreme
-set_db design_power_effort high         ; # none|low|high
+# Physical Flow Attributes
+# ------------------------
+set_db design_process_node      
+set_db number_of_routing_layers 
+
 
 if {$phys_synth_type == "floorplan"} {
+    # Set Synthesis Efforts
+    set_db syn_generic_effort express           ; # low|medium|high|express
+    set_db syn_map_effort high                  ; # low|medium|high
+    set_db syn_opt_effort extreme               ; # low|medium|high|extreme
+    set_db opt_spatial_effort extreme           ; # legacy|standard|extreme
+    set_db design_power_effort high             ; # none|low|high
+
     # Synthesize to generics and place generics in floorplan
-    enics_start_stage "syn_generic"
+    enics_start_stage "syn_generic_ispatial_flow"
     syn_generic -physical
     # Map technology
-    enics_start_stage "technology_mapping"
+    enics_start_stage "technology_mapping_ispatial_flow"
     syn_map -physical
     enics_report_timing $design(synthesis_reports)
     # Post synthesis optimization
-    enics_start_stage "post_syn_opt"
+    enics_start_stage "post_syn_opt_ispatial_flow"
     syn_opt -spatial
 } else {
+    # Set Synthesis Efforts
+    set_db syn_generic_effort high           ; # low|medium|high|express
+    set_db syn_map_effort medium               ; # low|medium|high
+    set_db syn_opt_effort medium               ; # low|medium|high|extreme
+    set_db opt_spatial_effort standard      ; # legacy|standard|extreme
+    set_db design_power_effort high         ; # none|low|high
+
+    # Predict Floorplan Attributes
+    set_db predict_floorplan_enable_during_generic true
+    set_db physical_force_predict_floorplan true
+
     # Synthesize to generics and place generics in floorplan
     enics_start_stage "syn_generic"
     syn_generic -create_floorplan -physical
@@ -174,6 +190,8 @@ if {$phys_synth_type == "floorplan"} {
     enics_start_stage "technology_mapping"
     syn_map -physical
     enics_report_timing $design(synthesis_reports)
+    # Disable Predict Floorplan Again
+    set_db physical_force_predict_floorplan false
     # Post synthesis optimization
     enics_start_stage "post_syn_opt"
     syn_opt -spatial
@@ -200,19 +218,38 @@ foreach rpt $post_synth_reports {
 #################################################################
 #                     Exporting the Design                      #
 #################################################################
-enics_start_stage "export_design"
+if {$phys_synth_type == "floorplan"} {
+    enics_start_stage "export_design_ispatial_flow"
 
-# Write out a database for loading in Innovus/Voltus/Tempus
-# ---------------------------------------------------------
-enics_message "Exporting the design Database to $design(postsyn_db_base_name)"
-write_design -base_name $design(postsyn_db_base_name) -innovus -db
+    # Write out a database for loading in Innovus/Voltus/Tempus
+    # ---------------------------------------------------------
+    enics_message "Exporting the design Database to $design(postsyn_db_base_name_ispatial)"
+    write_design -base_name $design(postsyn_db_base_name_ispatial) -innovus -db
 
-# Write out a netlist for simulation or Innovus
-# ---------------------------------------------
-enics_message "Writing the post synthesis netlist to $design(postsyn_netlist)"
-write_netlist > $design(postsyn_netlist)
+    # Write out a netlist for simulation or Innovus
+    # ---------------------------------------------
+    enics_message "Writing the post synthesis netlist to $design(postsyn_netlist_ispatial)"
+    write_netlist > $design(postsyn_netlist_ispatial)
 
-# Write out SDF for backannotation simulation
-# -------------------------------------------
-enics_message "Writing the post synthesis SDF"
-write_sdf > $design(postsyn_sdf)
+    # Write out SDF for backannotation simulation
+    # -------------------------------------------
+    enics_message "Writing the post synthesis SDF"
+    write_sdf > $design(postsyn_sdf_ispatial)
+} else {
+    enics_start_stage "export_design_rtl_floorplanning"
+
+    # Write out a database for loading in Innovus/Voltus/Tempus
+    # ---------------------------------------------------------
+    enics_message "Exporting the design Database to $design(postsyn_db_base_name_rtl_flow)"
+    write_design -base_name $design(postsyn_db_base_name_rtl_flow) -innovus -db
+
+    # Write out a netlist for simulation or Innovus
+    # ---------------------------------------------
+    enics_message "Writing the post synthesis netlist to $design(postsyn_netlist)"
+    write_netlist > $design(postsyn_netlist_rtl_flow)
+
+    # Write out SDF for backannotation simulation
+    # -------------------------------------------
+    enics_message "Writing the post synthesis SDF"
+    write_sdf > $design(postsyn_sdf_rtl_flow)
+}

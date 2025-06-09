@@ -6,7 +6,13 @@ set_db source_verbose true ; #Sourcing files will be re.
 # Attributes that only Genus understands...
 if {$runtype == "synthesis"} {
     set_db information_level 9 ; # The log file will rep.
-    #set_db hdl_track_filename_row_col true -quiet;
+    set_db hdl_max_loop_limit 100000
+    set_db max_cpus_per_server 50
+    if {$design(HAS_SCAN) == "no"}{
+        set_db use_scan_seqs_for_non_dft false
+    }
+    set_db retime_async_reset true
+    set_db design:${TOP} .retime true
     set_db hdl_language v2001 -quiet
     set_db lp_insert_clock_gating false
     set_db detailed_sdc_messages true ; # helps read_sdc

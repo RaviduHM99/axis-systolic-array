@@ -5,8 +5,8 @@ set design(HAS_SCAN)          "no";
 ################################################
 #               Technology Definition
 ################################################
-set TECHNOLOGY            "TSMC7"
-set SC_TECHNOLOGY         "ARM7_SC"
+set TECHNOLOGY            "TSMC28"
+set SC_TECHNOLOGY         "TSMC28_SC"
 set SRAM_TECHNOLOGY       "None"
 set IO_TECHNOLOGY         "None"
 
@@ -49,41 +49,47 @@ set design(CLOCK_MAX_CAPACITANCE) 0.100 ; # In pF for SDC (will appear in fF for
 # set design(MAX_CAPACITANCE) ; # In pF for SDC (will appear in fF for get_db)
 
 # Routing Constraints
-# set design(MIN_ROUTE_LAYER) M2
-# set design(MAX_ROUTE_LAYER) M9
+set design(MIN_ROUTE_LAYER) M1
+set design(MAX_ROUTE_LAYER) M9
 
 ################################################
 #               Files and Paths
 ################################################
-set design(workdir)                     $env(PWD)
-set design(project_root)                "$env(PWD)/../../"
-set design(asic_root)                   "$project_root/tcl/asic/"
-set design(inputs_dir)                  "$design(asic_root)/inputs"
-set design(libraries_dir)               "$design(asic_root)/libraries"
-set design(sourcecode_dir)              "$design(asic_root)/sourcecode"
-set design(hdl_search_paths)            "$design(project_root)/rtl/sa/"
-set design(read_hdl_list)               "$design(sourcecode_dir)/$design(TOPLEVEL)_src_list.txt"
-set design(testbench_dir)               "$design(project_root)/tb"
-set design(scripts_dir)                 "$design(asic_root)/scripts"
-set design(export_dir)                  "$design(asic_root)/export"
-set design(reports_dir)                 "$design(asic_root)/reports"
-set design(dbs_dir)                     "$design(asic_root)/dbs"
-set design(synthesis_reports)           "$design(reports_dir)/synthesis/"
-set design(functional_sdc)              "$design(inputs_dir)/$design(TOPLEVEL).sdc"
-set design(postsyn_netlist)             "$design(export_dir)/$design(TOPLEVEL).postsyn.v"
-set design(postsyn_db_base_name)        "$design(dbs_dir)/post_synth/$design(TOPLEVEL)/"
-set design(postsyn_db)                  "$design(postsyn_db_base_name).stylus.enc"
-set design(postsyn_sdf)                 "$design(export_dir)/$design(TOPLEVEL).postsyn.sdf"
-set design(floorplan_def)               "$design(export_dir)/$design(TOPLEVEL).floorplan.def"
-set design(postroute_netlist)           "$design(export_dir)/$design(TOPLEVEL).final.v"
-set design(postroute_sdf)               "$design(export_dir)/$design(TOPLEVEL).final.sdf"
-set design(mmmc_view_file)              "$design(inputs_dir)/$design(TOPLEVEL).mmmc"
-set design(clock_tree_spec)             "$design(inputs_dir)/$design(TOPLEVEL).ccopt"
-# set design(io_file)                     "$design(inputs_dir)/$design(TOPLEVEL).io"
-# set design(UPF_file)                    "$design(inputs_dir)/$design(TOPLEVEL).upf"
-# set design(CPF_file)                    "$design(inputs_dir)/$design(TOPLEVEL).cpf"
-# set design(dont_use_file)               "$design(inputs_dir)/$design(TOPLEVEL).dont_use"
-# set design(size_only_file)              "$design(inputs_dir)/$design(TOPLEVEL).size_only"
+set design(workdir)                              $env(PWD)
+set design(project_root)                         "$env(PWD)/../../"
+set design(asic_root)                            "$project_root/tcl/asic/"
+set design(inputs_dir)                           "$design(asic_root)/inputs"
+set design(libraries_dir)                        "$design(asic_root)/libraries"
+set design(sourcecode_dir)                       "$design(asic_root)/sourcecode"
+set design(hdl_search_paths)                     "$design(project_root)/rtl/sa/"
+set design(read_hdl_list)                        "$design(sourcecode_dir)/$design(TOPLEVEL)_src_list.txt"
+set design(testbench_dir)                        "$design(project_root)/tb"
+set design(scripts_dir)                          "$design(asic_root)/scripts"
+set design(export_dir)                           "$design(asic_root)/export"
+set design(reports_dir)                          "$design(asic_root)/reports"
+set design(dbs_dir)                              "$design(asic_root)/dbs"
+set design(synthesis_reports)                    "$design(reports_dir)/synthesis/"
+set design(functional_sdc)                       "$design(inputs_dir)/$design(TOPLEVEL).sdc"
+
+set design(postsyn_netlist_ispatial)             "$design(export_dir)/$design(TOPLEVEL)_ispatial.postsyn.v"
+set design(postsyn_db_base_name_ispatial)        "$design(dbs_dir)/post_synth_ispatial/$design(TOPLEVEL)/"
+set design(postsyn_db_ispatial)                  "$design(postsyn_db_base_name)_ispatial.stylus.enc"
+set design(postsyn_sdf_ispatial)                 "$design(export_dir)/$design(TOPLEVEL)_ispatial.postsyn.sdf"
+set design(postsyn_netlist_rtl_flow)             "$design(export_dir)/$design(TOPLEVEL)_rtl_flow.postsyn.v"
+set design(postsyn_db_base_name_rtl_flow)        "$design(dbs_dir)/post_synth_rtl_flow/$design(TOPLEVEL)/"
+set design(postsyn_db_rtl_flow)                  "$design(postsyn_db_base_name)_rtl_flow.stylus.enc"
+set design(postsyn_sdf_rtl_flow)                 "$design(export_dir)/$design(TOPLEVEL)_rtl_flow.postsyn.sdf"
+
+set design(floorplan_def)                        "$design(export_dir)/$design(TOPLEVEL).floorplan.def"
+set design(postroute_netlist)                    "$design(export_dir)/$design(TOPLEVEL).final.v"
+set design(postroute_sdf)                        "$design(export_dir)/$design(TOPLEVEL).final.sdf"
+set design(mmmc_view_file)                       "$design(inputs_dir)/$design(TOPLEVEL).mmmc"
+set design(clock_tree_spec)                      "$design(inputs_dir)/$design(TOPLEVEL).ccopt"
+# set design(io_file)                            "$design(inputs_dir)/$design(TOPLEVEL).io"
+# set design(UPF_file)                           "$design(inputs_dir)/$design(TOPLEVEL).upf"
+# set design(CPF_file)                           "$design(inputs_dir)/$design(TOPLEVEL).cpf"
+# set design(dont_use_file)                      "$design(inputs_dir)/$design(TOPLEVEL).dont_use"
+# set design(size_only_file)                     "$design(inputs_dir)/$design(TOPLEVEL).size_only"
 
 ################################################
 #               MMMC
@@ -111,8 +117,8 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 #               Simulation and Backannotation
 ################################################
 set design(backannotation_tb) "$design(testbench_dir)/$design(TOPLEVEL)_tb.v"
-set design(tb_name) "sm_tb"
-set design(dut_name) "DUT"
+set design(tb_name) "$design(TOPLEVEL)_tb"
+set design(dut_name) "dut"
 
 # For Backannotation and Power Reporting
 set design(backannotation_script) "$design(inputs_dir)/$design(TOPLEVEL).backannotation.tcl"
