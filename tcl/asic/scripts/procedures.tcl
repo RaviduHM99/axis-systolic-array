@@ -157,7 +157,7 @@ proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
 #       sets the this_run(stage) variable
 #       also saves starting time of the stage
 ###################################################
-proc uom_start_stage (stage) {
+proc uom_start_stage {stage} {
     global design this_run
 
     if {$stage == ""} {
