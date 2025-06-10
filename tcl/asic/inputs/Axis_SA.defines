@@ -72,11 +72,11 @@ set design(synthesis_reports)                    "$design(reports_dir)/synthesis
 set design(functional_sdc)                       "$design(inputs_dir)/$design(TOPLEVEL).sdc"
 
 set design(postsyn_netlist_ispatial)             "$design(export_dir)/$design(TOPLEVEL)_ispatial.postsyn.v"
-set design(postsyn_db_base_name_ispatial)        "$design(dbs_dir)/post_synth_ispatial/$design(TOPLEVEL)/"
+set design(postsyn_db_base_name_ispatial)        "$design(dbs_dir)/post_synth_ispatial/$design(TOPLEVEL)"
 set design(postsyn_db_ispatial)                  "$design(postsyn_db_base_name)_ispatial.stylus.enc"
 set design(postsyn_sdf_ispatial)                 "$design(export_dir)/$design(TOPLEVEL)_ispatial.postsyn.sdf"
 set design(postsyn_netlist_rtl_flow)             "$design(export_dir)/$design(TOPLEVEL)_rtl_flow.postsyn.v"
-set design(postsyn_db_base_name_rtl_flow)        "$design(dbs_dir)/post_synth_rtl_flow/$design(TOPLEVEL)/"
+set design(postsyn_db_base_name_rtl_flow)        "$design(dbs_dir)/post_synth_rtl_flow/$design(TOPLEVEL)"
 set design(postsyn_db_rtl_flow)                  "$design(postsyn_db_base_name)_rtl_flow.stylus.enc"
 set design(postsyn_sdf_rtl_flow)                 "$design(export_dir)/$design(TOPLEVEL)_rtl_flow.postsyn.sdf"
 

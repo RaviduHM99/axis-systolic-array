@@ -19,7 +19,7 @@ set phys_synth_type "lef" ;  # "none"   - don't read any tech files
 # Load General Procedures
 source ../../tcl/asic/scripts/procedures.tcl -quiet
 
-enics_start_stage "start"
+uom_start_stage "start"
 
 set debug_file "debug.txt"
 
@@ -36,8 +36,8 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     source ../../tcl/asic/libraries/libraries.$IO_TECHNOLOGY.tcl -quiet
 }
 
-enics_message "Suppressing the following messages that are design specific"
-enics_message "$design(DESIGN_SUPPRESS_MESSAGES_GENUS)"
+uom_message "Suppressing the following messages that are design specific"
+uom_message "$design(DESIGN_SUPPRESS_MESSAGES_GENUS)"
 suppress_messages $design(DESIGN_SUPPRESS_MESSAGES_GENUS)
 
 #################################################################
@@ -45,40 +45,40 @@ suppress_messages $design(DESIGN_SUPPRESS_MESSAGES_GENUS)
 #################################################################
 set var_list {runtype phys_synth_type}
 set dic_list {paths tech tech_files design}
-enics_print_debug_data w $debug_file "after everything was loaded" $var_list $dic_list
+uom_print_debug_data w $debug_file "after everything was loaded" $var_list $dic_list
 
 #################################################################
 #                           Read MMMC                           #
 #################################################################
-enics_start_stage "init_design"
+uom_start_stage "init_design"
 
 # Suppress messages
-enics_message "Suppressing the following messages that are reported due to the library definitions"
-enics_message "$tech(LIB_SUPPRESS_MESSAGES_GENUS)"
+uom_message "Suppressing the following messages that are reported due to the library definitions"
+uom_message "$tech(LIB_SUPPRESS_MESSAGES_GENUS)"
 suppress_messages $tech(LIB_SUPPRESS_MESSAGES_GENUS)
 
 # Load MMMC File
 # --------------
-enics_message "Loading MMMC File"
+uom_message "Loading MMMC File"
 read_mmmc #design(mmmc_view_file)
 
 #################################################################
 #                      Read LEF files                           #
 #################################################################
 # Suppress messages
-enics_message "Suppressing the following messages that are reported due to the LEF definitions"
-enics_message "$tech(LEF_SUPPRESS_MESSAGES_GENUS)"
+uom_message "Suppressing the following messages that are reported due to the LEF definitions"
+uom_message "$tech(LEF_SUPPRESS_MESSAGES_GENUS)"
 suppress_messages $tech(LEF_SUPPRESS_MESSAGES_GENUS)
 
 # Read LEFs
 # ---------
-enics_message "Loading the library abstracts"
+uom_message "Loading the library abstracts"
 read_physical -lef $tech_files(ALL_LEFS)
 
 #################################################################
 #                      Read RTL files                           #
 #################################################################
-enics_start_stage "read_rtl"
+uom_start_stage "read_rtl"
 
 set_db init_hdl_search_path $design(hdl_search_paths)
 read_hdl -language sv -f $design(read_hdl_list)
@@ -88,33 +88,33 @@ read_hdl -language sv -f $design(read_hdl_list)
 #################################################################
 # Elaborate
 # ---------
-enics_start_stage "elaborate"
+uom_start_stage "elaborate"
 elaborate $design(TOPLEVEL)
 
 # Check Design
 # ------------
-enics_start_stage "post_elaboration"
-enics_message "Checking design post elaboration"
+uom_start_stage "post_elaboration"
+uom_message "Checking design post elaboration"
 check_design -unresolved
 check_design -all > $design(synthesis_reports)/post_elaboration/check_design_post_elab.rpt
 if {[check_design -status]} {
-    Puts "ENICSINFO: ############### There is an issure with check design. You better look at it! ###############"
+    Puts "uomINFO: ############### There is an issure with check design. You better look at it! ###############"
 }
 
 # Init Design
 # -----------
-enics_message "Running init_design in an MMMC flow"
+uom_message "Running init_design in an MMMC flow"
 init_design
 
 # Check Timing
 # ------------
-enics_message "Checking timing intent (lint) after init_design"
+uom_message "Checking timing intent (lint) after init_design"
 check_timing_intent
 check_timing _intent -verbose > $design(synthesis_reports)/post_elaboration/check_timing_post_elab.rpt
 
 # Save elaborated design
 # ----------------------
-write_design -base_name $design(export_dir)/post_elaboration/$design(TOPLEVEL)
+write_design -base_name $design(dbs_dir)/post_elaboration/$design(TOPLEVEL)
 
 #################################################################
 #                    For Physical Synthesis                     #
@@ -123,19 +123,19 @@ write_design -base_name $design(export_dir)/post_elaboration/$design(TOPLEVEL)
 # -------------------------
 if {$phys_synth_type == "floorplan"} {
     # You need to read a .def file for the floorplan to enable physical synthesis
-    enics_message "Loading the floorplan DEF"
+    uom_message "Loading the floorplan DEF"
     read_def $design(floorplan_def)
 }
 
 #################################################################
 #                          Synthesize                           #
 #################################################################
-enics_start_stage "pre_synthesis"
+uom_start_stage "pre_synthesis"
 
 # Define cost groups (reg2reg, in2reg, reg2out, in2out)
 # -----------------------------------------------------
-enics_default_cost_groups
-enics_report_timing $design(synthesis_reports)
+uom_default_cost_groups
+uom_report_timing $design(synthesis_reports)
 
 # Clock Gating Settings
 # ---------------------
@@ -144,13 +144,13 @@ enics_report_timing $design(synthesis_reports)
 
 # Don't use Scan Cells
 # --------------------
-enics_message "Settings Don't Use on scan flip flops"
+uom_message "Settings Don't Use on scan flip flops"
 foreach cell [get_db lib_cells -if {.scan_enable_pins!=""}] {set_db $cell .avoid true}
 
 # Physical Flow Attributes
 # ------------------------
-set_db design_process_node      
-set_db number_of_routing_layers 
+set_db design_process_node      $TECH_NODE
+set_db number_of_routing_layers $METAL_LAYERS
 
 
 if {$phys_synth_type == "floorplan"} {
@@ -162,14 +162,14 @@ if {$phys_synth_type == "floorplan"} {
     set_db design_power_effort high             ; # none|low|high
 
     # Synthesize to generics and place generics in floorplan
-    enics_start_stage "syn_generic_ispatial_flow"
+    uom_start_stage "syn_generic_ispatial_flow"
     syn_generic -physical
     # Map technology
-    enics_start_stage "technology_mapping_ispatial_flow"
+    uom_start_stage "technology_mapping_ispatial_flow"
     syn_map -physical
-    enics_report_timing $design(synthesis_reports)
+    uom_report_timing $design(synthesis_reports)
     # Post synthesis optimization
-    enics_start_stage "post_syn_opt_ispatial_flow"
+    uom_start_stage "post_syn_opt_ispatial_flow"
     syn_opt -spatial
 } else {
     # Set Synthesis Efforts
@@ -184,23 +184,23 @@ if {$phys_synth_type == "floorplan"} {
     set_db physical_force_predict_floorplan true
 
     # Synthesize to generics and place generics in floorplan
-    enics_start_stage "syn_generic"
+    uom_start_stage "syn_generic_rtl_flow"
     syn_generic -create_floorplan -physical
     # Map technology
-    enics_start_stage "technology_mapping"
+    uom_start_stage "technology_mapping_rtl_flow"
     syn_map -physical
-    enics_report_timing $design(synthesis_reports)
+    uom_report_timing $design(synthesis_reports)
     # Disable Predict Floorplan Again
     set_db physical_force_predict_floorplan false
     # Post synthesis optimization
-    enics_start_stage "post_syn_opt"
+    uom_start_stage "post_syn_opt_rtl_flow"
     syn_opt -spatial
 }
 
 #################################################################
 #                     Post Synthesis Reports                    #
 #################################################################
-enics_report_timing $design(synthesis_reports)
+uom_report_timing $design(synthesis_reports)
 set post_synth_reports [list \
     report_area \
     report_gates \
@@ -210,7 +210,7 @@ set post_synth_reports [list \
     report_qor \
 ]
 foreach rpt $post_synth_reports {
-    enics_message "$rpt" medium
+    uom_message "$rpt" medium
     $rpt
     $rpt > "$design(synthesis_reports)/$this_run(stage)/${rpt}.rpt"
 }
@@ -219,37 +219,37 @@ foreach rpt $post_synth_reports {
 #                     Exporting the Design                      #
 #################################################################
 if {$phys_synth_type == "floorplan"} {
-    enics_start_stage "export_design_ispatial_flow"
+    uom_start_stage "export_design_ispatial_flow"
 
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------
-    enics_message "Exporting the design Database to $design(postsyn_db_base_name_ispatial)"
+    uom_message "Exporting the design Database to $design(postsyn_db_base_name_ispatial)"
     write_design -base_name $design(postsyn_db_base_name_ispatial) -innovus -db
 
     # Write out a netlist for simulation or Innovus
     # ---------------------------------------------
-    enics_message "Writing the post synthesis netlist to $design(postsyn_netlist_ispatial)"
+    uom_message "Writing the post synthesis netlist to $design(postsyn_netlist_ispatial)"
     write_netlist > $design(postsyn_netlist_ispatial)
 
     # Write out SDF for backannotation simulation
     # -------------------------------------------
-    enics_message "Writing the post synthesis SDF"
+    uom_message "Writing the post synthesis SDF"
     write_sdf > $design(postsyn_sdf_ispatial)
 } else {
-    enics_start_stage "export_design_rtl_floorplanning"
+    uom_start_stage "export_design_rtl_floorplanning"
 
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------
-    enics_message "Exporting the design Database to $design(postsyn_db_base_name_rtl_flow)"
+    uom_message "Exporting the design Database to $design(postsyn_db_base_name_rtl_flow)"
     write_design -base_name $design(postsyn_db_base_name_rtl_flow) -innovus -db
 
     # Write out a netlist for simulation or Innovus
     # ---------------------------------------------
-    enics_message "Writing the post synthesis netlist to $design(postsyn_netlist)"
+    uom_message "Writing the post synthesis netlist to $design(postsyn_netlist)"
     write_netlist > $design(postsyn_netlist_rtl_flow)
 
     # Write out SDF for backannotation simulation
     # -------------------------------------------
-    enics_message "Writing the post synthesis SDF"
+    uom_message "Writing the post synthesis SDF"
     write_sdf > $design(postsyn_sdf_rtl_flow)
 }

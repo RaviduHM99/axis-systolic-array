@@ -1,11 +1,11 @@
 # This file has procedures for working with Stylus Common UI tools
 ###################################################
-#          enics_print_debug_data
+#          uom_print_debug_data
 #          -------------
 #   This is a command for printing variable values
 #       to a file for easier debugging
 ###################################################
-proc enics_print_debug_data {write_or_append {debug_file "debug.txt"} this_file var_list dic_list} {
+proc uom_print_debug_data {write_or_append {debug_file "debug.txt"} this_file var_list dic_list} {
     #global design tech tech_files env
 
     set df [open $debug_file $write_or_append]
@@ -28,7 +28,7 @@ proc enics_print_debug_data {write_or_append {debug_file "debug.txt"} this_file 
 }
 
 ###################################################
-#          enics_message
+#          uom_message
 #          -------------
 #   This is a command for printing messages to the
 #       screen and log file
@@ -36,34 +36,34 @@ proc enics_print_debug_data {write_or_append {debug_file "debug.txt"} this_file 
 #   Importance standard (default) will print an underlined message
 #   Importance low will print a one line message
 ###################################################
-proc enics_message {msg {importance low}} {
-    set enics_message "ENICSINFO: $msg"
-    set message_length [string length $enics_message]
+proc uom_message {msg {importance low}} {
+    set uom_message "uomINFO: $msg"
+    set message_length [string length $uom_message]
 
     if {$importance=="high"} {
         puts [string repeat "*" [expr 10+$message_length]]
         puts [string repeat "*" [expr 10+$message_length]]
-        puts "*" $enics_message "*"
+        puts "*" $uom_message "*"
         puts [string repeat "*" [expr 10+$message_length]]
         puts [string repeat "*" [expr 10+$message_length]]
     } elseif {$importance=="medium"} {
         puts ""
-        puts "$enics_message"
+        puts "$uom_message"
         puts [string repeat "-" $message_length]
     } elseif {$importance=="low"} {
-        puts "$enics_message"
+        puts "$uom_message"
     } else {
-        puts "ENICSINFO: WARNING - Incorrect usage of proc enics_message"
-        puts "ENICSINFO: Correct usage:encis message <message> high|medium|low"
+        puts "uomINFO: WARNING - Incorrect usage of proc uom_message"
+        puts "uomINFO: Correct usage:encis message <message> high|medium|low"
     }
 }
 
 ###################################################
-#          enics_reload_scripts
+#          uom_reload_scripts
 #          -------------
 #   Reloads the defines and procedures
 ###################################################
-proc enics_reload_scripts {} {
+proc uom_reload_scripts {} {
     global design env
     # Load general procedures
     source ../../tcl/asic/scripts/procedures.tcl -quiet
@@ -72,21 +72,21 @@ proc enics_reload_scripts {} {
 }
 
 ###################################################
-#          enics_enable_sdc_commands
+#          uom_enable_sdc_commands
 #          -------------
 #   Let you write SDC commands in interactive mode
 ###################################################
-proc enics_enable_sdc_commands {} {
+proc uom_enable_sdc_commands {} {
     set_interactive_constraint_modes [all_constraint_modes]
 }
 
 ###################################################
-#          enics_reload_sdc
+#          uom_reload_sdc
 #          -------------
 #   Reloads the SDC Files after modifying them
 #       default is for all constraint modes
 ###################################################
-proc enics_reload_sdc {{constraint_mode all}} {
+proc uom_reload_sdc {{constraint_mode all}} {
     global design tech runtype
     if {$constraint_mode == "all"} {
         set constraint_mode_list [get_db constraint_modes]
@@ -99,12 +99,12 @@ proc enics_reload_sdc {{constraint_mode all}} {
 }
 
 ###################################################
-#          enics_default_cost_groups
+#          uom_default_cost_groups
 #          -------------
 #   Defines default cost groups:
 #     reg2reg, in2reg, reg2out, in2out
 ###################################################
-proc enics_default_cost_groups {} {
+proc uom_default_cost_groups {} {
     global runtype design
     if {$runtype == "synthesis"} {
         # reg2reg
@@ -133,11 +133,11 @@ proc enics_default_cost_groups {} {
 }
 
 ###################################################
-#          enics_report_timing
+#          uom_report_timing
 #          -------------
 #   Reports timing and saves it in the appropriate directory
 ###################################################
-proc enics_report_timing {{reports_path "../../tcl/asic/reports/"}} {
+proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
     global design this_run
     mkdir -pv ${reports_path}/$this_run{stage}/
     set_db timing_report_fields \
@@ -151,55 +151,55 @@ proc enics_report_timing {{reports_path "../../tcl/asic/reports/"}} {
 }
 
 ###################################################
-#          enics_start_stage
+#          uom_start_stage
 #          -------------
 #   Starts a new stage in the flow
 #       sets the this_run(stage) variable
 #       also saves starting time of the stage
 ###################################################
-proc enics_start_stage (stage) {
+proc uom_start_stage (stage) {
     global design this_run
 
     if {$stage == ""} {
-        enics_message "You have to define a stage for using the enics_start_stage procedure"
+        uom_message "You have to define a stage for using the uom_start_stage procedure"
         return
     }
 
     set this_run(stage) $stage
-    enics_message "Starting stage $stage" high
+    uom_message "Starting stage $stage" high
 
     # Saving and printing the start time for the stage
     set systemTime [clock seconds]
     set formattedTime [clock format $systemTime -format %H:%M]
     set formattedDate [clock format $systemTime -fromat %d/%m/%Y]
     set stageTime "[clock format $systemTime -fromat %Y%m%d]_[clock format $systemTime -format %H%M%S]"
-    enics_message "Current time is: $formattedDate $formattedTime"
+    uom_message "Current time is: $formattedDate $formattedTime"
     set this_run($stage) $systemTime
 
     # Printing run details for the starting stage
     if {$stage == "start"} {
-        enics_message "This session is running on Hostname : [info hostname]"
-        enics_message "The log file is [get_db / .log_file] and the command file is [get_db / .cmd_file]"
+        uom_message "This session is running on Hostname : [info hostname]"
+        uom_message "The log file is [get_db / .log_file] and the command file is [get_db / .cmd_file]"
     } elseif {$stage == "floorplan"} {
         gui_set_draw_view fplan
     } elseif {$stage == "placement"} {
         gui_set_draw_view place
     }
 
-    enics_message "------------------------------------"
+    uom_message "------------------------------------"
 }
 
 ###################################################
-#          enics_create_stage_reports
+#          uom_create_stage_reports
 #          -------------
 #   Created all the appropritate reports for the 
 #       current design stage
 ###################################################
-proc enics_create_stage_reports {{args ""}} {
+proc uom_create_stage_reports {{args ""}} {
     global design this_run
     array set options {-save_db yes -report_timing yes -check_drc no -check_connectivity no -help 0 }
 
-    set help_string "USAGE: enics_create_stage_reports -save_db yes/no \n \
+    set help_string "USAGE: uom_create_stage_reports -save_db yes/no \n \
                     -report_timing yes/no -check_drc yes/no -check_connectivity yes/no \n \
                     -help 1/0"
     
@@ -216,13 +216,13 @@ proc enics_create_stage_reports {{args ""}} {
     if {$options(-help)} {
         puts $help_string
     } else {
-        enics_message "Starting to create reports for stage: $this_run{stage}" medium
+        uom_message "Starting to create reports for stage: $this_run{stage}" medium
         set rpt_dir $design(reports_dir)/$this_run(stage)/
-        enics_message "Reports directory is : $rpt_dir"
+        uom_message "Reports directory is : $rpt_dir"
         set export_dir $design(export_dir)/$this_run(stage)/
-        enics_message "Reports directory is : $export_dir"
+        uom_message "Reports directory is : $export_dir"
         set dbs_dir $design(dbs_dir)/$this_run(stage)/
-        enics_message "Reports directory is : $dbs_dir"
+        uom_message "Reports directory is : $dbs_dir"
     }
     }
 }
