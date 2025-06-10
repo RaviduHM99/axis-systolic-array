@@ -56,12 +56,12 @@ set design(MAX_ROUTE_LAYER) M9
 #               Files and Paths
 ################################################
 set design(workdir)                              $env(PWD)
-set design(project_root)                         "$env(PWD)/../../"
-set design(asic_root)                            "$design(project_root)/tcl/asic/"
+set design(project_root)                         "$env(PWD)/../.."
+set design(asic_root)                            "$design(project_root)/tcl/asic"
 set design(inputs_dir)                           "$design(asic_root)/inputs"
 set design(libraries_dir)                        "$design(asic_root)/libraries"
 set design(sourcecode_dir)                       "$design(asic_root)/sourcecode"
-set design(hdl_search_paths)                     "$design(project_root)/rtl/sa/"
+set design(hdl_search_paths)                     "$design(project_root)/rtl/sa"
 set design(read_hdl_list)                        "$design(sourcecode_dir)/$design(TOPLEVEL)_src_list.txt"
 set design(testbench_dir)                        "$design(project_root)/tb"
 set design(scripts_dir)                          "$design(asic_root)/scripts"

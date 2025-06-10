@@ -20,7 +20,7 @@ proc uom_print_debug_data {write_or_append {debug_file "debug.txt"} this_file va
     foreach dic $dic_list {
         global $dic
         foreach key [array names $dic] {
-            puts $df "${dic}(${key}) = \t[set ${dic}([set])]"
+        	puts $df "${dic}(${key}) = \t [set ${dic}([set key])]"  
         }
     }
     

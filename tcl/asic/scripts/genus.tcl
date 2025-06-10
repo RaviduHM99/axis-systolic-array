@@ -30,10 +30,10 @@ source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet
 source ../../tcl/asic/scripts/settings.tcl -quiet
 
 # Load the library paths and definitions for this technology
-source ../../tcl/asic/libraries/libraries.$TECHNOLOGY.tcl -quiet
-source ../../tcl/asic/libraries/libraries.$SC_TECHNOLOGY.tcl -quiet
+source ../../tcl/asic/libraries/cadence.libraries.$TECHNOLOGY.tcl -quiet
+source ../../tcl/asic/libraries/cadence.libraries.$SC_TECHNOLOGY.tcl -quiet
 if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
-    source ../../tcl/asic/libraries/libraries.$IO_TECHNOLOGY.tcl -quiet
+    source ../../tcl/asic/libraries/cadence.libraries.$IO_TECHNOLOGY.tcl -quiet
 }
 
 uom_message "Suppressing the following messages that are design specific"
@@ -60,7 +60,7 @@ suppress_messages $tech(LIB_SUPPRESS_MESSAGES_GENUS)
 # Load MMMC File
 # --------------
 uom_message "Loading MMMC File"
-read_mmmc #design(mmmc_view_file)
+read_mmmc $design(mmmc_view_file)
 
 #################################################################
 #                      Read LEF files                           #
@@ -117,7 +117,7 @@ check_timing _intent -verbose > $design(synthesis_reports)/1_post_elaboration/ch
 write_design -base_name $design(dbs_dir)/1_post_elaboration/$design(TOPLEVEL)
 
 #################################################################
-#                    For Physical Synthesis                     #
+#                    For iSpatial Flow	                        #
 #################################################################
 # Optionally read floorplan
 # -------------------------
@@ -136,6 +136,9 @@ uom_start_stage "2_pre_synthesis"
 # -----------------------------------------------------
 uom_default_cost_groups
 uom_report_timing $design(synthesis_reports)
+
+# Set Retime
+set_db design:${design(TOPLEVEL)} .retime true
 
 # Clock Gating Settings
 # ---------------------
