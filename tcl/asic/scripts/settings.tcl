@@ -8,7 +8,7 @@ if {$runtype == "synthesis"} {
     set_db information_level 9 ; # The log file will rep.
     set_db hdl_max_loop_limit 100000
     set_db max_cpus_per_server 50
-    if {$design(HAS_SCAN) == "no"}{
+    if {$design(HAS_SCAN) == "no"} {
         set_db use_scan_seqs_for_non_dft false
     }
     set_db retime_async_reset true
@@ -21,7 +21,7 @@ if {$runtype == "synthesis"} {
 ###################################
 # General Innovus Settings
 ###################################
-if ($runtype == "pnr") {
+if {$runtype == "pnr"} {
 
     ###########################
     # TIMING, EXTRACTION, ETC #
@@ -110,4 +110,4 @@ if ($runtype == "pnr") {
 ###################################
 # General Voltus Settings
 ###################################
-if ($runtype == "power") {}
+if {$runtype == "power"} {}
