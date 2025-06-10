@@ -159,6 +159,6 @@ foreach var {TECHNOLOGY SC_TECHNOLOGY SRAM_TECHNOLOGY IO_TECHNOLOGY} {
 
 foreach dic {design} {
     foreach key [array names $dic] {
-        puts $df "${dic}($(key)) = \t [set ${dic}([set key])]"  
+        puts $df "${dic}(${key}) = \t [set ${dic}([set key])]"  
     }
 }
