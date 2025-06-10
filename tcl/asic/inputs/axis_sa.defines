@@ -57,7 +57,7 @@ set design(MAX_ROUTE_LAYER) M9
 ################################################
 set design(workdir)                              $env(PWD)
 set design(project_root)                         "$env(PWD)/../../"
-set design(asic_root)                            "$project_root/tcl/asic/"
+set design(asic_root)                            "$design(project_root)/tcl/asic/"
 set design(inputs_dir)                           "$design(asic_root)/inputs"
 set design(libraries_dir)                        "$design(asic_root)/libraries"
 set design(sourcecode_dir)                       "$design(asic_root)/sourcecode"
@@ -73,11 +73,11 @@ set design(functional_sdc)                       "$design(inputs_dir)/$design(TO
 
 set design(postsyn_netlist_ispatial)             "$design(export_dir)/$design(TOPLEVEL)_ispatial.postsyn.v"
 set design(postsyn_db_base_name_ispatial)        "$design(dbs_dir)/2_post_synth_ispatial/$design(TOPLEVEL)"
-set design(postsyn_db_ispatial)                  "$design(postsyn_db_base_name)_ispatial.stylus.enc"
+set design(postsyn_db_ispatial)                  "$design(postsyn_db_base_name_ispatial)_ispatial.stylus.enc"
 set design(postsyn_sdf_ispatial)                 "$design(export_dir)/$design(TOPLEVEL)_ispatial.postsyn.sdf"
 set design(postsyn_netlist_rtl_flow)             "$design(export_dir)/$design(TOPLEVEL)_rtl_flow.postsyn.v"
 set design(postsyn_db_base_name_rtl_flow)        "$design(dbs_dir)/2_post_synth_rtl_flow/$design(TOPLEVEL)"
-set design(postsyn_db_rtl_flow)                  "$design(postsyn_db_base_name)_rtl_flow.stylus.enc"
+set design(postsyn_db_rtl_flow)                  "$design(postsyn_db_base_name_rtl_flow)_rtl_flow.stylus.enc"
 set design(postsyn_sdf_rtl_flow)                 "$design(export_dir)/$design(TOPLEVEL)_rtl_flow.postsyn.sdf"
 
 set design(floorplan_def)                        "$design(export_dir)/$design(TOPLEVEL).floorplan.def"

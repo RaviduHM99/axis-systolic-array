@@ -224,5 +224,4 @@ proc uom_create_stage_reports {{args ""}} {
         set dbs_dir $design(dbs_dir)/$this_run(stage)/
         uom_message "Reports directory is : $dbs_dir"
     }
-    }
 }
