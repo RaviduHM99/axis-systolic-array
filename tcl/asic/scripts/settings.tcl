@@ -12,7 +12,7 @@ if {$runtype == "synthesis"} {
         set_db use_scan_seqs_for_non_dft false
     }
     set_db retime_async_reset true
-    set_db design:${TOP} .retime true
+    set_db design:${design(TOPLEVEL)} .retime true
     set_db hdl_language v2001 -quiet
     set_db lp_insert_clock_gating false
     set_db detailed_sdc_messages true ; # helps read_sdc
