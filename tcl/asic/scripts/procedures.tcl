@@ -216,7 +216,7 @@ proc uom_create_stage_reports {{args ""}} {
     if {$options(-help)} {
         puts $help_string
     } else {
-        uom_message "Starting to create reports for stage: $this_run{stage}" medium
+        uom_message "Starting to create reports for stage: $this_run(stage)" medium
         set rpt_dir $design(reports_dir)/$this_run(stage)/
         uom_message "Reports directory is : $rpt_dir"
         set export_dir $design(export_dir)/$this_run(stage)/
