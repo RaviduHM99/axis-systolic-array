@@ -43,7 +43,7 @@ proc uom_message {msg {importance low}} {
     if {$importance=="high"} {
         puts [string repeat "*" [expr 10+$message_length]]
         puts [string repeat "*" [expr 10+$message_length]]
-        puts "*" $uom_message "*"
+        puts "* $uom_message *"
         puts [string repeat "*" [expr 10+$message_length]]
         puts [string repeat "*" [expr 10+$message_length]]
     } elseif {$importance=="medium"} {
@@ -171,8 +171,8 @@ proc uom_start_stage {stage} {
     # Saving and printing the start time for the stage
     set systemTime [clock seconds]
     set formattedTime [clock format $systemTime -format %H:%M]
-    set formattedDate [clock format $systemTime -fromat %d/%m/%Y]
-    set stageTime "[clock format $systemTime -fromat %Y%m%d]_[clock format $systemTime -format %H%M%S]"
+    set formattedDate [clock format $systemTime -format %d/%m/%Y]
+    set stageTime "[clock format $systemTime -format %Y%m%d]_[clock format $systemTime -format %H%M%S]"
     uom_message "Current time is: $formattedDate $formattedTime"
     set this_run($stage) $systemTime
 
