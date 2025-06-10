@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # List of folder names
-dbs_subfolders=("post_elaboration" "post_synth_ispatial" "post_synth_rtl_flow")
-report_subfolders=("post_elaboration" "pre_synthesis" "technology_mapping_ispatial_flow" "post_syn_opt_ispatial_flow" "technology_mapping_rtl_flow" "post_syn_opt_rtl_flow")
+dbs_subfolders=("1_post_elaboration" "2_post_synth_ispatial" "2_post_synth_rtl_flow")
+report_subfolders=("1_post_elaboration" "2_pre_synthesis" "3_technology_mapping_ispatial_flow" "4_post_syn_opt_ispatial_flow" "3_technology_mapping_rtl_flow" "4_post_syn_opt_rtl_flow")
 
 # Base directory where folders will be created (default is current directory)
 base_path="$PWD"

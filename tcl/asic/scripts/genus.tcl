@@ -93,10 +93,10 @@ elaborate $design(TOPLEVEL)
 
 # Check Design
 # ------------
-uom_start_stage "post_elaboration"
+uom_start_stage "1_post_elaboration"
 uom_message "Checking design post elaboration"
 check_design -unresolved
-check_design -all > $design(synthesis_reports)/post_elaboration/check_design_post_elab.rpt
+check_design -all > $design(synthesis_reports)/1_post_elaboration/check_design_post_elab.rpt
 if {[check_design -status]} {
     Puts "uomINFO: ############### There is an issure with check design. You better look at it! ###############"
 }
@@ -110,11 +110,11 @@ init_design
 # ------------
 uom_message "Checking timing intent (lint) after init_design"
 check_timing_intent
-check_timing _intent -verbose > $design(synthesis_reports)/post_elaboration/check_timing_post_elab.rpt
+check_timing _intent -verbose > $design(synthesis_reports)/1_post_elaboration/check_timing_post_elab.rpt
 
 # Save elaborated design
 # ----------------------
-write_design -base_name $design(dbs_dir)/post_elaboration/$design(TOPLEVEL)
+write_design -base_name $design(dbs_dir)/1_post_elaboration/$design(TOPLEVEL)
 
 #################################################################
 #                    For Physical Synthesis                     #
@@ -130,7 +130,7 @@ if {$phys_synth_type == "floorplan"} {
 #################################################################
 #                          Synthesize                           #
 #################################################################
-uom_start_stage "pre_synthesis"
+uom_start_stage "2_pre_synthesis"
 
 # Define cost groups (reg2reg, in2reg, reg2out, in2out)
 # -----------------------------------------------------
@@ -165,11 +165,11 @@ if {$phys_synth_type == "floorplan"} {
     uom_start_stage "syn_generic_ispatial_flow"
     syn_generic -physical
     # Map technology
-    uom_start_stage "technology_mapping_ispatial_flow"
+    uom_start_stage "3_technology_mapping_ispatial_flow"
     syn_map -physical
     uom_report_timing $design(synthesis_reports)
     # Post synthesis optimization
-    uom_start_stage "post_syn_opt_ispatial_flow"
+    uom_start_stage "4_post_syn_opt_ispatial_flow"
     syn_opt -spatial
 } else {
     # Set Synthesis Efforts
@@ -187,13 +187,13 @@ if {$phys_synth_type == "floorplan"} {
     uom_start_stage "syn_generic_rtl_flow"
     syn_generic -create_floorplan -physical
     # Map technology
-    uom_start_stage "technology_mapping_rtl_flow"
+    uom_start_stage "3_technology_mapping_rtl_flow"
     syn_map -physical
     uom_report_timing $design(synthesis_reports)
     # Disable Predict Floorplan Again
     set_db physical_force_predict_floorplan false
     # Post synthesis optimization
-    uom_start_stage "post_syn_opt_rtl_flow"
+    uom_start_stage "4_post_syn_opt_rtl_flow"
     syn_opt -spatial
 }
 
@@ -219,7 +219,7 @@ foreach rpt $post_synth_reports {
 #                     Exporting the Design                      #
 #################################################################
 if {$phys_synth_type == "floorplan"} {
-    uom_start_stage "export_design_ispatial_flow"
+    uom_start_stage "2_export_design_ispatial_flow"
 
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------
@@ -236,7 +236,7 @@ if {$phys_synth_type == "floorplan"} {
     uom_message "Writing the post synthesis SDF"
     write_sdf > $design(postsyn_sdf_ispatial)
 } else {
-    uom_start_stage "export_design_rtl_floorplanning"
+    uom_start_stage "2_export_design_rtl_floorplanning"
 
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------
@@ -245,7 +245,7 @@ if {$phys_synth_type == "floorplan"} {
 
     # Write out a netlist for simulation or Innovus
     # ---------------------------------------------
-    uom_message "Writing the post synthesis netlist to $design(postsyn_netlist)"
+    uom_message "Writing the post synthesis netlist to $design(postsyn_netlist_rtl_flow)"
     write_netlist > $design(postsyn_netlist_rtl_flow)
 
     # Write out SDF for backannotation simulation
