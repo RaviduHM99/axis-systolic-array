@@ -32,3 +32,7 @@ set tech_files(STANDARD_CELLS_HVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht
     lappend tech_files(ALL_WC_LIBS) $tech_files(STANDARD_CELLS_HVT_WC_LIB)
 set tech_files(STANDARD_CELLS_HVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_1p05v_85c.lib"
     lappend tech_files(ALL_TC_LIBS) $tech_files(STANDARD_CELLS_HVT_TC_LIB)
+
+# Set Input and Output Capacitance Values from Std Cells
+set tech(SDC_LOAD_PIN)      BUFXGCAP/Q
+set tech(SDC_DRIVING_CELL)  BUFXGCAP
