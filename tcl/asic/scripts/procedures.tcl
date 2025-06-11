@@ -9,9 +9,9 @@ proc uom_print_debug_data {write_or_append {debug_file "debug.txt"} this_file va
     #global design tech tech_files env
 
     set df [open $debug_file $write_or_append]
-    puts $df "\n*****************************************"
-    puts $df "* Values loaded from $this_file *"
-    puts $df "\n*****************************************"
+    puts $df "*************************************************************"
+    puts $df "* Values loaded from $debug_file $this_file *"
+    puts $df "*************************************************************"
     foreach var $var_list {
         global $var
         puts $df "$var = \t[set $var]"
@@ -224,4 +224,71 @@ proc uom_create_stage_reports {{args ""}} {
         set dbs_dir $design(dbs_dir)/$this_run(stage)/
         uom_message "Reports directory is : $dbs_dir"
     }
+}
+
+###################################################
+#          uom_create_sdc_file
+#          -------------
+#   This is a command for create sdc file depends 
+#       on synthesis or pnr
+###################################################
+proc uom_create_sdc_file {} {
+    global design tech runtype
+
+    set df [open $design(functional_sdc) w]
+
+    puts $df "#################################"
+    puts $df "#       Clock Constraints       #"
+    puts $df "#################################"
+    puts $df "# Create Clocks"
+    if {$design(MULTI_CLOCKS_DESIGN) == "yes"} {
+        foreach cname $design(clock_list) cport $design(clock_port_list) cperiod $design(clock_period_list){
+            puts $df "create_clock -period $cperiod -name $cname [get_ports $cport]"
+            puts $df "set_clock_uncertainty $design(CLOCK_UNCERTAINTY) $cname"
+        }
+    } else {
+        puts $df "create_clock -period $design(clock_period_list) -name $design(clock_list) [get_ports $design(clock_port_list)]"
+        puts $df "set_clock_uncertainty $design(CLOCK_UNCERTAINTY) $design(clock_list)"
+    }
+
+
+    if {$runtype=="synthesis"}{
+        puts $df "set_ideal_network [get_ports $design(clock_port_list)]"
+        puts $df "set_ideal_network [get_ports $design(RST_PORT)]"
+    }
+
+    puts $df "#################################"
+    puts $df "#       IO Constraints          #"
+    puts $df "#################################"
+    puts $df "set_input_delay -clock $design(CLK_NAME) $design(INPUT_DELAY) \"
+    puts $df "        [remove_from_collection [all_inputs] $design(CLK_PORT)]"
+    puts $df "set_output_delay -clock $design(CLK_NAME) $design(OUTPUT_DELAY) [all_outputs]"
+    #puts $df "set_max_delay [expr $design(CLK_PERIOD)/2 + $design(INPUT_DELAY) + $design(OUTPUT_DELAY)] \"
+    #puts $df "        -from [all_inputs] \"
+    #puts $df "        -to   [all_outputs]"
+
+
+    if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"}{
+        puts $df "set tech(SDC_LOAD_VALUE) $tech(EXTERNAL_SDC_LOAD)"
+    } else {
+        puts $df "set tech(SDC_LOAD_VALUE) [lindex [get_db [get_lib_pins $tech(SDC_LOAD_PIN)] .capacitance] 0]"
+    }
+    puts $df "set_load                $tech(SDC_LOAD_VALUE)                      [all_outputs]"
+    puts $df "set_input_transition    $design(INPUT_TRANSITION)                  [all_inputs]"
+    puts $df "set_driving_cell        -lib_cell $tech(SDC_DRIVING_CELL)          [all_inputs]"
+
+
+    #puts $df "#################################"
+    #puts $df "#       DRV Constraints         #"
+    #puts $df "#################################"
+    #puts $df "# By default Lib Files includes these constraints"
+    #puts $df "# -----------------------------------------------"
+    #puts $df "set_max_fanout $design(MAX_FANOUT)  [current_design]"
+    #puts $df "set_max_transition $design(MAX_TRANSITION) [current_design]"
+    #puts $df "set_max_capacitance $design(MAX_CAPACITANCE) [current_design]"
+    #puts $df "set_max_transition $clk_leaf_skew -clock_path [all_clocks]"
+    #puts $df "set_max_capacitance $clk_cap -clock_path [all_clocks]"
+
+
+    close $df
 }
