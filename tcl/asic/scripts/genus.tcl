@@ -50,7 +50,7 @@ uom_print_debug_data w $debug_file "after everything was loaded" $var_list $dic_
 #################################################################
 #                           Read MMMC                           #
 #################################################################
-uom_start_stage "init_design"
+uom_start_stage "init_libraries"
 
 # Suppress messages
 uom_message "Suppressing the following messages that are reported due to the library definitions"

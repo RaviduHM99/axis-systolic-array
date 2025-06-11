@@ -14,7 +14,7 @@
 # ---------------- #
 create_constraint_mode \
     -name functional_mode \
-    -sdc_file $design(functional_sdc)
+    -sdc_files $design(functional_sdc)
 
 # Library Sets #
 # ------------ #
