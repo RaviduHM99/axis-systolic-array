@@ -98,7 +98,7 @@ uom_message "Checking design post elaboration"
 check_design -unresolved
 check_design -all > $design(synthesis_reports)/1_post_elaboration/check_design_post_elab.rpt
 if {[check_design -status]} {
-    Puts "uomINFO: ############### There is an issure with check design. You better look at it! ###############"
+    puts "uomINFO: ############### There is an issure with check design. You better look at it! ###############"
 }
 
 # Init Design
