@@ -133,24 +133,6 @@ proc uom_default_cost_groups {} {
 }
 
 ###################################################
-#          uom_report_timing
-#          -------------
-#   Reports timing and saves it in the appropriate directory
-###################################################
-proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
-    global design this_run
-    mkdir -pv ${reports_path}/$this_run{stage}/
-    set_db timing_report_fields \
-        "timing_point flags arc edge cell fanout transition delay arrival"
-    #set timing_report_enable_auto_column_width true
-    #set_table_style -nosplit -no_frame_fix_width report_timing
-    foreach cg $design(cost_groups) {
-        report_timing -group [get_db cost_groups -match $cg] \
-            > "${reports_path}/$this_run(stage)/${cg}.timing.rpt"
-    }
-}
-
-###################################################
 #          uom_start_stage
 #          -------------
 #   Starts a new stage in the flow
@@ -187,6 +169,24 @@ proc uom_start_stage {stage} {
     }
 
     uom_message "------------------------------------"
+}
+
+###################################################
+#          uom_report_timing
+#          -------------
+#   Reports timing and saves it in the appropriate directory
+###################################################
+proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
+    global design this_run
+    mkdir -pv ${reports_path}/$this_run(stage)/
+    set_db timing_report_fields \
+        "timing_point flags arc edge cell fanout transition delay arrival"
+    #set timing_report_enable_auto_column_width true
+    #set_table_style -nosplit -no_frame_fix_width report_timing
+    foreach cg $design(cost_groups) {
+        report_timing -group [get_db cost_groups -match $cg] \
+            > "${reports_path}/$this_run(stage)/${cg}.timing.rpt"
+    }
 }
 
 ###################################################
@@ -235,60 +235,67 @@ proc uom_create_stage_reports {{args ""}} {
 proc uom_create_sdc_file {} {
     global design tech runtype
 
-    set df [open $design(functional_sdc) w]
+    set df [open $design(functional_sdc) "w"]
 
     puts $df "#################################"
     puts $df "#       Clock Constraints       #"
     puts $df "#################################"
     puts $df "# Create Clocks"
-    if {$design(MULTI_CLOCKS_DESIGN) == "yes"} {
+    if {$design(MULTI_CLOCK_DESIGN) == "yes"} {
         foreach cname $design(clock_list) cport $design(clock_port_list) cperiod $design(clock_period_list){
             puts $df "create_clock -period $cperiod -name $cname [get_ports $cport]"
-            puts $df "set_clock_uncertainty $design(CLOCK_UNCERTAINTY) $cname"
+            puts $df "set_clock_uncertainty \$design(CLOCK_UNCERTAINTY) $cname"
         }
     } else {
-        puts $df "create_clock -period $design(clock_period_list) -name $design(clock_list) [get_ports $design(clock_port_list)]"
-        puts $df "set_clock_uncertainty $design(CLOCK_UNCERTAINTY) $design(clock_list)"
+        puts $df "create_clock -period \$design(clock_period_list) -name \$design(clock_list) [get_ports \$design(clock_port_list)]"
+        puts $df "set_clock_uncertainty \$design(CLOCK_UNCERTAINTY) \$design(clock_list)"
     }
+    
+    puts $df "\n"
 
-
-    if {$runtype=="synthesis"}{
-        puts $df "set_ideal_network [get_ports $design(clock_port_list)]"
-        puts $df "set_ideal_network [get_ports $design(RST_PORT)]"
+    if {$runtype == "synthesis"} {
+        puts $df "set_ideal_network \[get_ports \$design(clock_port_list)]"
+        puts $df "set_ideal_network \[get_ports \$design(RST_PORT)]"
     }
+    puts $df "\n"
 
     puts $df "#################################"
     puts $df "#       IO Constraints          #"
     puts $df "#################################"
-    puts $df "set_input_delay -clock $design(CLK_NAME) $design(INPUT_DELAY) \"
-    puts $df "        [remove_from_collection [all_inputs] $design(CLK_PORT)]"
-    puts $df "set_output_delay -clock $design(CLK_NAME) $design(OUTPUT_DELAY) [all_outputs]"
-    #puts $df "set_max_delay [expr $design(CLK_PERIOD)/2 + $design(INPUT_DELAY) + $design(OUTPUT_DELAY)] \"
-    #puts $df "        -from [all_inputs] \"
-    #puts $df "        -to   [all_outputs]"
+    puts $df "set_input_delay -clock $design(CLK_NAME) $design(INPUT_DELAY) \\"
+    puts $df "        \[remove_from_collection \[all_inputs] $design(CLK_PORT)]"
+    puts $df "set_output_delay -clock $design(CLK_NAME) $design(OUTPUT_DELAY) \[all_outputs]"
+    #puts $df "set_max_delay [expr $design(CLK_PERIOD)/2 + $design(INPUT_DELAY) + $design(OUTPUT_DELAY)] \\"
+    #puts $df "        -from \[all_inputs] \\"
+    #puts $df "        -to   \[all_outputs]"
 
+    puts $df "\n"
 
-    if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"}{
+    if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
         puts $df "set tech(SDC_LOAD_VALUE) $tech(EXTERNAL_SDC_LOAD)"
     } else {
-        puts $df "set tech(SDC_LOAD_VALUE) [lindex [get_db [get_lib_pins $tech(SDC_LOAD_PIN)] .capacitance] 0]"
+        puts $df "set tech(SDC_LOAD_VALUE) \[lindex \[get_db \[get_lib_pins $tech(SDC_LOAD_PIN)] .capacitance] 0]"
     }
-    puts $df "set_load                $tech(SDC_LOAD_VALUE)                      [all_outputs]"
-    puts $df "set_input_transition    $design(INPUT_TRANSITION)                  [all_inputs]"
-    puts $df "set_driving_cell        -lib_cell $tech(SDC_DRIVING_CELL)          [all_inputs]"
+    puts $df "\n"
 
+    puts $df "set_load                \$tech(SDC_LOAD_VALUE)                      \[all_outputs]"
+    puts $df "set_input_transition    \$design(INPUT_TRANSITION)                  \[all_inputs]"
+    puts $df "set_driving_cell        -lib_cell \$tech(SDC_DRIVING_CELL)          \[all_inputs]"
+
+    puts $df "\n"
 
     #puts $df "#################################"
     #puts $df "#       DRV Constraints         #"
     #puts $df "#################################"
     #puts $df "# By default Lib Files includes these constraints"
     #puts $df "# -----------------------------------------------"
-    #puts $df "set_max_fanout $design(MAX_FANOUT)  [current_design]"
-    #puts $df "set_max_transition $design(MAX_TRANSITION) [current_design]"
-    #puts $df "set_max_capacitance $design(MAX_CAPACITANCE) [current_design]"
-    #puts $df "set_max_transition $clk_leaf_skew -clock_path [all_clocks]"
-    #puts $df "set_max_capacitance $clk_cap -clock_path [all_clocks]"
+    #puts $df "set_max_fanout \$design(MAX_FANOUT)  \[current_design]"
+    #puts $df "set_max_transition \$design(MAX_TRANSITION) \[current_design]"
+    #puts $df "set_max_capacitance \$design(MAX_CAPACITANCE) \[current_design]"
+    #puts $df "set_max_transition \$clk_leaf_skew -clock_path \[all_clocks]"
+    #puts $df "set_max_capacitance \$clk_cap -clock_path \[all_clocks]"
 
+    puts $df "\n"
 
     close $df
 }

@@ -63,6 +63,11 @@ uom_message "Loading MMMC File"
 read_mmmc $design(mmmc_view_file)
 
 #################################################################
+#               SDC File Generation                             #
+#################################################################
+uom_create_sdc_file
+
+#################################################################
 #                      Read LEF files                           #
 #################################################################
 # Suppress messages
@@ -109,8 +114,7 @@ init_design
 # Check Timing
 # ------------
 uom_message "Checking timing intent (lint) after init_design"
-check_timing_intent
-check_timing _intent -verbose > $design(synthesis_reports)/1_post_elaboration/check_timing_post_elab.rpt
+check_timing_intent > $design(synthesis_reports)/1_post_elaboration/check_timing_post_elab.rpt
 
 # Save elaborated design
 # ----------------------
@@ -227,7 +231,7 @@ if {$phys_synth_type == "floorplan"} {
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------
     uom_message "Exporting the design Database to $design(postsyn_db_base_name_ispatial)"
-    write_design -base_name $design(postsyn_db_base_name_ispatial) -innovus -db
+    write_db -common $design(postsyn_db_ispatial)
 
     # Write out a netlist for simulation or Innovus
     # ---------------------------------------------
@@ -244,7 +248,7 @@ if {$phys_synth_type == "floorplan"} {
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------
     uom_message "Exporting the design Database to $design(postsyn_db_base_name_rtl_flow)"
-    write_design -base_name $design(postsyn_db_base_name_rtl_flow) -innovus -db
+    write_db -common $design(postsyn_db_rtl_flow)
 
     # Write out a netlist for simulation or Innovus
     # ---------------------------------------------
@@ -256,3 +260,4 @@ if {$phys_synth_type == "floorplan"} {
     uom_message "Writing the post synthesis SDF"
     write_sdf > $design(postsyn_sdf_rtl_flow)
 }
+uom_message "!!!!!!!!!!!!!!!!!!! Genus Synthesis Successful !!!!!!!!!!!!!!!!!!!!!"

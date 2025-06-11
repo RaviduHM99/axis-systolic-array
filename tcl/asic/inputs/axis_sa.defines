@@ -14,6 +14,8 @@ set IO_TECHNOLOGY         "None"
 #               Port Definition (From Verilog)
 ################################################
 ######  Clocks
+set design(MULTI_CLOCK_DESIGN) "no"
+
 set design(CLK_NAME)    "CLK"
     set design(clock_list)  [list $design(CLK_NAME)]
 set design(CLK_PORT)    "clk"
@@ -90,11 +92,6 @@ set design(clock_tree_spec)                      "$design(inputs_dir)/$design(TO
 # set design(CPF_file)                           "$design(inputs_dir)/$design(TOPLEVEL).cpf"
 # set design(dont_use_file)                      "$design(inputs_dir)/$design(TOPLEVEL).dont_use"
 # set design(size_only_file)                     "$design(inputs_dir)/$design(TOPLEVEL).size_only"
-
-###############################################
-#               SDC File Generation
-###############################################
-uom_create_sdc_file
 
 ################################################
 #               MMMC
