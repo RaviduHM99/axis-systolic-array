@@ -14,6 +14,8 @@ set IO_TECHNOLOGY         "None"
 #               Port Definition (From Verilog)
 ################################################
 ######  Clocks
+set design(MULTI_CLOCKS_DESIGN) "no"
+
 set design(CLK_NAME)    "CLK"
     set design(clock_list)  [list $design(CLK_NAME)]
 set design(CLK_PORT)    "clk"

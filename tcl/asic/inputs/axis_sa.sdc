@@ -1,8 +1,14 @@
 # Create Clocks
-foreach cname $design(clock_list) cport $design(clock_port_list) cperiod $design(clock_period_list){
-    create_clock -period $cperiod -name $cname [get_ports $cport]
-    set_clock_uncertainty $design(CLOCK_UNCERTAINTY) $cname
+if {$design(MULTI_CLOCKS_DESIGN) == "yes"} {
+    foreach cname $design(clock_list) cport $design(clock_port_list) cperiod $design(clock_period_list){
+        create_clock -period $cperiod -name $cname [get_ports $cport]
+        set_clock_uncertainty $design(CLOCK_UNCERTAINTY) $cname
+    }
+} else {
+    create_clock -period $design(clock_period_list) -name $design(clock_list) [get_ports $design(clock_port_list)]
+    set_clock_uncertainty $design(CLOCK_UNCERTAINTY) $design(clock_list)
 }
+
 
 if {$runtype=="synthesis"}{
     set_ideal_network [get_ports $design(clock_port_list)]
