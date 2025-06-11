@@ -26,7 +26,7 @@ set tech_files(STANDARD_CELLS_RVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht
 set tech_files(STANDARD_CELLS_RVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p90v_85c.lib"
     lappend tech_files(ALL_TC_LIBS) $tech_files(STANDARD_CELLS_RVT_TC_LIB)
 
-set tech_files(STANDARD_CELLS_HVT_BC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_1p05v_m40c"
+set tech_files(STANDARD_CELLS_HVT_BC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_1p05v_m40c.lib"
     lappend tech_files(ALL_BC_LIBS) $tech_files(STANDARD_CELLS_HVT_BC_LIB)
 set tech_files(STANDARD_CELLS_HVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p90v_125c.lib"
     lappend tech_files(ALL_WC_LIBS) $tech_files(STANDARD_CELLS_HVT_WC_LIB)

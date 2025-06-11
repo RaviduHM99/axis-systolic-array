@@ -12,7 +12,7 @@ if {$runtype=="synthesis"}{
 #################################
 #       IO Constraints
 #################################
-set_input_delay -clock $design(CLK_NAME) $design(INPUT_DELAY)\
+set_input_delay -clock $design(CLK_NAME) $design(INPUT_DELAY) \
         [remove_from_collection [all_inputs] $design(CLK_PORT)]
 set_output_delay -clock $design(CLK_NAME) $design(OUTPUT_DELAY) [all_outputs]
 #set_max_delay [expr $design(CLK_PERIOD)/2 + $design(INPUT_DELAY) + $design(OUTPUT_DELAY)] \
