@@ -1,6 +1,6 @@
 ######################################################################
 
-# Created by Genus(TM) Synthesis Solution 23.13-s073_1 on Wed Jun 11 13:27:00 UTC 2025
+# Created by Genus(TM) Synthesis Solution 23.13-s073_1 on Fri Jun 13 10:38:26 UTC 2025
 
 # This file contains the Genus script for design:axis_sa
 
@@ -43,10 +43,14 @@ set_db -quiet operating_condition:wc_libset/sc9mcpp140z_cln28ht_base_ulvt_c35_ss
 set_db -quiet operating_condition:wc_libset/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c/_nominal_ .tree_type balanced_tree
 # BEGIN MSV SECTION
 # END MSV SECTION
-define_clock -name CLK -mode mode:axis_sa/wc_analysis_view -domain domain_1 -period 2000.0 -divide_period 1 -rise 0 -divide_rise 1 -fall 1 -divide_fall 2 -design design:axis_sa {}
+define_clock -name CLK -mode mode:axis_sa/wc_analysis_view -domain domain_1 -period 2000.0 -divide_period 1 -rise 0 -divide_rise 1 -fall 1 -divide_fall 2 -remove -design design:axis_sa port:axis_sa/clk
 set_db -quiet clock:axis_sa/wc_analysis_view/CLK .clock_setup_uncertainty {125.0 125.0}
 set_db -quiet clock:axis_sa/wc_analysis_view/CLK .clock_hold_uncertainty {125.0 125.0}
 define_cost_group -design design:axis_sa -name CLK
+external_delay -accumulate -input {0.0 no_value 0.0 no_value} -clock clock:axis_sa/wc_analysis_view/CLK -name create_clock_delay_domain_1_CLK_R_0 port:axis_sa/clk
+set_db -quiet external_delay:axis_sa/wc_analysis_view/create_clock_delay_domain_1_CLK_R_0 .clock_network_latency_included true
+external_delay -accumulate -input {no_value 0.0 no_value 0.0} -clock clock:axis_sa/wc_analysis_view/CLK -edge_fall -name create_clock_delay_domain_1_CLK_F_0 port:axis_sa/clk
+set_db -quiet external_delay:axis_sa/wc_analysis_view/create_clock_delay_domain_1_CLK_F_0 .clock_network_latency_included true
 external_delay -accumulate -input {500.0 500.0 500.0 500.0} -clock clock:axis_sa/wc_analysis_view/CLK -name axis_sa.sdc_line_16 port:axis_sa/rstn
 external_delay -accumulate -input {500.0 500.0 500.0 500.0} -clock clock:axis_sa/wc_analysis_view/CLK -name axis_sa.sdc_line_16_1_1 port:axis_sa/s_valid
 external_delay -accumulate -input {500.0 500.0 500.0 500.0} -clock clock:axis_sa/wc_analysis_view/CLK -name axis_sa.sdc_line_16_2_1 port:axis_sa/s_last
@@ -1063,73 +1067,609 @@ set_db -quiet {port:axis_sa/sk_data[7][0]} .input_slew_min_rise no_value
 set_db -quiet {port:axis_sa/sk_data[7][0]} .input_slew_min_fall no_value
 set_db -quiet {port:axis_sa/sk_data[7][0]} .external_driver_by_mode {{mode:axis_sa/wc_analysis_view {lib_pin:wc_libset/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c/BUF_X0P5B_A9PP140ZTUL_C35/Y lib_pin:wc_libset/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c/BUF_X0P5B_A9PP140ZTUL_C35/Y lib_pin:wc_libset/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c/BUF_X0P5B_A9PP140ZTUL_C35/Y lib_pin:wc_libset/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c/BUF_X0P5B_A9PP140ZTUL_C35/Y}}}
 set_db -quiet {port:axis_sa/sk_data[7][0]} .original_name {sk_data[7][0]}
+set_db -quiet port:axis_sa/s_ready .external_pin_cap_min 0.6
+set_db -quiet port:axis_sa/s_ready .external_capacitance_max {0.6 0.6}
+set_db -quiet port:axis_sa/s_ready .external_capacitance_min 0.6
+set_db -quiet port:axis_sa/s_ready .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet port:axis_sa/s_ready .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet port:axis_sa/s_ready .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet port:axis_sa/s_ready .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet port:axis_sa/s_ready .original_name s_ready
+set_db -quiet port:axis_sa/s_ready .external_pin_cap {0.6 0.6}
+set_db -quiet port:axis_sa/m_valid .external_pin_cap_min 0.6
+set_db -quiet port:axis_sa/m_valid .external_capacitance_max {0.6 0.6}
+set_db -quiet port:axis_sa/m_valid .external_capacitance_min 0.6
+set_db -quiet port:axis_sa/m_valid .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet port:axis_sa/m_valid .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet port:axis_sa/m_valid .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet port:axis_sa/m_valid .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet port:axis_sa/m_valid .original_name m_valid
+set_db -quiet port:axis_sa/m_valid .external_pin_cap {0.6 0.6}
+set_db -quiet port:axis_sa/m_last .external_pin_cap_min 0.6
+set_db -quiet port:axis_sa/m_last .external_capacitance_max {0.6 0.6}
+set_db -quiet port:axis_sa/m_last .external_capacitance_min 0.6
+set_db -quiet port:axis_sa/m_last .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet port:axis_sa/m_last .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet port:axis_sa/m_last .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet port:axis_sa/m_last .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet port:axis_sa/m_last .original_name m_last
+set_db -quiet port:axis_sa/m_last .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][15]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][15]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][15]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][15]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][15]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][15]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][15]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][15]} .original_name {m_data[0][15]}
+set_db -quiet {port:axis_sa/m_data[0][15]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][14]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][14]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][14]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][14]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][14]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][14]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][14]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][14]} .original_name {m_data[0][14]}
+set_db -quiet {port:axis_sa/m_data[0][14]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][13]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][13]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][13]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][13]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][13]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][13]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][13]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][13]} .original_name {m_data[0][13]}
+set_db -quiet {port:axis_sa/m_data[0][13]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][12]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][12]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][12]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][12]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][12]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][12]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][12]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][12]} .original_name {m_data[0][12]}
+set_db -quiet {port:axis_sa/m_data[0][12]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][11]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][11]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][11]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][11]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][11]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][11]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][11]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][11]} .original_name {m_data[0][11]}
+set_db -quiet {port:axis_sa/m_data[0][11]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][10]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][10]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][10]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][10]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][10]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][10]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][10]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][10]} .original_name {m_data[0][10]}
+set_db -quiet {port:axis_sa/m_data[0][10]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][9]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][9]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][9]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][9]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][9]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][9]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][9]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][9]} .original_name {m_data[0][9]}
+set_db -quiet {port:axis_sa/m_data[0][9]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][8]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][8]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][8]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][8]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][8]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][8]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][8]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][8]} .original_name {m_data[0][8]}
+set_db -quiet {port:axis_sa/m_data[0][8]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][7]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][7]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][7]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][7]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][7]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][7]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][7]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][7]} .original_name {m_data[0][7]}
+set_db -quiet {port:axis_sa/m_data[0][7]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][6]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][6]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][6]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][6]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][6]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][6]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][6]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][6]} .original_name {m_data[0][6]}
+set_db -quiet {port:axis_sa/m_data[0][6]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][5]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][5]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][5]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][5]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][5]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][5]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][5]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][5]} .original_name {m_data[0][5]}
+set_db -quiet {port:axis_sa/m_data[0][5]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][4]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][4]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][4]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][4]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][4]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][4]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][4]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][4]} .original_name {m_data[0][4]}
+set_db -quiet {port:axis_sa/m_data[0][4]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][3]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][3]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][3]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][3]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][3]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][3]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][3]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][3]} .original_name {m_data[0][3]}
+set_db -quiet {port:axis_sa/m_data[0][3]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][2]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][2]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][2]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][2]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][2]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][2]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][2]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][2]} .original_name {m_data[0][2]}
+set_db -quiet {port:axis_sa/m_data[0][2]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][1]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][1]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][1]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][1]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][1]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][1]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][1]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][1]} .original_name {m_data[0][1]}
+set_db -quiet {port:axis_sa/m_data[0][1]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][0]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][0]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[0][0]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[0][0]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][0]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[0][0]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[0][0]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[0][0]} .original_name {m_data[0][0]}
+set_db -quiet {port:axis_sa/m_data[0][0]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][15]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][15]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][15]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][15]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][15]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][15]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][15]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][15]} .original_name {m_data[1][15]}
+set_db -quiet {port:axis_sa/m_data[1][15]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][14]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][14]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][14]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][14]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][14]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][14]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][14]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][14]} .original_name {m_data[1][14]}
+set_db -quiet {port:axis_sa/m_data[1][14]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][13]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][13]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][13]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][13]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][13]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][13]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][13]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][13]} .original_name {m_data[1][13]}
+set_db -quiet {port:axis_sa/m_data[1][13]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][12]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][12]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][12]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][12]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][12]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][12]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][12]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][12]} .original_name {m_data[1][12]}
+set_db -quiet {port:axis_sa/m_data[1][12]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][11]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][11]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][11]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][11]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][11]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][11]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][11]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][11]} .original_name {m_data[1][11]}
+set_db -quiet {port:axis_sa/m_data[1][11]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][10]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][10]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][10]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][10]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][10]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][10]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][10]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][10]} .original_name {m_data[1][10]}
+set_db -quiet {port:axis_sa/m_data[1][10]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][9]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][9]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][9]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][9]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][9]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][9]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][9]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][9]} .original_name {m_data[1][9]}
+set_db -quiet {port:axis_sa/m_data[1][9]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][8]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][8]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][8]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][8]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][8]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][8]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][8]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][8]} .original_name {m_data[1][8]}
+set_db -quiet {port:axis_sa/m_data[1][8]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][7]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][7]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][7]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][7]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][7]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][7]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][7]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][7]} .original_name {m_data[1][7]}
+set_db -quiet {port:axis_sa/m_data[1][7]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][6]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][6]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][6]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][6]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][6]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][6]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][6]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][6]} .original_name {m_data[1][6]}
+set_db -quiet {port:axis_sa/m_data[1][6]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][5]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][5]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][5]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][5]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][5]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][5]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][5]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][5]} .original_name {m_data[1][5]}
+set_db -quiet {port:axis_sa/m_data[1][5]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][4]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][4]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][4]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][4]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][4]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][4]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][4]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][4]} .original_name {m_data[1][4]}
+set_db -quiet {port:axis_sa/m_data[1][4]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][3]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][3]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][3]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][3]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][3]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][3]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][3]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][3]} .original_name {m_data[1][3]}
+set_db -quiet {port:axis_sa/m_data[1][3]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][2]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][2]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][2]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][2]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][2]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][2]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][2]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][2]} .original_name {m_data[1][2]}
+set_db -quiet {port:axis_sa/m_data[1][2]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][1]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][1]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][1]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][1]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][1]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][1]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][1]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][1]} .original_name {m_data[1][1]}
+set_db -quiet {port:axis_sa/m_data[1][1]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][0]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][0]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[1][0]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[1][0]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][0]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[1][0]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[1][0]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[1][0]} .original_name {m_data[1][0]}
+set_db -quiet {port:axis_sa/m_data[1][0]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][15]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][15]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][15]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][15]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][15]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][15]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][15]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][15]} .original_name {m_data[2][15]}
+set_db -quiet {port:axis_sa/m_data[2][15]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][14]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][14]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][14]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][14]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][14]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][14]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][14]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][14]} .original_name {m_data[2][14]}
+set_db -quiet {port:axis_sa/m_data[2][14]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][13]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][13]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][13]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][13]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][13]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][13]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][13]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][13]} .original_name {m_data[2][13]}
+set_db -quiet {port:axis_sa/m_data[2][13]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][12]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][12]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][12]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][12]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][12]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][12]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][12]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][12]} .original_name {m_data[2][12]}
+set_db -quiet {port:axis_sa/m_data[2][12]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][11]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][11]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][11]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][11]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][11]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][11]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][11]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][11]} .original_name {m_data[2][11]}
+set_db -quiet {port:axis_sa/m_data[2][11]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][10]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][10]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][10]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][10]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][10]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][10]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][10]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][10]} .original_name {m_data[2][10]}
+set_db -quiet {port:axis_sa/m_data[2][10]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][9]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][9]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][9]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][9]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][9]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][9]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][9]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][9]} .original_name {m_data[2][9]}
+set_db -quiet {port:axis_sa/m_data[2][9]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][8]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][8]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][8]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][8]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][8]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][8]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][8]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][8]} .original_name {m_data[2][8]}
+set_db -quiet {port:axis_sa/m_data[2][8]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][7]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][7]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][7]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][7]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][7]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][7]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][7]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][7]} .original_name {m_data[2][7]}
+set_db -quiet {port:axis_sa/m_data[2][7]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][6]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][6]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][6]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][6]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][6]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][6]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][6]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][6]} .original_name {m_data[2][6]}
+set_db -quiet {port:axis_sa/m_data[2][6]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][5]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][5]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][5]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][5]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][5]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][5]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][5]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][5]} .original_name {m_data[2][5]}
+set_db -quiet {port:axis_sa/m_data[2][5]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][4]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][4]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][4]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][4]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][4]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][4]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][4]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][4]} .original_name {m_data[2][4]}
+set_db -quiet {port:axis_sa/m_data[2][4]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][3]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][3]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][3]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][3]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][3]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][3]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][3]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][3]} .original_name {m_data[2][3]}
+set_db -quiet {port:axis_sa/m_data[2][3]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][2]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][2]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][2]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][2]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][2]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][2]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][2]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][2]} .original_name {m_data[2][2]}
+set_db -quiet {port:axis_sa/m_data[2][2]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][1]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][1]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][1]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][1]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][1]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][1]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][1]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][1]} .original_name {m_data[2][1]}
+set_db -quiet {port:axis_sa/m_data[2][1]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][0]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][0]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[2][0]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[2][0]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][0]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[2][0]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[2][0]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[2][0]} .original_name {m_data[2][0]}
+set_db -quiet {port:axis_sa/m_data[2][0]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][15]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][15]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][15]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][15]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][15]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][15]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][15]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][15]} .original_name {m_data[3][15]}
+set_db -quiet {port:axis_sa/m_data[3][15]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][14]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][14]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][14]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][14]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][14]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][14]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][14]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][14]} .original_name {m_data[3][14]}
+set_db -quiet {port:axis_sa/m_data[3][14]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][13]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][13]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][13]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][13]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][13]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][13]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][13]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][13]} .original_name {m_data[3][13]}
+set_db -quiet {port:axis_sa/m_data[3][13]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][12]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][12]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][12]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][12]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][12]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][12]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][12]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][12]} .original_name {m_data[3][12]}
+set_db -quiet {port:axis_sa/m_data[3][12]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][11]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][11]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][11]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][11]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][11]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][11]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][11]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][11]} .original_name {m_data[3][11]}
+set_db -quiet {port:axis_sa/m_data[3][11]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][10]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][10]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][10]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][10]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][10]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][10]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][10]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][10]} .original_name {m_data[3][10]}
+set_db -quiet {port:axis_sa/m_data[3][10]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][9]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][9]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][9]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][9]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][9]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][9]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][9]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][9]} .original_name {m_data[3][9]}
+set_db -quiet {port:axis_sa/m_data[3][9]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][8]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][8]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][8]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][8]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][8]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][8]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][8]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][8]} .original_name {m_data[3][8]}
+set_db -quiet {port:axis_sa/m_data[3][8]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][7]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][7]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][7]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][7]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][7]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][7]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][7]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][7]} .original_name {m_data[3][7]}
+set_db -quiet {port:axis_sa/m_data[3][7]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][6]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][6]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][6]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][6]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][6]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][6]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][6]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][6]} .original_name {m_data[3][6]}
+set_db -quiet {port:axis_sa/m_data[3][6]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][5]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][5]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][5]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][5]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][5]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][5]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][5]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][5]} .original_name {m_data[3][5]}
+set_db -quiet {port:axis_sa/m_data[3][5]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][4]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][4]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][4]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][4]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][4]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][4]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][4]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][4]} .original_name {m_data[3][4]}
+set_db -quiet {port:axis_sa/m_data[3][4]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][3]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][3]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][3]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][3]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][3]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][3]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][3]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][3]} .original_name {m_data[3][3]}
+set_db -quiet {port:axis_sa/m_data[3][3]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][2]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][2]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][2]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][2]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][2]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][2]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][2]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][2]} .original_name {m_data[3][2]}
+set_db -quiet {port:axis_sa/m_data[3][2]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][1]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][1]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][1]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][1]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][1]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][1]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][1]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][1]} .original_name {m_data[3][1]}
+set_db -quiet {port:axis_sa/m_data[3][1]} .external_pin_cap {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][0]} .external_pin_cap_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][0]} .external_capacitance_max {0.6 0.6}
+set_db -quiet {port:axis_sa/m_data[3][0]} .external_capacitance_min 0.6
+set_db -quiet {port:axis_sa/m_data[3][0]} .external_pin_cap_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][0]} .external_capacitance_min_by_mode {{mode:axis_sa/wc_analysis_view 0.6}}
+set_db -quiet {port:axis_sa/m_data[3][0]} .external_pin_cap_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
+set_db -quiet {port:axis_sa/m_data[3][0]} .external_capacitance_max_by_mode {{mode:axis_sa/wc_analysis_view {0.6 0.6}}}
 set_db -quiet {port:axis_sa/m_data[3][0]} .original_name {m_data[3][0]}
+set_db -quiet {port:axis_sa/m_data[3][0]} .external_pin_cap {0.6 0.6}
 set_db -quiet module:axis_sa/tri_buffer_W4_N4 .hdl_user_name tri_buffer
 set_db -quiet module:axis_sa/tri_buffer_W4_N4 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/tri_buffer.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
 set_db -quiet module:axis_sa/tri_buffer_W4_N4 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/tri_buffer.sv
@@ -2447,6 +2987,10 @@ set_db -quiet {inst:axis_sa/VALID/data_reg[13][0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/VALID/data_reg[13][0]} .original_name {{VALID/data[13][0]}}
 set_db -quiet {inst:axis_sa/VALID/data_reg[13][0]} .single_bit_original_name {VALID/data[13][0]}
 set_db -quiet {pin:axis_sa/VALID/data_reg[13][0]/q} .original_name {VALID/data[13][0]/q}
+set_db -quiet module:axis_sa/n_delay_N13_W1_1 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N13_W1_1 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N13_W1_1 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N13_W1_1 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
 set_db -quiet {inst:axis_sa/VLAST/data_reg[1][0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/VLAST/data_reg[1][0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/VLAST/data_reg[1][0]} .original_name {{VLAST/data[1][0]}}
@@ -2582,6 +3126,15 @@ set_db -quiet {inst:axis_sa/MR[0].MC[0].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[0].MC[0].MUL/m_reg[11]} .original_name {{MR[0].MC[0].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[0].MC[0].MUL/m_reg[11]} .single_bit_original_name {MR[0].MC[0].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[0].MC[0].MUL/m_reg[11]/q} .original_name {MR[0].MC[0].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_1 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_1 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_1 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_1 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_1 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_1 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_1 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_1 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_1 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[0].MC[1].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[0].MC[1].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[0].MC[1].MUL/m_reg[0]} .gint_phase_inversion false
@@ -2643,6 +3196,15 @@ set_db -quiet {inst:axis_sa/MR[0].MC[1].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[0].MC[1].MUL/m_reg[11]} .original_name {{MR[0].MC[1].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[0].MC[1].MUL/m_reg[11]} .single_bit_original_name {MR[0].MC[1].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[0].MC[1].MUL/m_reg[11]/q} .original_name {MR[0].MC[1].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_2 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_2 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_2 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_2 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_2 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_2 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_2 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_2 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_2 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[0].MC[2].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[0].MC[2].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[0].MC[2].MUL/m_reg[0]} .gint_phase_inversion false
@@ -2704,6 +3266,15 @@ set_db -quiet {inst:axis_sa/MR[0].MC[2].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[0].MC[2].MUL/m_reg[11]} .original_name {{MR[0].MC[2].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[0].MC[2].MUL/m_reg[11]} .single_bit_original_name {MR[0].MC[2].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[0].MC[2].MUL/m_reg[11]/q} .original_name {MR[0].MC[2].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_3 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_3 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_3 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_3 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_3 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_3 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_3 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_3 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_3 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[0].MC[3].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[0].MC[3].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[0].MC[3].MUL/m_reg[0]} .gint_phase_inversion false
@@ -2765,6 +3336,15 @@ set_db -quiet {inst:axis_sa/MR[0].MC[3].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[0].MC[3].MUL/m_reg[11]} .original_name {{MR[0].MC[3].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[0].MC[3].MUL/m_reg[11]} .single_bit_original_name {MR[0].MC[3].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[0].MC[3].MUL/m_reg[11]/q} .original_name {MR[0].MC[3].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_4 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_4 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_4 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_4 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_4 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_4 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_4 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_4 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_4 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[0].MC[4].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[0].MC[4].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[0].MC[4].MUL/m_reg[0]} .gint_phase_inversion false
@@ -2826,6 +3406,15 @@ set_db -quiet {inst:axis_sa/MR[0].MC[4].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[0].MC[4].MUL/m_reg[11]} .original_name {{MR[0].MC[4].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[0].MC[4].MUL/m_reg[11]} .single_bit_original_name {MR[0].MC[4].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[0].MC[4].MUL/m_reg[11]/q} .original_name {MR[0].MC[4].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_5 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_5 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_5 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_5 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_5 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_5 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_5 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_5 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_5 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[0].MC[5].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[0].MC[5].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[0].MC[5].MUL/m_reg[0]} .gint_phase_inversion false
@@ -2887,6 +3476,15 @@ set_db -quiet {inst:axis_sa/MR[0].MC[5].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[0].MC[5].MUL/m_reg[11]} .original_name {{MR[0].MC[5].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[0].MC[5].MUL/m_reg[11]} .single_bit_original_name {MR[0].MC[5].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[0].MC[5].MUL/m_reg[11]/q} .original_name {MR[0].MC[5].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_6 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_6 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_6 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_6 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_6 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_6 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_6 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_6 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_6 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[0].MC[6].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[0].MC[6].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[0].MC[6].MUL/m_reg[0]} .gint_phase_inversion false
@@ -2948,6 +3546,15 @@ set_db -quiet {inst:axis_sa/MR[0].MC[6].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[0].MC[6].MUL/m_reg[11]} .original_name {{MR[0].MC[6].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[0].MC[6].MUL/m_reg[11]} .single_bit_original_name {MR[0].MC[6].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[0].MC[6].MUL/m_reg[11]/q} .original_name {MR[0].MC[6].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_7 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_7 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_7 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_7 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_7 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_7 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_7 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_7 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_7 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[0].MC[7].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[0].MC[7].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[0].MC[7].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3009,6 +3616,15 @@ set_db -quiet {inst:axis_sa/MR[0].MC[7].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[0].MC[7].MUL/m_reg[11]} .original_name {{MR[0].MC[7].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[0].MC[7].MUL/m_reg[11]} .single_bit_original_name {MR[0].MC[7].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[0].MC[7].MUL/m_reg[11]/q} .original_name {MR[0].MC[7].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_8 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_8 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_8 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_8 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_8 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_8 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_8 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_8 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_8 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[1].MC[0].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[1].MC[0].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[1].MC[0].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3070,6 +3686,15 @@ set_db -quiet {inst:axis_sa/MR[1].MC[0].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[1].MC[0].MUL/m_reg[11]} .original_name {{MR[1].MC[0].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[1].MC[0].MUL/m_reg[11]} .single_bit_original_name {MR[1].MC[0].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[1].MC[0].MUL/m_reg[11]/q} .original_name {MR[1].MC[0].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_9 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_9 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_9 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_9 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_9 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_9 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_9 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_9 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_9 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[1].MC[1].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[1].MC[1].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[1].MC[1].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3131,6 +3756,15 @@ set_db -quiet {inst:axis_sa/MR[1].MC[1].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[1].MC[1].MUL/m_reg[11]} .original_name {{MR[1].MC[1].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[1].MC[1].MUL/m_reg[11]} .single_bit_original_name {MR[1].MC[1].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[1].MC[1].MUL/m_reg[11]/q} .original_name {MR[1].MC[1].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_10 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_10 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_10 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_10 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_10 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_10 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_10 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_10 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_10 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[1].MC[2].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[1].MC[2].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[1].MC[2].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3192,6 +3826,15 @@ set_db -quiet {inst:axis_sa/MR[1].MC[2].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[1].MC[2].MUL/m_reg[11]} .original_name {{MR[1].MC[2].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[1].MC[2].MUL/m_reg[11]} .single_bit_original_name {MR[1].MC[2].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[1].MC[2].MUL/m_reg[11]/q} .original_name {MR[1].MC[2].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_11 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_11 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_11 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_11 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_11 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_11 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_11 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_11 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_11 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[1].MC[3].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[1].MC[3].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[1].MC[3].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3253,6 +3896,15 @@ set_db -quiet {inst:axis_sa/MR[1].MC[3].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[1].MC[3].MUL/m_reg[11]} .original_name {{MR[1].MC[3].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[1].MC[3].MUL/m_reg[11]} .single_bit_original_name {MR[1].MC[3].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[1].MC[3].MUL/m_reg[11]/q} .original_name {MR[1].MC[3].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_12 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_12 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_12 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_12 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_12 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_12 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_12 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_12 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_12 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[1].MC[4].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[1].MC[4].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[1].MC[4].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3314,6 +3966,15 @@ set_db -quiet {inst:axis_sa/MR[1].MC[4].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[1].MC[4].MUL/m_reg[11]} .original_name {{MR[1].MC[4].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[1].MC[4].MUL/m_reg[11]} .single_bit_original_name {MR[1].MC[4].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[1].MC[4].MUL/m_reg[11]/q} .original_name {MR[1].MC[4].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_13 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_13 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_13 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_13 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_13 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_13 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_13 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_13 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_13 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[1].MC[5].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[1].MC[5].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[1].MC[5].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3375,6 +4036,15 @@ set_db -quiet {inst:axis_sa/MR[1].MC[5].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[1].MC[5].MUL/m_reg[11]} .original_name {{MR[1].MC[5].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[1].MC[5].MUL/m_reg[11]} .single_bit_original_name {MR[1].MC[5].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[1].MC[5].MUL/m_reg[11]/q} .original_name {MR[1].MC[5].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_14 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_14 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_14 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_14 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_14 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_14 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_14 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_14 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_14 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[1].MC[6].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[1].MC[6].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[1].MC[6].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3436,6 +4106,15 @@ set_db -quiet {inst:axis_sa/MR[1].MC[6].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[1].MC[6].MUL/m_reg[11]} .original_name {{MR[1].MC[6].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[1].MC[6].MUL/m_reg[11]} .single_bit_original_name {MR[1].MC[6].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[1].MC[6].MUL/m_reg[11]/q} .original_name {MR[1].MC[6].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_15 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_15 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_15 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_15 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_15 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_15 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_15 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_15 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_15 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[1].MC[7].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[1].MC[7].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[1].MC[7].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3497,6 +4176,15 @@ set_db -quiet {inst:axis_sa/MR[1].MC[7].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[1].MC[7].MUL/m_reg[11]} .original_name {{MR[1].MC[7].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[1].MC[7].MUL/m_reg[11]} .single_bit_original_name {MR[1].MC[7].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[1].MC[7].MUL/m_reg[11]/q} .original_name {MR[1].MC[7].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_16 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_16 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_16 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_16 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_16 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_16 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_16 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_16 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_16 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[2].MC[0].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[2].MC[0].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[2].MC[0].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3558,6 +4246,15 @@ set_db -quiet {inst:axis_sa/MR[2].MC[0].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[2].MC[0].MUL/m_reg[11]} .original_name {{MR[2].MC[0].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[2].MC[0].MUL/m_reg[11]} .single_bit_original_name {MR[2].MC[0].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[2].MC[0].MUL/m_reg[11]/q} .original_name {MR[2].MC[0].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_17 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_17 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_17 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_17 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_17 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_17 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_17 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_17 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_17 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[2].MC[1].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[2].MC[1].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[2].MC[1].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3619,6 +4316,15 @@ set_db -quiet {inst:axis_sa/MR[2].MC[1].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[2].MC[1].MUL/m_reg[11]} .original_name {{MR[2].MC[1].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[2].MC[1].MUL/m_reg[11]} .single_bit_original_name {MR[2].MC[1].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[2].MC[1].MUL/m_reg[11]/q} .original_name {MR[2].MC[1].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_18 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_18 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_18 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_18 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_18 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_18 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_18 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_18 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_18 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[2].MC[2].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[2].MC[2].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[2].MC[2].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3680,6 +4386,15 @@ set_db -quiet {inst:axis_sa/MR[2].MC[2].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[2].MC[2].MUL/m_reg[11]} .original_name {{MR[2].MC[2].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[2].MC[2].MUL/m_reg[11]} .single_bit_original_name {MR[2].MC[2].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[2].MC[2].MUL/m_reg[11]/q} .original_name {MR[2].MC[2].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_19 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_19 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_19 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_19 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_19 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_19 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_19 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_19 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_19 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[2].MC[3].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[2].MC[3].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[2].MC[3].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3741,6 +4456,15 @@ set_db -quiet {inst:axis_sa/MR[2].MC[3].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[2].MC[3].MUL/m_reg[11]} .original_name {{MR[2].MC[3].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[2].MC[3].MUL/m_reg[11]} .single_bit_original_name {MR[2].MC[3].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[2].MC[3].MUL/m_reg[11]/q} .original_name {MR[2].MC[3].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_20 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_20 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_20 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_20 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_20 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_20 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_20 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_20 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_20 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[2].MC[4].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[2].MC[4].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[2].MC[4].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3802,6 +4526,15 @@ set_db -quiet {inst:axis_sa/MR[2].MC[4].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[2].MC[4].MUL/m_reg[11]} .original_name {{MR[2].MC[4].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[2].MC[4].MUL/m_reg[11]} .single_bit_original_name {MR[2].MC[4].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[2].MC[4].MUL/m_reg[11]/q} .original_name {MR[2].MC[4].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_21 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_21 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_21 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_21 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_21 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_21 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_21 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_21 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_21 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[2].MC[5].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[2].MC[5].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[2].MC[5].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3863,6 +4596,15 @@ set_db -quiet {inst:axis_sa/MR[2].MC[5].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[2].MC[5].MUL/m_reg[11]} .original_name {{MR[2].MC[5].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[2].MC[5].MUL/m_reg[11]} .single_bit_original_name {MR[2].MC[5].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[2].MC[5].MUL/m_reg[11]/q} .original_name {MR[2].MC[5].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_22 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_22 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_22 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_22 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_22 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_22 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_22 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_22 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_22 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[2].MC[6].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[2].MC[6].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[2].MC[6].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3924,6 +4666,15 @@ set_db -quiet {inst:axis_sa/MR[2].MC[6].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[2].MC[6].MUL/m_reg[11]} .original_name {{MR[2].MC[6].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[2].MC[6].MUL/m_reg[11]} .single_bit_original_name {MR[2].MC[6].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[2].MC[6].MUL/m_reg[11]/q} .original_name {MR[2].MC[6].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_23 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_23 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_23 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_23 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_23 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_23 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_23 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_23 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_23 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[2].MC[7].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[2].MC[7].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[2].MC[7].MUL/m_reg[0]} .gint_phase_inversion false
@@ -3985,6 +4736,15 @@ set_db -quiet {inst:axis_sa/MR[2].MC[7].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[2].MC[7].MUL/m_reg[11]} .original_name {{MR[2].MC[7].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[2].MC[7].MUL/m_reg[11]} .single_bit_original_name {MR[2].MC[7].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[2].MC[7].MUL/m_reg[11]/q} .original_name {MR[2].MC[7].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_24 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_24 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_24 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_24 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_24 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_24 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_24 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_24 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_24 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[3].MC[0].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[3].MC[0].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[3].MC[0].MUL/m_reg[0]} .gint_phase_inversion false
@@ -4046,6 +4806,15 @@ set_db -quiet {inst:axis_sa/MR[3].MC[0].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[3].MC[0].MUL/m_reg[11]} .original_name {{MR[3].MC[0].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[3].MC[0].MUL/m_reg[11]} .single_bit_original_name {MR[3].MC[0].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[3].MC[0].MUL/m_reg[11]/q} .original_name {MR[3].MC[0].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_25 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_25 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_25 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_25 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_25 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_25 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_25 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_25 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_25 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[3].MC[1].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[3].MC[1].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[3].MC[1].MUL/m_reg[0]} .gint_phase_inversion false
@@ -4107,6 +4876,15 @@ set_db -quiet {inst:axis_sa/MR[3].MC[1].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[3].MC[1].MUL/m_reg[11]} .original_name {{MR[3].MC[1].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[3].MC[1].MUL/m_reg[11]} .single_bit_original_name {MR[3].MC[1].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[3].MC[1].MUL/m_reg[11]/q} .original_name {MR[3].MC[1].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_26 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_26 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_26 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_26 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_26 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_26 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_26 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_26 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_26 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[3].MC[2].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[3].MC[2].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[3].MC[2].MUL/m_reg[0]} .gint_phase_inversion false
@@ -4168,6 +4946,15 @@ set_db -quiet {inst:axis_sa/MR[3].MC[2].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[3].MC[2].MUL/m_reg[11]} .original_name {{MR[3].MC[2].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[3].MC[2].MUL/m_reg[11]} .single_bit_original_name {MR[3].MC[2].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[3].MC[2].MUL/m_reg[11]/q} .original_name {MR[3].MC[2].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_27 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_27 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_27 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_27 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_27 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_27 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_27 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_27 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_27 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[3].MC[3].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[3].MC[3].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[3].MC[3].MUL/m_reg[0]} .gint_phase_inversion false
@@ -4229,6 +5016,15 @@ set_db -quiet {inst:axis_sa/MR[3].MC[3].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[3].MC[3].MUL/m_reg[11]} .original_name {{MR[3].MC[3].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[3].MC[3].MUL/m_reg[11]} .single_bit_original_name {MR[3].MC[3].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[3].MC[3].MUL/m_reg[11]/q} .original_name {MR[3].MC[3].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_28 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_28 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_28 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_28 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_28 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_28 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_28 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_28 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_28 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[3].MC[4].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[3].MC[4].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[3].MC[4].MUL/m_reg[0]} .gint_phase_inversion false
@@ -4290,6 +5086,15 @@ set_db -quiet {inst:axis_sa/MR[3].MC[4].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[3].MC[4].MUL/m_reg[11]} .original_name {{MR[3].MC[4].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[3].MC[4].MUL/m_reg[11]} .single_bit_original_name {MR[3].MC[4].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[3].MC[4].MUL/m_reg[11]/q} .original_name {MR[3].MC[4].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_29 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_29 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_29 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_29 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_29 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_29 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_29 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_29 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_29 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[3].MC[5].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[3].MC[5].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[3].MC[5].MUL/m_reg[0]} .gint_phase_inversion false
@@ -4351,6 +5156,15 @@ set_db -quiet {inst:axis_sa/MR[3].MC[5].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[3].MC[5].MUL/m_reg[11]} .original_name {{MR[3].MC[5].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[3].MC[5].MUL/m_reg[11]} .single_bit_original_name {MR[3].MC[5].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[3].MC[5].MUL/m_reg[11]/q} .original_name {MR[3].MC[5].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_30 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_30 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_30 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_30 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_30 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_30 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_30 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_30 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_30 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[3].MC[6].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[3].MC[6].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[3].MC[6].MUL/m_reg[0]} .gint_phase_inversion false
@@ -4412,6 +5226,15 @@ set_db -quiet {inst:axis_sa/MR[3].MC[6].MUL/m_reg[11]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/MR[3].MC[6].MUL/m_reg[11]} .original_name {{MR[3].MC[6].MUL/m[11]}}
 set_db -quiet {inst:axis_sa/MR[3].MC[6].MUL/m_reg[11]} .single_bit_original_name {MR[3].MC[6].MUL/m[11]}
 set_db -quiet {pin:axis_sa/MR[3].MC[6].MUL/m_reg[11]/q} .original_name {MR[3].MC[6].MUL/m[11]/q}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_31 .hdl_user_name mul
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_31 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_31 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/mul_WX4_WK8_L1_31 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_31 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W12_31 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W12_31 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W12_31 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/mult_signed_31 .logical_hier false
 set_db -quiet {hinst:axis_sa/MR[3].MC[7].MUL/mul_15_35} .rtlop_info {{} 0 0 0 3 0 48 1 2 1 1 2 0 1}
 set_db -quiet {inst:axis_sa/MR[3].MC[7].MUL/m_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/MR[3].MC[7].MUL/m_reg[0]} .gint_phase_inversion false
@@ -4564,7 +5387,17 @@ set_db -quiet {inst:axis_sa/AR[0].AC[0].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[0].AC[0].ACC/a_reg[15]} .original_name {{AR[0].AC[0].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[0].AC[0].ACC/a_reg[15]} .single_bit_original_name {AR[0].AC[0].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[0].AC[0].ACC/a_reg[15]/q} .original_name {AR[0].AC[0].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_1 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_1 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_1 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_1 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_1 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_1 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_1 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_1 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_1 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[0].AC[1].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_2 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[0].AC[1].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[0].AC[1].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[0].AC[1].ACC/a_reg[0]} .original_name {{AR[0].AC[1].ACC/a[0]}}
@@ -4645,7 +5478,17 @@ set_db -quiet {inst:axis_sa/AR[0].AC[1].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[0].AC[1].ACC/a_reg[15]} .original_name {{AR[0].AC[1].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[0].AC[1].ACC/a_reg[15]} .single_bit_original_name {AR[0].AC[1].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[0].AC[1].ACC/a_reg[15]/q} .original_name {AR[0].AC[1].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_2 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_2 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_2 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_2 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_2 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_2 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_2 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_2 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_2 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[0].AC[2].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_4 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[0].AC[2].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[0].AC[2].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[0].AC[2].ACC/a_reg[0]} .original_name {{AR[0].AC[2].ACC/a[0]}}
@@ -4726,7 +5569,17 @@ set_db -quiet {inst:axis_sa/AR[0].AC[2].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[0].AC[2].ACC/a_reg[15]} .original_name {{AR[0].AC[2].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[0].AC[2].ACC/a_reg[15]} .single_bit_original_name {AR[0].AC[2].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[0].AC[2].ACC/a_reg[15]/q} .original_name {AR[0].AC[2].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_3 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_3 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_3 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_3 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_3 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_3 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_3 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_3 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_3 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[0].AC[3].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_6 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[0].AC[3].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[0].AC[3].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[0].AC[3].ACC/a_reg[0]} .original_name {{AR[0].AC[3].ACC/a[0]}}
@@ -4807,7 +5660,17 @@ set_db -quiet {inst:axis_sa/AR[0].AC[3].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[0].AC[3].ACC/a_reg[15]} .original_name {{AR[0].AC[3].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[0].AC[3].ACC/a_reg[15]} .single_bit_original_name {AR[0].AC[3].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[0].AC[3].ACC/a_reg[15]/q} .original_name {AR[0].AC[3].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_4 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_4 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_4 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_4 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_4 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_4 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_4 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_4 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_4 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[0].AC[4].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_8 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[0].AC[4].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[0].AC[4].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[0].AC[4].ACC/a_reg[0]} .original_name {{AR[0].AC[4].ACC/a[0]}}
@@ -4888,7 +5751,17 @@ set_db -quiet {inst:axis_sa/AR[0].AC[4].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[0].AC[4].ACC/a_reg[15]} .original_name {{AR[0].AC[4].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[0].AC[4].ACC/a_reg[15]} .single_bit_original_name {AR[0].AC[4].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[0].AC[4].ACC/a_reg[15]/q} .original_name {AR[0].AC[4].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_5 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_5 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_5 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_5 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_5 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_5 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_5 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_5 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_5 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[0].AC[5].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_10 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[0].AC[5].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[0].AC[5].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[0].AC[5].ACC/a_reg[0]} .original_name {{AR[0].AC[5].ACC/a[0]}}
@@ -4969,7 +5842,17 @@ set_db -quiet {inst:axis_sa/AR[0].AC[5].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[0].AC[5].ACC/a_reg[15]} .original_name {{AR[0].AC[5].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[0].AC[5].ACC/a_reg[15]} .single_bit_original_name {AR[0].AC[5].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[0].AC[5].ACC/a_reg[15]/q} .original_name {AR[0].AC[5].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_6 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_6 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_6 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_6 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_6 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_6 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_6 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_6 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_6 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[0].AC[6].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_12 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[0].AC[6].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[0].AC[6].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[0].AC[6].ACC/a_reg[0]} .original_name {{AR[0].AC[6].ACC/a[0]}}
@@ -5050,7 +5933,17 @@ set_db -quiet {inst:axis_sa/AR[0].AC[6].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[0].AC[6].ACC/a_reg[15]} .original_name {{AR[0].AC[6].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[0].AC[6].ACC/a_reg[15]} .single_bit_original_name {AR[0].AC[6].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[0].AC[6].ACC/a_reg[15]/q} .original_name {AR[0].AC[6].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_7 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_7 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_7 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_7 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_7 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_7 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_7 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_7 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_7 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[0].AC[7].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_14 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[0].AC[7].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[0].AC[7].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[0].AC[7].ACC/a_reg[0]} .original_name {{AR[0].AC[7].ACC/a[0]}}
@@ -5131,7 +6024,17 @@ set_db -quiet {inst:axis_sa/AR[0].AC[7].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[0].AC[7].ACC/a_reg[15]} .original_name {{AR[0].AC[7].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[0].AC[7].ACC/a_reg[15]} .single_bit_original_name {AR[0].AC[7].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[0].AC[7].ACC/a_reg[15]/q} .original_name {AR[0].AC[7].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_8 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_8 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_8 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_8 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_8 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_8 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_8 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_8 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_8 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[1].AC[0].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_16 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[1].AC[0].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[1].AC[0].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[1].AC[0].ACC/a_reg[0]} .original_name {{AR[1].AC[0].ACC/a[0]}}
@@ -5212,7 +6115,17 @@ set_db -quiet {inst:axis_sa/AR[1].AC[0].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[1].AC[0].ACC/a_reg[15]} .original_name {{AR[1].AC[0].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[1].AC[0].ACC/a_reg[15]} .single_bit_original_name {AR[1].AC[0].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[1].AC[0].ACC/a_reg[15]/q} .original_name {AR[1].AC[0].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_9 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_9 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_9 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_9 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_9 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_9 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_9 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_9 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_9 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[1].AC[1].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_18 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[1].AC[1].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[1].AC[1].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[1].AC[1].ACC/a_reg[0]} .original_name {{AR[1].AC[1].ACC/a[0]}}
@@ -5293,7 +6206,17 @@ set_db -quiet {inst:axis_sa/AR[1].AC[1].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[1].AC[1].ACC/a_reg[15]} .original_name {{AR[1].AC[1].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[1].AC[1].ACC/a_reg[15]} .single_bit_original_name {AR[1].AC[1].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[1].AC[1].ACC/a_reg[15]/q} .original_name {AR[1].AC[1].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_10 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_10 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_10 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_10 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_10 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_10 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_10 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_10 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_10 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[1].AC[2].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_20 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[1].AC[2].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[1].AC[2].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[1].AC[2].ACC/a_reg[0]} .original_name {{AR[1].AC[2].ACC/a[0]}}
@@ -5374,7 +6297,17 @@ set_db -quiet {inst:axis_sa/AR[1].AC[2].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[1].AC[2].ACC/a_reg[15]} .original_name {{AR[1].AC[2].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[1].AC[2].ACC/a_reg[15]} .single_bit_original_name {AR[1].AC[2].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[1].AC[2].ACC/a_reg[15]/q} .original_name {AR[1].AC[2].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_11 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_11 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_11 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_11 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_11 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_11 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_11 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_11 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_11 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[1].AC[3].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_22 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[1].AC[3].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[1].AC[3].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[1].AC[3].ACC/a_reg[0]} .original_name {{AR[1].AC[3].ACC/a[0]}}
@@ -5455,7 +6388,17 @@ set_db -quiet {inst:axis_sa/AR[1].AC[3].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[1].AC[3].ACC/a_reg[15]} .original_name {{AR[1].AC[3].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[1].AC[3].ACC/a_reg[15]} .single_bit_original_name {AR[1].AC[3].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[1].AC[3].ACC/a_reg[15]/q} .original_name {AR[1].AC[3].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_12 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_12 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_12 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_12 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_12 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_12 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_12 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_12 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_12 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[1].AC[4].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_24 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[1].AC[4].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[1].AC[4].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[1].AC[4].ACC/a_reg[0]} .original_name {{AR[1].AC[4].ACC/a[0]}}
@@ -5536,7 +6479,17 @@ set_db -quiet {inst:axis_sa/AR[1].AC[4].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[1].AC[4].ACC/a_reg[15]} .original_name {{AR[1].AC[4].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[1].AC[4].ACC/a_reg[15]} .single_bit_original_name {AR[1].AC[4].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[1].AC[4].ACC/a_reg[15]/q} .original_name {AR[1].AC[4].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_13 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_13 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_13 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_13 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_13 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_13 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_13 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_13 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_13 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[1].AC[5].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_26 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[1].AC[5].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[1].AC[5].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[1].AC[5].ACC/a_reg[0]} .original_name {{AR[1].AC[5].ACC/a[0]}}
@@ -5617,7 +6570,17 @@ set_db -quiet {inst:axis_sa/AR[1].AC[5].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[1].AC[5].ACC/a_reg[15]} .original_name {{AR[1].AC[5].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[1].AC[5].ACC/a_reg[15]} .single_bit_original_name {AR[1].AC[5].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[1].AC[5].ACC/a_reg[15]/q} .original_name {AR[1].AC[5].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_14 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_14 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_14 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_14 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_14 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_14 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_14 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_14 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_14 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[1].AC[6].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_28 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[1].AC[6].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[1].AC[6].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[1].AC[6].ACC/a_reg[0]} .original_name {{AR[1].AC[6].ACC/a[0]}}
@@ -5698,7 +6661,17 @@ set_db -quiet {inst:axis_sa/AR[1].AC[6].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[1].AC[6].ACC/a_reg[15]} .original_name {{AR[1].AC[6].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[1].AC[6].ACC/a_reg[15]} .single_bit_original_name {AR[1].AC[6].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[1].AC[6].ACC/a_reg[15]/q} .original_name {AR[1].AC[6].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_15 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_15 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_15 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_15 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_15 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_15 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_15 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_15 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_15 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[1].AC[7].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_30 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[1].AC[7].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[1].AC[7].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[1].AC[7].ACC/a_reg[0]} .original_name {{AR[1].AC[7].ACC/a[0]}}
@@ -5779,7 +6752,17 @@ set_db -quiet {inst:axis_sa/AR[1].AC[7].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[1].AC[7].ACC/a_reg[15]} .original_name {{AR[1].AC[7].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[1].AC[7].ACC/a_reg[15]} .single_bit_original_name {AR[1].AC[7].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[1].AC[7].ACC/a_reg[15]/q} .original_name {AR[1].AC[7].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_16 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_16 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_16 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_16 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_16 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_16 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_16 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_16 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_16 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[2].AC[0].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_32 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[2].AC[0].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[2].AC[0].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[2].AC[0].ACC/a_reg[0]} .original_name {{AR[2].AC[0].ACC/a[0]}}
@@ -5860,7 +6843,17 @@ set_db -quiet {inst:axis_sa/AR[2].AC[0].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[2].AC[0].ACC/a_reg[15]} .original_name {{AR[2].AC[0].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[2].AC[0].ACC/a_reg[15]} .single_bit_original_name {AR[2].AC[0].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[2].AC[0].ACC/a_reg[15]/q} .original_name {AR[2].AC[0].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_17 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_17 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_17 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_17 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_17 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_17 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_17 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_17 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_17 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[2].AC[1].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_34 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[2].AC[1].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[2].AC[1].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[2].AC[1].ACC/a_reg[0]} .original_name {{AR[2].AC[1].ACC/a[0]}}
@@ -5941,7 +6934,17 @@ set_db -quiet {inst:axis_sa/AR[2].AC[1].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[2].AC[1].ACC/a_reg[15]} .original_name {{AR[2].AC[1].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[2].AC[1].ACC/a_reg[15]} .single_bit_original_name {AR[2].AC[1].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[2].AC[1].ACC/a_reg[15]/q} .original_name {AR[2].AC[1].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_18 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_18 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_18 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_18 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_18 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_18 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_18 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_18 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_18 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[2].AC[2].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_36 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[2].AC[2].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[2].AC[2].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[2].AC[2].ACC/a_reg[0]} .original_name {{AR[2].AC[2].ACC/a[0]}}
@@ -6022,7 +7025,17 @@ set_db -quiet {inst:axis_sa/AR[2].AC[2].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[2].AC[2].ACC/a_reg[15]} .original_name {{AR[2].AC[2].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[2].AC[2].ACC/a_reg[15]} .single_bit_original_name {AR[2].AC[2].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[2].AC[2].ACC/a_reg[15]/q} .original_name {AR[2].AC[2].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_19 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_19 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_19 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_19 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_19 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_19 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_19 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_19 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_19 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[2].AC[3].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_38 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[2].AC[3].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[2].AC[3].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[2].AC[3].ACC/a_reg[0]} .original_name {{AR[2].AC[3].ACC/a[0]}}
@@ -6103,7 +7116,17 @@ set_db -quiet {inst:axis_sa/AR[2].AC[3].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[2].AC[3].ACC/a_reg[15]} .original_name {{AR[2].AC[3].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[2].AC[3].ACC/a_reg[15]} .single_bit_original_name {AR[2].AC[3].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[2].AC[3].ACC/a_reg[15]/q} .original_name {AR[2].AC[3].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_20 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_20 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_20 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_20 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_20 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_20 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_20 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_20 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_20 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[2].AC[4].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_40 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[2].AC[4].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[2].AC[4].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[2].AC[4].ACC/a_reg[0]} .original_name {{AR[2].AC[4].ACC/a[0]}}
@@ -6184,7 +7207,17 @@ set_db -quiet {inst:axis_sa/AR[2].AC[4].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[2].AC[4].ACC/a_reg[15]} .original_name {{AR[2].AC[4].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[2].AC[4].ACC/a_reg[15]} .single_bit_original_name {AR[2].AC[4].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[2].AC[4].ACC/a_reg[15]/q} .original_name {AR[2].AC[4].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_21 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_21 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_21 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_21 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_21 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_21 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_21 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_21 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_21 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[2].AC[5].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_42 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[2].AC[5].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[2].AC[5].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[2].AC[5].ACC/a_reg[0]} .original_name {{AR[2].AC[5].ACC/a[0]}}
@@ -6265,7 +7298,17 @@ set_db -quiet {inst:axis_sa/AR[2].AC[5].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[2].AC[5].ACC/a_reg[15]} .original_name {{AR[2].AC[5].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[2].AC[5].ACC/a_reg[15]} .single_bit_original_name {AR[2].AC[5].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[2].AC[5].ACC/a_reg[15]/q} .original_name {AR[2].AC[5].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_22 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_22 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_22 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_22 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_22 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_22 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_22 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_22 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_22 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[2].AC[6].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_44 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[2].AC[6].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[2].AC[6].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[2].AC[6].ACC/a_reg[0]} .original_name {{AR[2].AC[6].ACC/a[0]}}
@@ -6346,7 +7389,17 @@ set_db -quiet {inst:axis_sa/AR[2].AC[6].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[2].AC[6].ACC/a_reg[15]} .original_name {{AR[2].AC[6].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[2].AC[6].ACC/a_reg[15]} .single_bit_original_name {AR[2].AC[6].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[2].AC[6].ACC/a_reg[15]/q} .original_name {AR[2].AC[6].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_23 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_23 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_23 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_23 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_23 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_23 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_23 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_23 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_23 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[2].AC[7].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_46 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[2].AC[7].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[2].AC[7].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[2].AC[7].ACC/a_reg[0]} .original_name {{AR[2].AC[7].ACC/a[0]}}
@@ -6427,7 +7480,17 @@ set_db -quiet {inst:axis_sa/AR[2].AC[7].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[2].AC[7].ACC/a_reg[15]} .original_name {{AR[2].AC[7].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[2].AC[7].ACC/a_reg[15]} .single_bit_original_name {AR[2].AC[7].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[2].AC[7].ACC/a_reg[15]/q} .original_name {AR[2].AC[7].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_24 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_24 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_24 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_24 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_24 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_24 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_24 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_24 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_24 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[3].AC[0].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_48 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[3].AC[0].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[3].AC[0].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[3].AC[0].ACC/a_reg[0]} .original_name {{AR[3].AC[0].ACC/a[0]}}
@@ -6508,7 +7571,17 @@ set_db -quiet {inst:axis_sa/AR[3].AC[0].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[3].AC[0].ACC/a_reg[15]} .original_name {{AR[3].AC[0].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[3].AC[0].ACC/a_reg[15]} .single_bit_original_name {AR[3].AC[0].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[3].AC[0].ACC/a_reg[15]/q} .original_name {AR[3].AC[0].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_25 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_25 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_25 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_25 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_25 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_25 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_25 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_25 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_25 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[3].AC[1].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_50 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[3].AC[1].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[3].AC[1].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[3].AC[1].ACC/a_reg[0]} .original_name {{AR[3].AC[1].ACC/a[0]}}
@@ -6589,7 +7662,17 @@ set_db -quiet {inst:axis_sa/AR[3].AC[1].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[3].AC[1].ACC/a_reg[15]} .original_name {{AR[3].AC[1].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[3].AC[1].ACC/a_reg[15]} .single_bit_original_name {AR[3].AC[1].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[3].AC[1].ACC/a_reg[15]/q} .original_name {AR[3].AC[1].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_26 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_26 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_26 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_26 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_26 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_26 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_26 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_26 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_26 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[3].AC[2].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_52 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[3].AC[2].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[3].AC[2].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[3].AC[2].ACC/a_reg[0]} .original_name {{AR[3].AC[2].ACC/a[0]}}
@@ -6670,7 +7753,17 @@ set_db -quiet {inst:axis_sa/AR[3].AC[2].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[3].AC[2].ACC/a_reg[15]} .original_name {{AR[3].AC[2].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[3].AC[2].ACC/a_reg[15]} .single_bit_original_name {AR[3].AC[2].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[3].AC[2].ACC/a_reg[15]/q} .original_name {AR[3].AC[2].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_27 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_27 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_27 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_27 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_27 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_27 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_27 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_27 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_27 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[3].AC[3].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_54 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[3].AC[3].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[3].AC[3].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[3].AC[3].ACC/a_reg[0]} .original_name {{AR[3].AC[3].ACC/a[0]}}
@@ -6751,7 +7844,17 @@ set_db -quiet {inst:axis_sa/AR[3].AC[3].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[3].AC[3].ACC/a_reg[15]} .original_name {{AR[3].AC[3].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[3].AC[3].ACC/a_reg[15]} .single_bit_original_name {AR[3].AC[3].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[3].AC[3].ACC/a_reg[15]/q} .original_name {AR[3].AC[3].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_28 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_28 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_28 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_28 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_28 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_28 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_28 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_28 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_28 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[3].AC[4].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_56 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[3].AC[4].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[3].AC[4].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[3].AC[4].ACC/a_reg[0]} .original_name {{AR[3].AC[4].ACC/a[0]}}
@@ -6832,7 +7935,17 @@ set_db -quiet {inst:axis_sa/AR[3].AC[4].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[3].AC[4].ACC/a_reg[15]} .original_name {{AR[3].AC[4].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[3].AC[4].ACC/a_reg[15]} .single_bit_original_name {AR[3].AC[4].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[3].AC[4].ACC/a_reg[15]/q} .original_name {AR[3].AC[4].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_29 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_29 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_29 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_29 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_29 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_29 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_29 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_29 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_29 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[3].AC[5].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_58 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[3].AC[5].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[3].AC[5].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[3].AC[5].ACC/a_reg[0]} .original_name {{AR[3].AC[5].ACC/a[0]}}
@@ -6913,7 +8026,17 @@ set_db -quiet {inst:axis_sa/AR[3].AC[5].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[3].AC[5].ACC/a_reg[15]} .original_name {{AR[3].AC[5].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[3].AC[5].ACC/a_reg[15]} .single_bit_original_name {AR[3].AC[5].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[3].AC[5].ACC/a_reg[15]/q} .original_name {AR[3].AC[5].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_30 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_30 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_30 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_30 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_30 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_30 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_30 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_30 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_30 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[3].AC[6].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_60 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[3].AC[6].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[3].AC[6].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[3].AC[6].ACC/a_reg[0]} .original_name {{AR[3].AC[6].ACC/a[0]}}
@@ -6994,7 +8117,17 @@ set_db -quiet {inst:axis_sa/AR[3].AC[6].ACC/a_reg[15]} .gint_phase_inversion fal
 set_db -quiet {inst:axis_sa/AR[3].AC[6].ACC/a_reg[15]} .original_name {{AR[3].AC[6].ACC/a[15]}}
 set_db -quiet {inst:axis_sa/AR[3].AC[6].ACC/a_reg[15]} .single_bit_original_name {AR[3].AC[6].ACC/a[15]}
 set_db -quiet {pin:axis_sa/AR[3].AC[6].ACC/a_reg[15]/q} .original_name {AR[3].AC[6].ACC/a[15]/q}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_31 .hdl_user_name acc
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_31 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv /work/axis-systolic-array/rtl/sa/mac.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_31 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/acc_WX12_WY16_L1_31 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/mac.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_31 .hdl_user_name n_delay
+set_db -quiet module:axis_sa/n_delay_N0_W16_31 .hdl_filelist {{default -sv {SYNTHESIS} {/work/axis-systolic-array/rtl/sa/n_delay.sv} {/work/axis-systolic-array/run/work/../../rtl/sa} {}}}
+set_db -quiet module:axis_sa/n_delay_N0_W16_31 .arch_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/n_delay_N0_W16_31 .entity_filename /work/axis-systolic-array/run/work/../../rtl/sa/../../rtl/sa/n_delay.sv
+set_db -quiet module:axis_sa/add_signed_31 .logical_hier false
 set_db -quiet {hinst:axis_sa/AR[3].AC[7].ACC/add_31_50} .rtlop_info {{} 0 0 0 3 0 1 1 2 1 1 2 0 1}
+set_db -quiet module:axis_sa/bmux_74_62 .logical_hier false
 set_db -quiet {inst:axis_sa/AR[3].AC[7].ACC/a_reg[0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/AR[3].AC[7].ACC/a_reg[0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/AR[3].AC[7].ACC/a_reg[0]} .original_name {{AR[3].AC[7].ACC/a[0]}}
@@ -7077,7 +8210,38 @@ set_db -quiet {inst:axis_sa/AR[3].AC[7].ACC/a_reg[15]} .single_bit_original_name
 set_db -quiet {pin:axis_sa/AR[3].AC[7].ACC/a_reg[15]/q} .original_name {AR[3].AC[7].ACC/a[15]/q}
 set_db -quiet module:axis_sa/equal_unsigned .logical_hier false
 set_db -quiet hinst:axis_sa/eq0016725 .rtlop_info {{} 0 0 0 3 0 63 0 2 1 1 0}
+set_db -quiet module:axis_sa/bmux_74_64 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_67 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_69 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_71 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_73 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_75 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_77 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_80 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_82 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_84 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_86 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_88 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_90 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_92 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_95 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_97 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_99 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_101 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_103 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_105 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_107 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_110 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_112 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_114 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_116 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_118 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_120 .logical_hier false
+set_db -quiet module:axis_sa/bmux_74_122 .logical_hier false
 set_db -quiet module:axis_sa/bmux_34 .logical_hier false
+set_db -quiet module:axis_sa/bmux_34_108 .logical_hier false
+set_db -quiet module:axis_sa/bmux_34_110 .logical_hier false
+set_db -quiet module:axis_sa/bmux_34_112 .logical_hier false
 set_db -quiet {inst:axis_sa/xi_reg[0][1][0]} .orig_hdl_instantiated false
 set_db -quiet {inst:axis_sa/xi_reg[0][1][0]} .gint_phase_inversion false
 set_db -quiet {inst:axis_sa/xi_reg[0][1][0]} .original_name {{xi[0][1][0]}}
@@ -11387,7 +12551,7 @@ set_db -quiet source_verbose true
 ##
 ## Written by Genus(TM) Synthesis Solution version 23.13-s073_1
 ## Generated using: Flowkit 23.14-s002_1
-## Written on 13:27:00 11-Jun 2025
+## Written on 10:38:27 13-Jun 2025
 #############################################################
 #####   Flow Definitions   ##################################
 

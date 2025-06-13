@@ -114,17 +114,17 @@ proc uom_default_cost_groups {} {
         lappend design(cost_groups) "reg2reg"
         # in2reg
         define_cost_group -name in2reg -design $design(TOPLEVEL)
-        path_group -from [all_registers] -to [all_registers] -group in2reg -name in2reg \
+        path_group -from [all_inputs] -to [all_registers] -group in2reg -name in2reg \
             -view $design(selected_setup_analysis_views)
         lappend design(cost_groups) "in2reg"
         # reg2out
         define_cost_group -name reg2out -design $design(TOPLEVEL)
-        path_group -from [all_registers] -to [all_registers] -group reg2out -name reg2out \
+        path_group -from [all_registers] -to [all_outputs] -group reg2out -name reg2out \
             -view $design(selected_setup_analysis_views)
         lappend design(cost_groups) "reg2out"
         # in2out
         define_cost_group -name in2out -design $design(TOPLEVEL)
-        path_group -from [all_registers] -to [all_registers] -group in2out -name in2out \
+        path_group -from [all_inputs] -to [all_outputs] -group in2out -name in2out \
             -view $design(selected_setup_analysis_views)
         lappend design(cost_groups) "in2out"
     } elseif {$runtype == "pnr"} {
@@ -184,7 +184,7 @@ proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
     #set timing_report_enable_auto_column_width true
     #set_table_style -nosplit -no_frame_fix_width report_timing
     foreach cg $design(cost_groups) {
-        report_timing -group [get_db cost_groups -match $cg] \
+        report_timing -max_paths 100 -group [get_db cost_groups -match $cg] \
             > "${reports_path}/$this_run(stage)/${cg}.timing.rpt"
     }
 }
@@ -247,7 +247,7 @@ proc uom_create_sdc_file {} {
             puts $df "set_clock_uncertainty \$design(CLOCK_UNCERTAINTY) $cname"
         }
     } else {
-        puts $df "create_clock -period \$design(clock_period_list) -name \$design(clock_list) [get_ports \$design(clock_port_list)]"
+        puts $df "create_clock -period \$design(clock_period_list) -name \$design(clock_list) \[get_ports \$design(clock_port_list)]"
         puts $df "set_clock_uncertainty \$design(CLOCK_UNCERTAINTY) \$design(clock_list)"
     }
     
@@ -262,9 +262,9 @@ proc uom_create_sdc_file {} {
     puts $df "#################################"
     puts $df "#       IO Constraints          #"
     puts $df "#################################"
-    puts $df "set_input_delay -clock $design(CLK_NAME) $design(INPUT_DELAY) \\"
-    puts $df "        \[remove_from_collection \[all_inputs] $design(CLK_PORT)]"
-    puts $df "set_output_delay -clock $design(CLK_NAME) $design(OUTPUT_DELAY) \[all_outputs]"
+    puts $df "set_input_delay -clock \$design(CLK_NAME) \$design(INPUT_DELAY) \\"
+    puts $df "        \[remove_from_collection \[all_inputs] \$design(CLK_PORT)]"
+    puts $df "set_output_delay -clock \$design(CLK_NAME) \$design(OUTPUT_DELAY) \[all_outputs]"
     #puts $df "set_max_delay [expr $design(CLK_PERIOD)/2 + $design(INPUT_DELAY) + $design(OUTPUT_DELAY)] \\"
     #puts $df "        -from \[all_inputs] \\"
     #puts $df "        -to   \[all_outputs]"
@@ -274,7 +274,7 @@ proc uom_create_sdc_file {} {
     if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
         puts $df "set tech(SDC_LOAD_VALUE) $tech(EXTERNAL_SDC_LOAD)"
     } else {
-        puts $df "set tech(SDC_LOAD_VALUE) \[lindex \[get_db \[get_lib_pins $tech(SDC_LOAD_PIN)] .capacitance] 0]"
+        puts $df "set tech(SDC_LOAD_VALUE) \[lindex \[get_db \[get_lib_pins \$tech(SDC_LOAD_PIN)] .capacitance] 0]"
     }
     puts $df "\n"
 

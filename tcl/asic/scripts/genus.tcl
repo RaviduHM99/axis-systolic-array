@@ -6,11 +6,6 @@ set design(TOPLEVEL) "axis_sa"
 
 # Variables
 set runtype "synthesis"
-set mmmc_or_simple "mmmc";   # "simple" - using "read_lib"
-                             # "mmmc"   - using "read_mmmc"
-set phys_synth_type "lef" ;  # "none"   - don't read any tech files
-                             # "lef"    - only read lef - RTL Floorplaning Flow
-                             # "floorplan" - read in DEF - iSpatial Flow
 
 #################################################################
 #                     Load Basic Settings                       #
@@ -95,6 +90,7 @@ read_hdl -language sv -f $design(read_hdl_list)
 # ---------
 uom_start_stage "elaborate"
 elaborate $design(TOPLEVEL)
+uniquify $design(TOPLEVEL)
 
 # Check Design
 # ------------
@@ -123,8 +119,6 @@ write_design -base_name $design(dbs_dir)/1_post_elaboration/$design(TOPLEVEL)
 #################################################################
 #                    For iSpatial Flow	                        #
 #################################################################
-# Optionally read floorplan
-# -------------------------
 if {$phys_synth_type == "floorplan"} {
     # You need to read a .def file for the floorplan to enable physical synthesis
     uom_message "Loading the floorplan DEF"
@@ -149,11 +143,6 @@ set_db design:${design(TOPLEVEL)} .retime true
 # set_db [get_db design:design(TOPLEVEL)] .lp_clock_gating_min_flops 8
 # set_db [get_db design:design(TOPLEVEL)] .lp_clock_gating_style latch
 
-# Don't use Scan Cells
-# --------------------
-uom_message "Settings Don't Use on scan flip flops"
-foreach cell [get_db lib_cells -if {.scan_enable_pins!=""}] {set_db $cell .avoid true}
-
 # Physical Flow Attributes
 # ------------------------
 set_db design_process_node      $TECH_NODE
@@ -162,46 +151,45 @@ set_db number_of_routing_layers $METAL_LAYERS
 
 if {$phys_synth_type == "floorplan"} {
     # Set Synthesis Efforts
-    set_db syn_generic_effort express           ; # low|medium|high|express
+    set_db syn_generic_effort high           	; # low|medium|high
     set_db syn_map_effort high                  ; # low|medium|high
     set_db syn_opt_effort extreme               ; # low|medium|high|extreme
+
     set_db opt_spatial_effort extreme           ; # legacy|standard|extreme
+    set_db opt_leakage_to_dynamic_ratio 1.0
     set_db design_power_effort high             ; # none|low|high
 
     # Synthesize to generics and place generics in floorplan
     uom_start_stage "syn_generic_ispatial_flow"
     syn_generic -physical
+
     # Map technology
     uom_start_stage "3_technology_mapping_ispatial_flow"
     syn_map -physical
     uom_report_timing $design(synthesis_reports)
+
     # Post synthesis optimization
     uom_start_stage "4_post_syn_opt_ispatial_flow"
     syn_opt -spatial
+
 } else {
     # Set Synthesis Efforts
-    set_db syn_generic_effort high           ; # low|medium|high|express
-    set_db syn_map_effort medium               ; # low|medium|high
-    set_db syn_opt_effort medium               ; # low|medium|high|extreme
-    set_db opt_spatial_effort standard      ; # legacy|standard|extreme
-    set_db design_power_effort high         ; # none|low|high
-
-    # Predict Floorplan Attributes
-    set_db predict_floorplan_enable_during_generic true
-    set_db physical_force_predict_floorplan true
+    set_db syn_generic_effort high           	; # low|medium|high
+    set_db syn_map_effort high                  ; # low|medium|high
+    set_db syn_opt_effort extreme               ; # low|medium|high|extreme
 
     # Synthesize to generics and place generics in floorplan
     uom_start_stage "syn_generic_rtl_flow"
-    syn_generic -create_floorplan -physical
+    syn_generic 
+
     # Map technology
     uom_start_stage "3_technology_mapping_rtl_flow"
-    syn_map -physical
+    syn_map 
     uom_report_timing $design(synthesis_reports)
-    # Disable Predict Floorplan Again
-    set_db physical_force_predict_floorplan false
+
     # Post synthesis optimization
     uom_start_stage "4_post_syn_opt_rtl_flow"
-    syn_opt -spatial
+    syn_opt
 }
 
 #################################################################
@@ -236,7 +224,7 @@ if {$phys_synth_type == "floorplan"} {
     # Write out a netlist for simulation or Innovus
     # ---------------------------------------------
     uom_message "Writing the post synthesis netlist to $design(postsyn_netlist_ispatial)"
-    write_netlist > $design(postsyn_netlist_ispatial)
+    write_netlist $design(TOPLEVEL) -depth 0 > $design(postsyn_netlist_ispatial)
 
     # Write out SDF for backannotation simulation
     # -------------------------------------------
@@ -253,7 +241,7 @@ if {$phys_synth_type == "floorplan"} {
     # Write out a netlist for simulation or Innovus
     # ---------------------------------------------
     uom_message "Writing the post synthesis netlist to $design(postsyn_netlist_rtl_flow)"
-    write_netlist > $design(postsyn_netlist_rtl_flow)
+    write_netlist $design(TOPLEVEL) -depth 0 > $design(postsyn_netlist_rtl_flow)
 
     # Write out SDF for backannotation simulation
     # -------------------------------------------

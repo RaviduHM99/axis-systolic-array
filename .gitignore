@@ -1,5 +1,6 @@
 run/build
 run/work*
+tcl/asic/dbs*
 vivado
 .vscode
 docs

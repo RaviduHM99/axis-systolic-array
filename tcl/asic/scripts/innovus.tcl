@@ -3,24 +3,24 @@
 ##########################################################
 gui_set_ui main -geometry "1480x870+0+0"
 
-set design(TOPLEVEL) "lp_riscv_top"
+set design(TOPLEVEL) "axis_sa"
 set runtype "pnr"
 set debug_file "debug.txt"
 
 # Load general procedures
-source ../scripts/procedures.tcl -quiet
+source ../../tcl/asic/scripts/procedures.tcl -quiet
 
 ####################################################
 # Starting Stage - Load defines and technology
 ####################################################
-enics_start_stage "start"
+uom_start_stage "start"
 
 # Load the specific definitions for this project
-source ../inputs/$design(TOPLEVEL).defines -quiet
+source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet
 
 # Load the library paths and definitions for this technology files
-source $design(libraries_dir)/libraries.$TECHNOLOGY.tcl 
-source $design(libraries_dir)/libraries.$SCTECHNOLOGY.tcl 
+source ../../tcl/asic/libraries/cadence.libraries.$TECHNOLOGY.tcl -quiet
+source ../../tcl/asic/libraries/cadence.libraries.$SC_TECHNOLOGY.tcl -quiet
 
 if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     source $design(libraries_dir)/libraries.$IO_TECHNOLOGY.tcl -quiet
@@ -31,43 +31,53 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 ####################################################
 set var_list {runtype}
 set dic_list {paths_tech tech_files design}
-enics_print_debug_data w $debug_file "after everything was loaded" $var_list $dic_list
+uom_print_debug_data w $debug_file "after everything was loaded" $var_list $dic_list
+
+####################################################
+#               SDC File Generation                
+####################################################
+uom_create_sdc_file
 
 ####################################################
 # Init Design
 ####################################################
 enable_metrics -on
-enics_start_stage "init_design"
+uom_start_stage "init_design"
 
 # Global Nets
 set_db init_ground_nets $design(all_ground_nets)
 set_db init_power_nets  $design(all_power_nets)
 
 # MMMC
-enics_message "Suppressing the following messages that are reported due to the LIB definitions"
-enics_message "$tech(LIB_SUPPRESS_MESSAGES_INNOVUS)"
+uom_message "Suppressing the following messages that are reported due to the LIB definitions"
+uom_message "$tech(LIB_SUPPRESS_MESSAGES_INNOVUS)"
 set_message -suppress -id $tech(LIB_SUPPRESS_MESSAGES_INNOVUS)
-enics_message "Reading MMMC File"
+uom_message "Reading MMMC File"
 read_mmmc $design(mmmc_view_file)
 
 # LEFs
-enics_message "Suppressing the following messages that are reported due to the LEF definitions"
-enics_message "$tech(LEF_SUPPRESS_MESSAGES_INNOVUS)"
+uom_message "Suppressing the following messages that are reported due to the LEF definitions"
+uom_message "$tech(LEF_SUPPRESS_MESSAGES_INNOVUS)"
 set_message -suppress -id $tech(LEF_SUPPRESS_MESSAGES_INNOVUS)
-enics_message "Reading LEF abstracts"
+uom_message "Reading LEF abstracts"
 read_physical -lef $tech_files(ALL_LEFS)
 
 # Post Synthesis Netlist
-read_netlist $design(postsyn_netlist)
+if {$phys_synth_type == "floorplan"} {
+	read_netlist $design(postsyn_netlist_ispatial)
+} else {
+	read_netlist $design(postsyn_netlist_rtl_flow)
+}
+
 
 # Import and initialize design
 init_design
 
 # Load general settings
-source ../scripts/settings.tcl -quiet
+source ../../tcl/asic/scripts/settings.tcl -quiet
 
 # Create cost groups
-enics_default_cost_groups
+uom_default_cost_groups
 
 # Connect Global Nets
 # Connect standard cells to VDD and GND

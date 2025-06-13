@@ -2,7 +2,7 @@
 #
 # Genus(TM) Synthesis Solution setup file
 # Created by Genus(TM) Synthesis Solution 23.13-s073_1
-#   on 06/11/2025 13:27:01
+#   on 06/13/2025 10:38:27
 #
 # This file can only be run in Genus Common UI mode.
 #
@@ -54,13 +54,13 @@ set _slk_ [::legacy::get_attribute slack design:axis_sa]
 if {[regexp {^-?[0-9.]+$} $_slk_]} {
   set _slk_ [format %.1f $_slk_]
 }
-if {$_slk_ != "inf"} {
-   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden slack: inf,  current slack: $_slk_"
+if {$_slk_ != "1078.2"} {
+   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden slack: 1078.2,  current slack: $_slk_"
 }
 unset _slk_
 # multi-mode slack
-if {"[string_representation [::legacy::get_attribute slack_by_mode design:axis_sa]]" != "{{mode:axis_sa/wc_analysis_view inf}}"} {
-   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden slack_by_mode: {{mode:axis_sa/wc_analysis_view inf}}  current slack_by_mode: [string_representation [::legacy::get_attribute slack_by_mode design:axis_sa]]"
+if {"[string_representation [::legacy::get_attribute slack_by_mode design:axis_sa]]" != "{{mode:axis_sa/wc_analysis_view 1078.2}}"} {
+   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden slack_by_mode: {{mode:axis_sa/wc_analysis_view 1078.2}}  current slack_by_mode: [string_representation [::legacy::get_attribute slack_by_mode design:axis_sa]]"
 }
 # tns
 set _tns_ [::legacy::get_attribute tns design:axis_sa]

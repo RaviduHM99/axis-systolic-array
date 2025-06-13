@@ -25,14 +25,15 @@ if {$runtype == "pnr"} {
     ###########################
     # TIMING, EXTRACTION, ETC #
     ###########################
-    
+    set_multi_cpu_usage 50
+
     ## Timing Analysis Settings
     ###############################
-    set_db timing_analysis_aocv             true
-    set_db timing_enable_aocv_slack_based   true
-    set_db timing_aocv_analysis_mode        launch_capture; #{launch_capture | clock_only | separate_data}
-    set_db timing_extract_model_aocv_mode   graph_based
-    set_db timing_aocv_derate_mode          aocv_additive;  #{aocv_multiplicative | aocv_additive}
+    #set_db timing_analysis_aocv             true
+    #set_db timing_enable_aocv_slack_based   true
+    #set_db timing_aocv_analysis_mode        launch_capture; #{launch_capture | clock_only | separate_data}
+    #set_db timing_extract_model_aocv_mode   graph_based
+    #set_db timing_aocv_derate_mode          aocv_additive;  #{aocv_multiplicative | aocv_additive}
 
     ## Floorplan Settings
     ###############################
