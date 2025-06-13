@@ -69,7 +69,6 @@ if {$phys_synth_type == "floorplan"} {
 	read_netlist $design(postsyn_netlist_rtl_flow)
 }
 
-
 # Import and initialize design
 init_design
 

@@ -112,9 +112,9 @@ set design(selected_power_analysis_views) "wc_analysis_view"
 ################################################
 #               Global Nets
 ################################################
-set design(digital_gnd) "gnd"
+set design(digital_gnd) "GND"
 set design(all_ground_nets) $design(digital_gnd)
-set design(digital_vdd) "vdd"
+set design(digital_vdd) "VDD"
 set design(all_power_nets) $design(digital_vdd)
 
 if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
