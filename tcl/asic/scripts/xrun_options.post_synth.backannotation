@@ -10,5 +10,5 @@
 -define SDF_CORNER=\"MAXIMUM"
 -f ../sourcecode/axis_sa_src_list_glv.txt
 +sdf_verbose
--sdfstats ../reports/sdf_statistics.rpt
+-sdfstats ../reports/5_synth_gls/sdf_statistics.rpt
 -input ../scripts/backannotation.tcl

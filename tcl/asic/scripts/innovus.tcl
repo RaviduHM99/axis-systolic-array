@@ -5,14 +5,14 @@ gui_set_ui main -geometry "1480x870+0+0"
 
 set design(TOPLEVEL) "axis_sa"
 set runtype "pnr"
-set debug_file "debug.txt"
-
-# Load general procedures
-source ../../tcl/asic/scripts/procedures.tcl -quiet
+set debug_file "debug.innovus.txt"
 
 ####################################################
 # Starting Stage - Load defines and technology
 ####################################################
+# Load general procedures
+source ../../tcl/asic/scripts/procedures.tcl -quiet
+
 uom_start_stage "start"
 
 # Load the specific definitions for this project
@@ -42,7 +42,7 @@ uom_create_sdc_file
 # Init Design
 ####################################################
 enable_metrics -on
-uom_start_stage "init_design"
+uom_start_stage "3_init_innovus_design"
 
 # Global Nets
 set_db init_ground_nets $design(all_ground_nets)
@@ -78,13 +78,14 @@ source ../../tcl/asic/scripts/settings.tcl -quiet
 # Create cost groups
 uom_default_cost_groups
 
-# Connect Global Nets
+# Connect Global Net
+# ------------------
 # Connect standard cells to VDD and GND
 connect_global_net $design(digital_gnd) -pin $tech(STANDARD_CELL_GND) -all -verbose
 connect_global_net $design(digital_vdd) -pin $tech(STANDARD_CELL_VDD) -all -verbose
 # Connect tie cells
-connect_global_net $design(digital_vdd) -type tiehi -all -verbose
-connect_global_net $design(digital_gnd) -type tielo -all -verbose
+connect_global_net $design(digital_vdd) -type $tech(TIE_HIGH_CELL) -all -verbose
+connect_global_net $design(digital_gnd) -type $tech(TIE_HIGH_CELL) -all -verbose
 
 if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     # Connect pads to IO and CORE voltages
@@ -95,39 +96,23 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     connect_global_net $design(digital_gnd) -pin $tech(IO_GNDCORE)  -hinst i_${design(IO_MODULE)} -netlist_override
 }
 
-# Power Intent
-# read_power_intent -1801 $design(UPF_file)
-# read_power_intent $design(CPF_file)
-# commit_power_intent -verbose
-
-# Don't Use and Size Only files
-#      If Don't Use file exists
-# source $design(dont_use_files)
-#      If Size Only file exists
-# Source $design(size_only_file)
-
-enics_create_stage_reports -save_db no -report_timing no -pop_snapshot yes
+uom_create_stage_reports -save_db yes -report_timing no -check_drc no \
+                           -check_connectivity no -help 0 --------------------------
 
 ####################################################
 # Floorplan
 ####################################################
-enics_start_stage "floorplan"
-source ../inputs/$design(TOPLEVEL).floorplan.defines -quiet
+uom_start_stage "floorplan"
+source ../../tcl/asic/inputs/$design(TOPLEVEL).floorplan.defines -quiet
 
-# If Floorplan DEF is available
-# read_def $design(floorplan_def)
-
-# If SCAN DEF is available
-# read_def $design(scan_def)
+if {$phys_synth_type == "floorplan"} {
+    # You need to read a .def file for the floorplan to enable physical synthesis
+    uom_message "Loading the floorplan DEF"
+    read_def $design(floorplan_def)
+}
 
 # Specify Floorplan
-# create_floorplan \
-#       -core_size <YOUR FLOORPLAN SIZE> \
-#       -core_margins_by die \
-#       -flip s \
-#       -match_to_site
-
-create_floorplan -site $tech(STANDARD_CELL_SITE) -match_to_site \
+create_floorplan -site $tech(STANDARD_CELL_SITE) -match_to_site \ ---------------------
     -core_density_size $design(floorplan_ratio) $design(floorplan_utilization) {*}$design(floorplan_space_to_)
 gui_fit
 
@@ -138,82 +123,86 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     # Add IO Fillers
     add_io_fillers -cells $tech(IO_FILLERS) -prefix IOFILLER
     # Connect Pad Rings
-    #route_special -connect {pad_ring} \
-    #               -nets "$design(digital_gnd) $design(digital_vdd) $design(io_gnd) $design(io_vdd)"
+    route_special -connect {pad_ring} -nets "$design(digital_gnd) $design(digital_vdd) \
+                            $design(io_gnd) $design(io_vdd)"
 } elseif {$design(FULLCHIP_OR_MACRO) == "MACRO"} {
     # Spread pins
     set pins_to_spread [get_db ports .name]
     edit_pin -spread_type start -start {0 0} -spread_direction clockwise \
              -layer_horizontal M4 -layer_vertical M3 \
-             -pin $pins_to_spread -fix_overlap 1 -spacing 6
+             -pin $pins_to_spread -fix_overlap 1 -spacing 6-------------------------------
+    edit_pin -spread_type start -start {0 0} -spread_direction clockwise \
+             -layer_horizontal M4 -layer_vertical M3 \
+             -pin $pins_to_spread -fix_overlap 1 -spacing 6-------------------------------
+    edit_pin -spread_type start -start {0 0} -spread_direction clockwise \
+             -layer_horizontal M4 -layer_vertical M3 \
+             -pin $pins_to_spread -fix_overlap 1 -spacing 6-------------------------------
 }
 gui_redraw
-
 
 ####################################################
 # Connect Power
 ####################################################
 # Create Core Ring
-#       get_db -category add_rings *
+#       get_db -category add_rings *------------------------
 add_rings -type core_rings -nets $design(core_ring_nets) -center 1 -follow core \
         -layer $design(core_ring_layers) -width $design(core_ring_width) -spacing $design(core_ring_spacing)
 
 # Connect Follow Pins
-#       (do this before connecting the pads, so the follow pin connections to the right are nice)
-#       get_db -category route_special *
+#       (do this before connecting the pads, so the follow pin connections to the right are nice)----------------
+#       get_db -category route_special *-----------------------------
 route_special -connect {core_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
 
 if {design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     # Connect pads to the rings
     route_special -connect {pad_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
 }
+check_drc -------------------
 
 # Add End Caps
-if {$tech(LIBRARY_HAS_ENDCAPS) == "YES"} {
-    # get_db -category add_endcaps *
-    add_endcaps -prefix $design(end_cap_prefix)
-}
+# get_db -category add_endcaps *---------------------
+add_endcaps -prefix $tech(END_CAP_CELL_PREFIX)------------------
 
 # Add Well Taps
-# get_db -category add_well_taps *
-add_well_taps -cell $tech(WELLTAP) -checker_board -prefix $design(well_tap_prefix) \
-        -cell_interval [expr 2 * $tech(WELLTAP_RULE)]
-check_well_taps -max_distance $tech(WELLTAP_RULE)
+# get_db -category add_well_taps *-------------------
+add_well_taps -cell $tech(WELLTAP) -checker_board -prefix $tech(FILL_TIE_CELL_PREFIX) \
+        -cell_interval [expr 2 * $tech(WELLTAP_RULE)]--------------------
+check_well_taps -max_distance $tech(WELLTAP_RULE)------------
 
 # Add Stripes
-# get_db -category add_stripes *
-
-# NOTE: max_same_layer_jog_length = 10.0 is essential to prevent the
-# M2 vertical stripes to go down to M1 with horizontal stripes -->
-# leading to M1 shorts with standard cells. The alternative is to use 
-# block_ring_bottom_layer_limit = M2
-add_stripes -layer [lindex [get_db layers .name] 1] -direction vertical -nets $design(M2_stripe_nets) \
+# get_db -category add_stripes *-------------------------
+# NOTE: max_same_layer_jog_length = 10.0 is essential to prevent the--------------------------
+# M2 vertical stripes to go down to M1 with horizontal stripes -->-------------------
+# leading to M1 shorts with standard cells. The alternative is to use -------------
+# block_ring_bottom_layer_limit = M2------------------------------------------
+add_stripes -layer [lindex [get_db layers .name] 1] -direction vertical -nets $design(M2_stripe_nets) \--------------
             -width $design(M2_stripes_width) -spacing $design(M2_stripes_spacing) \
             -start_from left -start_offset $design(M2_stripes_from_left) \
             -set_to_set_distance $design(M2_stripes_interval) -create_pins true \
             -max_same_layer_jog_length 10.0
-
+---------------run EM/IR analysis for to check problems
+check_connectivity -type special ------------
 # Check DRC/LVS
-enics_create_stage_reports -pop_snapshot yes
+enics_create_stage_reports -pop_snapshot yes ------------------
 
 # Export floorplan DEF
 #       This can be used for loading the floorplan in subsequent runs
 #       And also as a basis for physically-aware synthesis
-write_def -floorplan -no_std_cells "$design(floorplan_def)"
+write_def -floorplan -no_std_cells "$design(floorplan_def)"-------
 
 ####################################################
 # Placement
 ####################################################
-enics_start_stage "placement"
+enics_start_stage "placement"------------
 
-# Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them
-enics_add_m2_stripes_bloackage
+# Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them---------
+enics_add_m2_stripes_bloackage-----------
 
-# get_db -category place *
+# get_db -category place *----------------
 set_db place_global_cong_effort auto
 set_db opt_new_inst_prefix "place_opt_inst_"
 set_db opt_new_net_prefix  "place_opt_net_"
-place_opt_design -report_dir "$design(report_dir)/placement/place_opt_design"
+place_opt_design -report_dir "$design(report_dir)/placement/place_opt_design"------------------
 
 # Add Tie Cells
 # get_db -category add_tieoffs *
@@ -223,14 +212,14 @@ add_tieoffs
 opt_design -pre_cts -drv 
 
 enics_create_stage_reports -pop_snapshot yes
-
+check_place --------------------------------------
 ####################################################
 # Clock Tree Synthesis
 ####################################################
-enics_start_stage "cts"
+enics_start_stage "cts"--------------------------
 
 # Load Clock Tree Configuration
-# create_clock_tree_spec -out_file tmp_clock_spec.ccopt
+create_clock_tree_spec -out_file tmp_clock_spec.ccopt ----------------
 reset_ccopt_config
 source $design(clock_tree_spec)
 
@@ -238,7 +227,7 @@ set_db opt_new_inst_prefix "cts_opt_inst_"
 set_db opt_new_net_prefix  "cts_opt_net_"
 ccopt_design -report_dir "$design(report_dir)/cts/ccopt_design"
 # skew balanced clock tree
-#clock_design
+#clock_design no concurrent optimization
 
 enics_create_stage_reports -pop_snapshot yes
 
@@ -283,6 +272,11 @@ set_db route_design_detail_post_route_spread_wire false
 set_db route_design_with_timing_driven true
 set_db route_design_with_si_driven true
 
+add_fillers;
+route_eco -fix_drc
+
+check_drc
+chceck_connectivity -----------------------------
 enics_create_stage_reports -check_drc yes -check_connectivity yes -pop_snapshot yes
 
 ####################################################

@@ -3,7 +3,7 @@
 ##########################################################
 
 set design(TOPLEVEL) "axis_sa"
-set debug_file "debug.post_synth.voltus.txt"
+set debug_file "debug.voltus.txt"
 set runtype "power"
 
 # Load general procedures
@@ -18,7 +18,11 @@ source ../../tcl/asic/libraries/libraries.$TECHNOLOGY.tcl -quiet
 source ../../tcl/asic/libraries/libraries.$SC_TECHNOLOGY.tcl -quiet
 
 # Restore design from Genus
-read_db $design(postsyn_db)
+if {$phys_synth_type == "floorplan"} {
+    read_db $design(postsyn_db_ispatial)
+} else {
+    read_db $design(postsyn_db_rtl_flow)
+}
 
 set_db power_method static
 set_db power_report_missing_nets true
@@ -36,4 +40,4 @@ read_activity_file -format VCD -scope $design(tb_name).$design(dut_name) \
             -start $design(power_report_start_time) -end $design(power_report_end_time) \
             $design(vcd_file)
 
-report_power -rail_analysis_format VS -out_file $design(synthesis_reports)/power.rpt
+report_power -rail_analysis_format VS -out_file $design(synthesis_reports)/5_synth_gls/static_synth_power_report.rpt

@@ -2,9 +2,9 @@
 set paths(LIB_Paths) "$paths(PDK_ROOT)/STD_Libs/lib"
 
 # General
-set tech(LIBRARY_HAS_ENDCAPS) "YES"
-set tech(STANDARD_CELL_VDD) VDD
-set tech(STANDARD_CELL_GND) VSS
+set tech(STANDARD_CELL_VDD)   VDD
+set tech(STANDARD_CELL_GND)   VSS
+set tech(STANDARD_CELL_SITE)  CORE
 
 # LEFS
 lappend tech(LIB_SUPPRESS_MESSAGES_GENUS) {*}"LBR-9 LBR-76 LBR-40 LBR-436 LBR-170 LBR-415 LBR-162 LBR-155"
@@ -36,3 +36,12 @@ set tech_files(STANDARD_CELLS_HVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht
 # Set Input and Output Capacitance Values from Std Cells
 set tech(SDC_LOAD_PIN)      BUF_X0P5B_A9PP140ZTUL_C35/A
 set tech(SDC_DRIVING_CELL)  BUF_X0P5B_A9PP140ZTUL_C35
+
+# Set Tie High and Tie Low cells
+set tech(TIE_HIGH_CELL) TIEHI
+set tech(TIE_HIGH_CELL) TIELO
+
+# Set End Cap Cells, Filler Cells
+set tech(END_CAP_CELL_PREFIX)  ENDCAP
+set tech(FILL_TIE_CELL)        FILLTIE
+set tech(FILL_TIE_CELL_PREFIX) FILL

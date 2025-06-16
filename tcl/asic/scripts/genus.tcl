@@ -3,9 +3,8 @@
 #              and variables specific to this run               #
 #################################################################
 set design(TOPLEVEL) "axis_sa"
-
-# Variables
 set runtype "synthesis"
+set debug_file "debug.genus.txt"
 
 #################################################################
 #                     Load Basic Settings                       #
@@ -15,8 +14,6 @@ set runtype "synthesis"
 source ../../tcl/asic/scripts/procedures.tcl -quiet
 
 uom_start_stage "start"
-
-set debug_file "debug.txt"
 
 # Load the specific definitions for this project
 source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet
@@ -94,7 +91,7 @@ uniquify $design(TOPLEVEL)
 
 # Check Design
 # ------------
-uom_start_stage "1_post_elaboration"
+uom_start_stage "1_post_elaboration_design"
 uom_message "Checking design post elaboration"
 check_design -unresolved
 check_design -all > $design(synthesis_reports)/1_post_elaboration/check_design_post_elab.rpt
@@ -137,11 +134,6 @@ uom_report_timing $design(synthesis_reports)
 
 # Set Retime
 set_db design:${design(TOPLEVEL)} .retime true
-
-# Clock Gating Settings
-# ---------------------
-# set_db [get_db design:design(TOPLEVEL)] .lp_clock_gating_min_flops 8
-# set_db [get_db design:design(TOPLEVEL)] .lp_clock_gating_style latch
 
 # Physical Flow Attributes
 # ------------------------
@@ -214,7 +206,7 @@ foreach rpt $post_synth_reports {
 #                     Exporting the Design                      #
 #################################################################
 if {$phys_synth_type == "floorplan"} {
-    uom_start_stage "2_export_design_ispatial_flow"
+    uom_start_stage "2_export_post_synth_design_ispatial"
 
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------
@@ -231,7 +223,7 @@ if {$phys_synth_type == "floorplan"} {
     uom_message "Writing the post synthesis SDF"
     write_sdf > $design(postsyn_sdf_ispatial)
 } else {
-    uom_start_stage "2_export_design_rtl_floorplanning"
+    uom_start_stage "2_export_post_synth_rtl_floorplanning"
 
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------

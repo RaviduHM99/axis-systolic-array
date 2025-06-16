@@ -22,10 +22,10 @@ if {$runtype == "synthesis"} {
 ###################################
 if {$runtype == "pnr"} {
 
-    ###########################
-    # TIMING, EXTRACTION, ETC #
+    ## Basic Settings
     ###########################
     set_multi_cpu_usage 50
+    set_design_mode -process 28
 
     ## Timing Analysis Settings
     ###############################
@@ -37,16 +37,16 @@ if {$runtype == "pnr"} {
 
     ## Floorplan Settings
     ###############################
-    set_db add_endcaps_right_edge $tech(ENDCAPS_right)
-    set_db add_endcaps_left_edge $tech(ENDCAPS_left)
-    set_db add_tieoffs_cells "$tech(TIEHI) $tech(TIELO)"
-    set_db add_tieoffs_prefix "tiecell_"
-    set_db add_tieoffs_report_hports true
-    set_db add_tieoffs_max_fanout 20
-    set_db add_tieoffs_max_distance 250
-    set_db add_fillers_cells $tech(FILLERS)
-    set_db add_fillers_check_drc true
-    set_db add_fillers_prefix "filler_"
+    set_db add_endcaps_right_edge $tech(ENDCAPS_right) -----------
+    set_db add_endcaps_left_edge $tech(ENDCAPS_left)-----------
+    set_db add_tieoffs_cells "$tech(TIEHI) $tech(TIELO)"---------------
+    set_db add_tieoffs_prefix "tiecell_"-------------
+    set_db add_tieoffs_report_hports true-----------
+    set_db add_tieoffs_max_fanout 20---------------
+    set_db add_tieoffs_max_distance 250-------------
+    set_db add_fillers_cells $tech(FILLERS)-------------
+    set_db add_fillers_check_drc true---------------
+    set_db add_fillers_prefix "filler_"---------------------------
     
     ## Global Placement Settings
     ###############################

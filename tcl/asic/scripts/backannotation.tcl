@@ -13,7 +13,7 @@ set design(TOPLEVEL) "axis_sa"
 set debug_file "debug.xrun.txt"
 
 # Read in the project definitions/variables
-source ../inputs/$design(TOPLEVEL).defines
+source ../../tcl/asic/inputs/$design(TOPLEVEL).defines
 
 # Open a waveform and add the relevant signals to the waveform
 set w [simvision waveform new]

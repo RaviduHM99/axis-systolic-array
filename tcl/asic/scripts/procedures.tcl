@@ -217,10 +217,14 @@ proc uom_create_stage_reports {{args ""}} {
         puts $help_string
     } else {
         uom_message "Starting to create reports for stage: $this_run(stage)" medium
+        mkdir -pv ${reports_path}/$this_run(stage)/
         set rpt_dir $design(reports_dir)/$this_run(stage)/
-        uom_message "Reports directory is : $rpt_dir"
-        set export_dir $design(export_dir)/$this_run(stage)/
+        uom_message "Reports directory is : $rpt_dir" 
+
+        set export_dir $design(export_dir)/
         uom_message "Reports directory is : $export_dir"
+
+        mkdir -pv $design(dbs_dir)/$this_run(stage)/
         set dbs_dir $design(dbs_dir)/$this_run(stage)/
         uom_message "Reports directory is : $dbs_dir"
     }

@@ -129,7 +129,7 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 ################################################
 set design(backannotation_tb) "$design(testbench_dir)/$design(TOPLEVEL)_tb.v"
 set design(tb_name) "$design(TOPLEVEL)_tb"
-set design(dut_name) "dut"
+set design(dut_name) "DUT"
 
 # For Backannotation and Power Reporting
 set design(backannotation_script) "$design(inputs_dir)/$design(TOPLEVEL).backannotation.tcl"
