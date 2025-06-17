@@ -46,7 +46,7 @@ if {$design(HAS_SCAN) == "no"} {
 # IO Constraints
 set design(INPUT_DELAY)     [expr $design(CLK_PERIOD)/4.0]
 set design(OUTPUT_DELAY)     [expr $design(CLK_PERIOD)/4.0]
-set design(INPUT_TRANSITION)     [expr $design(CLK_PERIOD)/10.0]
+set design(INPUT_TRANSITION)     [expr $design(CLK_PERIOD)/5.0] ; # Maximum Transition Time according Liberty Data sheet = min(20% of Clock, Max transition characterized on Table)
 
 # Clock Constraints
 set design(CLOCK_UNCERTAINTY)     0.125 ; # In ns for SDC (will appear in ps for get_db)
