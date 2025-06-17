@@ -228,7 +228,7 @@ set_db opt_new_net_prefix  "cts_opt_net_"
 ccopt_design -report_dir "$design(report_dir)/4_clock_tree_synthesis/ccopt_design"
 
 uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
-                           -check_connectivity no -help 0 
+                           -check_connectivity yes -help 0 
 
 # Open the clock tree debugger and check Clock Tree
 #gui_open_ctd
@@ -238,7 +238,7 @@ uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
 uom_start_stage "5_post_cts_hold"
 opt_design -post_cts -hold 
 uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
-                           -check_connectivity no -help 0 
+                           -check_connectivity yes -help 0 
 
 ####################################################
 # Route
