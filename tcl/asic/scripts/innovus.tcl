@@ -13,7 +13,7 @@ set debug_file "debug.innovus.txt"
 # Load general procedures
 source ../../tcl/asic/scripts/procedures.tcl -quiet
 
-uom_start_stage "start"
+uom_start_stage "loading_basic_settings"
 
 # Load the specific definitions for this project
 source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet

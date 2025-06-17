@@ -13,7 +13,7 @@ set debug_file "debug.genus.txt"
 # Load General Procedures
 source ../../tcl/asic/scripts/procedures.tcl -quiet
 
-uom_start_stage "start"
+uom_start_stage "loading_basic_settings"
 
 # Load the specific definitions for this project
 source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet
