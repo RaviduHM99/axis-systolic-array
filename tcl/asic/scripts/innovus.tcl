@@ -42,7 +42,7 @@ uom_create_sdc_file
 # Init Design
 ####################################################
 enable_metrics -on
-uom_start_stage "3_init_innovus_design"
+uom_start_stage "1_init_design"
 
 # Global Nets
 set_db init_ground_nets $design(all_ground_nets)
@@ -97,12 +97,12 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 }
 
 uom_create_stage_reports -save_db yes -report_timing no -check_drc no \
-                           -check_connectivity no -help 0 --------------------------
+                           -check_connectivity no -help 0 
 
 ####################################################
 # Floorplan
 ####################################################
-uom_start_stage "floorplan"
+uom_start_stage "2_floorplan"
 source ../../tcl/asic/inputs/$design(TOPLEVEL).floorplan.defines -quiet
 
 if {$phys_synth_type == "floorplan"} {
@@ -112,7 +112,7 @@ if {$phys_synth_type == "floorplan"} {
 }
 
 # Specify Floorplan
-create_floorplan -site $tech(STANDARD_CELL_SITE) -match_to_site \ ---------------------
+create_floorplan -site $tech(STANDARD_CELL_SITE) -match_to_site \
     -core_density_size $design(floorplan_ratio) $design(floorplan_utilization) {*}$design(floorplan_space_to_)
 gui_fit
 
@@ -128,15 +128,19 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 } elseif {$design(FULLCHIP_OR_MACRO) == "MACRO"} {
     # Spread pins
     set pins_to_spread [get_db ports .name]
-    edit_pin -spread_type start -start {0 0} -spread_direction clockwise \
-             -layer_horizontal M4 -layer_vertical M3 \
-             -pin $pins_to_spread -fix_overlap 1 -spacing 6-------------------------------
-    edit_pin -spread_type start -start {0 0} -spread_direction clockwise \
-             -layer_horizontal M4 -layer_vertical M3 \
-             -pin $pins_to_spread -fix_overlap 1 -spacing 6-------------------------------
-    edit_pin -spread_type start -start {0 0} -spread_direction clockwise \
-             -layer_horizontal M4 -layer_vertical M3 \
-             -pin $pins_to_spread -fix_overlap 1 -spacing 6-------------------------------
+    edit_pin -spread_direction clockwise -spread_type center \
+             -layer M7 -side Top -fix_overlap 1 -spacing 6 \
+             -pin {clk}
+    edit_pin -spread_direction clockwise -spread_type center \
+             -layer M3 -side Top -fix_overlap 1 -spacing 6 \
+             -pin {rstn sx_data_* s_valid s_last }
+    edit_pin -spread_direction clockwise -spread_type center \
+             -layer M4 -side Left -fix_overlap 1 -spacing 6 \
+             -pin {sk_data_* s_ready}
+    edit_pin -spread_direction clockwise -spread_type center \
+             -layer M4 -side Right -fix_overlap 1 -spacing 6 \
+             -pin {m_data_* m_ready m_valid m_last }         
+
 }
 gui_redraw
 
@@ -144,109 +148,107 @@ gui_redraw
 # Connect Power
 ####################################################
 # Create Core Ring
-#       get_db -category add_rings *------------------------
 add_rings -type core_rings -nets $design(core_ring_nets) -center 1 -follow core \
         -layer $design(core_ring_layers) -width $design(core_ring_width) -spacing $design(core_ring_spacing)
 
 # Connect Follow Pins
-#       (do this before connecting the pads, so the follow pin connections to the right are nice)----------------
-#       get_db -category route_special *-----------------------------
 route_special -connect {core_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
 
 if {design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     # Connect pads to the rings
     route_special -connect {pad_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
 }
-check_drc -------------------
 
 # Add End Caps
-# get_db -category add_endcaps *---------------------
-add_endcaps -prefix $tech(END_CAP_CELL_PREFIX)------------------
+add_endcaps -prefix $tech(END_CAP_PREFIX)
 
 # Add Well Taps
-# get_db -category add_well_taps *-------------------
-add_well_taps -cell $tech(WELLTAP) -checker_board -prefix $tech(FILL_TIE_CELL_PREFIX) \
-        -cell_interval [expr 2 * $tech(WELLTAP_RULE)]--------------------
-check_well_taps -max_distance $tech(WELLTAP_RULE)------------
+add_well_taps -cell $tech(FILL_TIE_CELL) -checker_board -prefix $tech(FILL_TIE_PREFIX) \
+        -cell_interval [expr 2 * $design(WELLTAP_RULE)]
+check_well_taps -max_distance $design(WELLTAP_RULE)
 
 # Add Stripes
-# get_db -category add_stripes *-------------------------
-# NOTE: max_same_layer_jog_length = 10.0 is essential to prevent the--------------------------
-# M2 vertical stripes to go down to M1 with horizontal stripes -->-------------------
-# leading to M1 shorts with standard cells. The alternative is to use -------------
-# block_ring_bottom_layer_limit = M2------------------------------------------
-add_stripes -layer [lindex [get_db layers .name] 1] -direction vertical -nets $design(M2_stripe_nets) \--------------
-            -width $design(M2_stripes_width) -spacing $design(M2_stripes_spacing) \
-            -start_from left -start_offset $design(M2_stripes_from_left) \
-            -set_to_set_distance $design(M2_stripes_interval) -create_pins true \
+add_stripes -layer [lindex [get_db layers .name] 8] -direction vertical -nets $design(M9_stripes_nets) \
+            -width $design(M9_stripes_width) -spacing $design(M9_stripes_spacing) \
+            -start_from left -start_offset $design(M9_stripes_from_left) \
+            -set_to_set_distance $design(M9_stripes_interval) -create_pins true \
             -max_same_layer_jog_length 10.0
----------------run EM/IR analysis for to check problems
-check_connectivity -type special ------------
+
 # Check DRC/LVS
-enics_create_stage_reports -pop_snapshot yes ------------------
+check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
+uom_create_stage_reports -save_db yes -report_timing no -check_drc yes \
+                           -check_connectivity no -help 0 
 
 # Export floorplan DEF
-#       This can be used for loading the floorplan in subsequent runs
-#       And also as a basis for physically-aware synthesis
-write_def -floorplan -no_std_cells "$design(floorplan_def)"-------
+# This can be used for loading the floorplan in subsequent runs
+#   And also as a basis for physically-aware synthesis
+write_def -floorplan -no_std_cells "$design(floorplan_def)"
 
 ####################################################
 # Placement
 ####################################################
-enics_start_stage "placement"------------
+uom_start_stage "3_placement"
 
-# Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them---------
-enics_add_m2_stripes_bloackage-----------
+# Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them
+uom_add_m2_stripe_blockage
 
-# get_db -category place *----------------
 set_db place_global_cong_effort auto
 set_db opt_new_inst_prefix "place_opt_inst_"
 set_db opt_new_net_prefix  "place_opt_net_"
-place_opt_design -report_dir "$design(report_dir)/placement/place_opt_design"------------------
+place_opt_design -report_dir "$design(report_dir)/3_placement/place_opt_design_report.rpt"
 
 # Add Tie Cells
-# get_db -category add_tieoffs *
-add_tieoffs 
+add_tie_hi_lo -cell "$tech(TIE_HIGH_CELL) $tech(TIE_LOW_CELL)" -prefix $tech(TIE_PREFIX)
 
 # Fix DRV
 opt_design -pre_cts -drv 
 
-enics_create_stage_reports -pop_snapshot yes
-check_place --------------------------------------
+check_place > $design(pnr_reports)/3_placement/power_connectivity.rpt
+uom_create_stage_reports -save_db yes -report_timing no -check_drc yes \
+                           -check_connectivity no -help 0 
+
 ####################################################
 # Clock Tree Synthesis
 ####################################################
-enics_start_stage "cts"--------------------------
+uom_start_stage "4_clock_tree_synthesis"
 
 # Load Clock Tree Configuration
-create_clock_tree_spec -out_file tmp_clock_spec.ccopt ----------------
+create_clock_tree_spec -out_file tmp_clock_spec.ccopt 
+# Run until this examine clock tree spec
+##########################################################
+##########################################################
+##########################################################
+##########################################################
+##########################################################
 reset_ccopt_config
 source $design(clock_tree_spec)
 
 set_db opt_new_inst_prefix "cts_opt_inst_"
 set_db opt_new_net_prefix  "cts_opt_net_"
-ccopt_design -report_dir "$design(report_dir)/cts/ccopt_design"
-# skew balanced clock tree
-#clock_design no concurrent optimization
+ccopt_design -report_dir "$design(report_dir)/4_clock_tree_synthesis/ccopt_design"
 
-enics_create_stage_reports -pop_snapshot yes
+uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
+                           -check_connectivity no -help 0 
 
-# Open the clock tree debugger
+# Open the clock tree debugger and check Clock Tree
 #gui_open_ctd
 
 # Post CTS Hold Fixing
 # --------------------
-enics_start_stage "post_cts_hold"
+uom_start_stage "5_post_cts_hold"
 opt_design -post_cts -hold 
-enics_create_stage_reports -pop_snapshot yes
+uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
+                           -check_connectivity no -help 0 
 
 ####################################################
 # Route
 ####################################################
-enics_start_stage "route"
+# Pre Routing
+# -----------
+uom_start_stage "6_pre_route"
 
 # Get rid of the M2 stripe blockages that are no longer needed and cause annoying DRC violations
-enics_delete_m2_stripe_blockage
+uom_delete_m2_stripe_blockage
 
 set_db route_design_with_timing_driven true
 set_db route_design_with_si_driven true
@@ -255,11 +257,12 @@ set_db route_design_detail_use_multi_cut_via_effort medium
 set_db opt_new_inst_prefix "route_opt_inst_"
 set_db opt_new_net_prefix "route_opt_net_"
 route_opt_design
-enics_create_stage_reports -check_drc yes -check_connectivity yes -pop_snapshot yes
+uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
+                           -check_connectivity yes -help 0 
 
 # Post Route Optimization
 # -----------------------
-enics_start_stage "post_route_opt"
+uom_start_stage "7_post_route_opt"
 opt_design -post_route -setup -hold
 
 set_db route_design_with_timing_driven false
@@ -275,14 +278,13 @@ set_db route_design_with_si_driven true
 add_fillers;
 route_eco -fix_drc
 
-check_drc
-chceck_connectivity -----------------------------
-enics_create_stage_reports -check_drc yes -check_connectivity yes -pop_snapshot yes
+uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
+                           -check_connectivity yes -help 0 
 
 ####################################################
 # Export
 ####################################################
-enics_start_stage "signoff"
+uom_start_stage "8_signoff"
 
 # Write out a netlist for gls simulation
 # ---------------------------------------------

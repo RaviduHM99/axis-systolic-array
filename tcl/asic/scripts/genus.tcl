@@ -111,7 +111,7 @@ check_timing_intent > $design(synthesis_reports)/1_post_elaboration/check_timing
 
 # Save elaborated design
 # ----------------------
-write_design -base_name $design(dbs_dir)/1_post_elaboration/$design(TOPLEVEL)
+write_design -base_name $design(dbs_dir)/synthesis/1_post_elaboration/$design(TOPLEVEL)
 
 #################################################################
 #                    For iSpatial Flow	                        #
@@ -206,7 +206,7 @@ foreach rpt $post_synth_reports {
 #                     Exporting the Design                      #
 #################################################################
 if {$phys_synth_type == "floorplan"} {
-    uom_start_stage "2_export_post_synth_design_ispatial"
+    uom_start_stage "export_post_synth_design_ispatial"
 
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------
@@ -223,7 +223,7 @@ if {$phys_synth_type == "floorplan"} {
     uom_message "Writing the post synthesis SDF"
     write_sdf > $design(postsyn_sdf_ispatial)
 } else {
-    uom_start_stage "2_export_post_synth_rtl_floorplanning"
+    uom_start_stage "export_post_synth_rtl_floorplanning"
 
     # Write out a database for loading in Innovus/Voltus/Tempus
     # ---------------------------------------------------------

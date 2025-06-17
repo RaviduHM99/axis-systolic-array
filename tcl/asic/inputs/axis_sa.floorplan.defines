@@ -9,21 +9,22 @@ set M9_db [lindex [get_db layers] 8]
 set M8_db [lindex [get_db layers] 7]
 set design(core_ring_width)   [expr 10*[get_db $M9_db .min_width]];
 set design(core_ring_spacing) [expr  5*[get_db $M9_db .min_spacing]];
------set design(core_ring_layers)  "bottom [get_db $M9_db .name] top [get_db $M9_db .name] right [get_db $M8_db .name] left [get_db $M8_db .name]"
+set design(core_ring_layers)  "bottom [get_db $M8_db .name] top [get_db $M8_db .name] right [get_db $M9_db .name] left [get_db $M9_db .name]"
 
-set design(M8_stripes_width) [expr 10*[get_db $M8_db .min_wdith]]
-set design(M8_stripes_spacing) [expr 10*[get_db $M8_db .min_spacing]]
-set design(M8_stripes_interval) [expr 10*[get_db $M8_db .min_spacing]]
-set design(M8_stripes_from_left) [expr 10*[get_db $M8_db .min_spacing]]
-set design(M8_stripes_nets) "$design(digital_gnd) $design(digital_vdd)"
+set design(M9_stripes_width) [expr 10*[get_db $M9_db .min_wdith]]
+set design(M9_stripes_spacing) [expr 10*[get_db $M9_db .min_spacing]]
+set design(M9_stripes_interval) [expr 10*[get_db $M9_db .min_spacing]]
+set design(M9_stripes_from_left) [expr 10*[get_db $M9_db .min_spacing]]
+set design(M9_stripes_nets) "$design(digital_gnd) $design(digital_vdd)"
 
-proc enics_add_m2_stripe_blockage {} {
+proc uom_add_m2_stripe_blockage {} {
     global design
     # Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them
     deselect_routes
     set m1_name [get_db [lindex [get_db layers] 0] .name]
     set m2_name [get_db [lindex [get_db layers] 1] .name]
-    select_routes -shapes stripe -layer $m2_name -nets $design(M8_stripe_nets)
+    set m9_name [get_db [lindex [get_db layers] 8] .name]
+    select_routes -shapes stripe -layer $m9_name -nets $design(M9_stripes_nets)
     foreach stripe [get_db selected] {
         create_route_blockage -name M2_pwr_stripe_route_blk \
         -layer "$m1_name $m2_name" \
@@ -33,7 +34,7 @@ proc enics_add_m2_stripe_blockage {} {
     deselect_routes
 }
 
-proc enics_delete_m2_stripe_blockage {} {
+proc uom_delete_m2_stripe_blockage {} {
     deselect_obj -all
     select_obj [get_db route_blockages if {.name == M2_pwr_stripe_route_blk}]
     delete_selected_from_floorplan

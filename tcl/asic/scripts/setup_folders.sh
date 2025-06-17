@@ -19,6 +19,17 @@ else
     echo "Created removed old and created new folder: $dbs_path"
 fi
 
+dbs_path="$base_path/../dbs/synthesis"
+if [ ! -d "$dbs_path" ]; then
+    mkdir -p "$dbs_path"
+    echo "Created folder: $dbs_path"
+else
+    echo "Folder already exists: $dbs_path"
+    rm -r "$dbs_path"
+    mkdir -p "$dbs_path"
+    echo "Created removed old and created new folder: $dbs_path"
+fi
+
 for folder in "${dbs_subfolders[@]}"; do
     folder_path="$dbs_path/$folder"
     if [ ! -d "$folder_path" ]; then

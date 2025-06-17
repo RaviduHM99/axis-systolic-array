@@ -79,15 +79,16 @@ set design(scripts_dir)                          "$design(asic_root)/scripts"
 set design(export_dir)                           "$design(asic_root)/exports"
 set design(reports_dir)                          "$design(asic_root)/reports"
 set design(dbs_dir)                              "$design(asic_root)/dbs"
-set design(synthesis_reports)                    "$design(reports_dir)/synthesis/"
+set design(synthesis_reports)                    "$design(reports_dir)/synthesis"
+set design(pnr_reports)                          "$design(reports_dir)/pnr"
 set design(functional_sdc)                       "$design(inputs_dir)/$design(TOPLEVEL).sdc"
 
 set design(postsyn_netlist_ispatial)             "$design(export_dir)/$design(TOPLEVEL)_ispatial.postsyn.v"
-set design(postsyn_db_base_name_ispatial)        "$design(dbs_dir)/2_post_synth_ispatial/$design(TOPLEVEL)"
+set design(postsyn_db_base_name_ispatial)        "$design(dbs_dir)/synthesis/2_post_synth_ispatial/$design(TOPLEVEL)"
 set design(postsyn_db_ispatial)                  "$design(postsyn_db_base_name_ispatial)_ispatial.stylus.enc"
 set design(postsyn_sdf_ispatial)                 "$design(export_dir)/$design(TOPLEVEL)_ispatial.postsyn.sdf"
 set design(postsyn_netlist_rtl_flow)             "$design(export_dir)/$design(TOPLEVEL)_rtl_flow.postsyn.v"
-set design(postsyn_db_base_name_rtl_flow)        "$design(dbs_dir)/2_post_synth_rtl_flow/$design(TOPLEVEL)"
+set design(postsyn_db_base_name_rtl_flow)        "$design(dbs_dir)/synthesis/2_post_synth_rtl_flow/$design(TOPLEVEL)"
 set design(postsyn_db_rtl_flow)                  "$design(postsyn_db_base_name_rtl_flow)_rtl_flow.stylus.enc"
 set design(postsyn_sdf_rtl_flow)                 "$design(export_dir)/$design(TOPLEVEL)_rtl_flow.postsyn.sdf"
 
@@ -125,6 +126,10 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 }
 
 ################################################
+#               PnR Rules
+################################################
+set design(WELLTAP_RULE) 2
+################################################
 #               Simulation and Backannotation
 ################################################
 set design(backannotation_tb) "$design(testbench_dir)/$design(TOPLEVEL)_tb.v"
@@ -133,12 +138,12 @@ set design(dut_name) "DUT"
 
 # For Backannotation and Power Reporting
 set design(backannotation_script) "$design(inputs_dir)/$design(TOPLEVEL).backannotation.tcl"
-set design(tcf_file) "$design(export_dir)/$design(tb_name).tcf"
-set design(vcd_file) "$design(export_dir)/$design(tb_name).vcd"
-set design(power_report_flow) "vcd" ; # "vcd" or "tcf"
-set design(power_report_period) 2
+set design(tcf_file)              "$design(export_dir)/$design(tb_name).tcf"
+set design(vcd_file)              "$design(export_dir)/$design(tb_name).vcd"
+set design(power_report_flow)     "vcd" ; # "vcd" or "tcf"
+set design(power_report_period)     2
 set design(power_report_start_time) 0
-set design(power_report_end_time) 1500
+set design(power_report_end_time)   1500
 
 ################################################
 #               Get rid of annoying messages
