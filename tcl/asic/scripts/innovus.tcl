@@ -275,7 +275,7 @@ set_db route_design_detail_post_route_spread_wire false
 set_db route_design_with_timing_driven true
 set_db route_design_with_si_driven true
 
-add_fillers;
+add_fillers -cell $tech(FILL_CELL) -prefix $tech(FILL_CELL_PREFIX);
 route_eco -fix_drc
 
 uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
