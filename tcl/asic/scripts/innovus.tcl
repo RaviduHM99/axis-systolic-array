@@ -130,16 +130,16 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     set pins_to_spread [get_db ports .name]
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M7 -side Top -fix_overlap 1 -spacing 6 \
-             -pin {clk}
+             -pin $design(CLOCK_PIN)
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M3 -side Top -fix_overlap 1 -spacing 6 \
-             -pin {rstn \sx_data* s_valid s_last }
+             -pin $design(TOP_INPUT_PINS)
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M4 -side Left -fix_overlap 1 -spacing 6 \
-             -pin {\sk_data* s_ready}
+             -pin $design(LEFT_INPUT_PINS)
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M4 -side Right -fix_overlap 1 -spacing 6 \
-             -pin {\m_data* m_ready m_valid m_last }         
+             -pin $design(RIGHT_OUTPUT_PINS)       
 
 }
 gui_redraw
