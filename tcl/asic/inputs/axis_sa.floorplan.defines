@@ -7,17 +7,17 @@ set design(floorplan_space_to_core) "20 20 20 20" ; # Note that this should be p
                                                 # not as one Therefore, use the expand list {*} operator!
 
 set design(core_ring_nets) "$design(digital_gnd) $design(digital_vdd)"
-set M9_db [lindex [get_db layers] 8]
-set M8_db [lindex [get_db layers] 7]
-set design(core_ring_width)   [expr 10*[get_db $M9_db .min_width]];
-set design(core_ring_spacing) [expr  5*[get_db $M9_db .min_spacing]];
-set design(core_ring_layers)  "bottom [get_db $M8_db .name] top [get_db $M8_db .name] right [get_db $M9_db .name] left [get_db $M9_db .name]"
+set M8_db [lindex [get_db layers] 8]
+set M7_db [lindex [get_db layers] 7]
+set design(core_ring_width)   [expr 10*[get_db $M8_db .min_width]];
+set design(core_ring_spacing) [expr  5*[get_db $M8_db .min_spacing]];
+set design(core_ring_layers)  "bottom [get_db $M8_db .name] top [get_db $M8_db .name] right [get_db $M7_db .name] left [get_db $M7_db .name]"
 
-set design(M9_stripes_width) [expr 10*[get_db $M9_db .min_wdith]]
-set design(M9_stripes_spacing) [expr 10*[get_db $M9_db .min_spacing]]
-set design(M9_stripes_interval) [expr 10*[get_db $M9_db .min_spacing]]
-set design(M9_stripes_from_left) [expr 10*[get_db $M9_db .min_spacing]]
-set design(M9_stripes_nets) "$design(digital_gnd) $design(digital_vdd)"
+set design(M7_stripes_width) [expr 10*[get_db $M8_db .min_width]]
+set design(M7_stripes_spacing) [expr 5*[get_db $M8_db .min_spacing]]
+set design(M7_stripes_interval) [expr 10*[get_db $M8_db .min_spacing]]
+set design(M7_stripes_from_left) [expr 10*[get_db $M8_db .min_spacing]]
+set design(M7_stripes_nets) "$design(digital_gnd) $design(digital_vdd)"
 
 ####################################
 ##       Routing blockages        ##
@@ -26,10 +26,10 @@ proc uom_add_m2_stripe_blockage {} {
     global design
     # Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them
     deselect_routes
-    set m1_name [get_db [lindex [get_db layers] 0] .name]
-    set m2_name [get_db [lindex [get_db layers] 1] .name]
-    set m9_name [get_db [lindex [get_db layers] 8] .name]
-    select_routes -shapes stripe -layer $m9_name -nets $design(M9_stripes_nets)
+    set m1_name [get_db [lindex [get_db layers] 1] .name]
+    set m2_name [get_db [lindex [get_db layers] 2] .name]
+    set m7_name [get_db [lindex [get_db layers] 8] .name]
+    select_routes -shapes stripe -layer $m7_name -nets $design(M7_stripes_nets)
     foreach stripe [get_db selected] {
         create_route_blockage -name M2_pwr_stripe_route_blk \
         -layer "$m1_name $m2_name" \

@@ -128,7 +128,8 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 ################################################
 #               PnR Rules
 ################################################
-set design(WELLTAP_RULE) 2
+set design(WELLTAP_RULE) 15
+
 ################################################
 #               Simulation and Backannotation
 ################################################

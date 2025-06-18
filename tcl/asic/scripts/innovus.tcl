@@ -84,8 +84,8 @@ uom_default_cost_groups
 connect_global_net $design(digital_gnd) -pin $tech(STANDARD_CELL_GND) -all -verbose
 connect_global_net $design(digital_vdd) -pin $tech(STANDARD_CELL_VDD) -all -verbose
 # Connect tie cells
-connect_global_net $design(digital_vdd) -type $tech(TIE_HIGH_CELL) -all -verbose
-connect_global_net $design(digital_gnd) -type $tech(TIE_LOW_CELL)  -all -verbose
+connect_global_net $design(digital_vdd) -type tie_hi -all -verbose
+connect_global_net $design(digital_gnd) -type tie_lo -all -verbose
 
 if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     # Connect pads to IO and CORE voltages
@@ -129,7 +129,7 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     # Spread pins
     set pins_to_spread [get_db ports .name]
     edit_pin -spread_direction clockwise -spread_type center \
-             -layer M7 -side Top -fix_overlap 1 -spacing 6 \
+             -layer M5 -side Top -fix_overlap 1 -spacing 6 \
              -pin $design(CLOCK_PIN)
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M3 -side Top -fix_overlap 1 -spacing 6 \
@@ -168,10 +168,10 @@ add_well_taps -cell $tech(FILL_TIE_CELL) -checker_board -prefix $tech(FILL_TIE_P
 check_well_taps -max_distance $design(WELLTAP_RULE)
 
 # Add Stripes
-add_stripes -layer [lindex [get_db layers .name] 8] -direction vertical -nets $design(M9_stripes_nets) \
-            -width $design(M9_stripes_width) -spacing $design(M9_stripes_spacing) \
-            -start_from left -start_offset $design(M9_stripes_from_left) \
-            -set_to_set_distance $design(M9_stripes_interval) -create_pins true \
+add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $design(M7_stripes_nets) \
+            -width $design(M7_stripes_width) -spacing $design(M7_stripes_spacing) \
+            -start_from left -start_offset $design(M7_stripes_from_left) \
+            -set_to_set_distance $design(M7_stripes_interval) -create_pins true \
             -max_same_layer_jog_length 10.0
 
 # Check DRC/LVS
