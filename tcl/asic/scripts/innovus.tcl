@@ -85,7 +85,7 @@ connect_global_net $design(digital_gnd) -pin $tech(STANDARD_CELL_GND) -all -verb
 connect_global_net $design(digital_vdd) -pin $tech(STANDARD_CELL_VDD) -all -verbose
 # Connect tie cells
 connect_global_net $design(digital_vdd) -type $tech(TIE_HIGH_CELL) -all -verbose
-connect_global_net $design(digital_gnd) -type $tech(TIE_HIGH_CELL) -all -verbose
+connect_global_net $design(digital_gnd) -type $tech(TIE_LOW_CELL)  -all -verbose
 
 if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     # Connect pads to IO and CORE voltages
@@ -133,13 +133,13 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
              -pin {clk}
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M3 -side Top -fix_overlap 1 -spacing 6 \
-             -pin {rstn sx_data_* s_valid s_last }
+             -pin {rstn \sx_data* s_valid s_last }
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M4 -side Left -fix_overlap 1 -spacing 6 \
-             -pin {sk_data_* s_ready}
+             -pin {\sk_data* s_ready}
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M4 -side Right -fix_overlap 1 -spacing 6 \
-             -pin {m_data_* m_ready m_valid m_last }         
+             -pin {\m_data* m_ready m_valid m_last }         
 
 }
 gui_redraw
