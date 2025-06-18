@@ -1,8 +1,10 @@
-# Floorplan
+####################################
+##      Floorplan Parameters      ##
+####################################
 set design(floorplan_ratio) 0.75
 set design(floorplan_utilization) 0.5
-set design(floorplan_space_to_core) "5 5 5 5" ; # Note that this should be passed as four arguments and not as one
-                                                # Therefore, use the expand list {*} operator!
+set design(floorplan_space_to_core) "5 5 5 5" ; # Note that this should be passed as four arguments and  
+                                                # not as one Therefore, use the expand list {*} operator!
 
 set design(core_ring_nets) "$design(digital_gnd) $design(digital_vdd)"
 set M9_db [lindex [get_db layers] 8]
@@ -17,6 +19,9 @@ set design(M9_stripes_interval) [expr 10*[get_db $M9_db .min_spacing]]
 set design(M9_stripes_from_left) [expr 10*[get_db $M9_db .min_spacing]]
 set design(M9_stripes_nets) "$design(digital_gnd) $design(digital_vdd)"
 
+####################################
+##       Routing blockages        ##
+####################################
 proc uom_add_m2_stripe_blockage {} {
     global design
     # Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them
@@ -39,3 +44,11 @@ proc uom_delete_m2_stripe_blockage {} {
     select_obj [get_db route_blockages if {.name == M2_pwr_stripe_route_blk}]
     delete_selected_from_floorplan
 }
+
+####################################
+##        Pin Definition          ##
+####################################
+set design(CLOCK_PIN) {clk} ; # Mount Clock Pin on top try to force genus to name them appropriately-------
+set {rstn \sx_data* s_valid s_last }
+set {\sk_data* s_ready}
+set {\m_data* m_ready m_valid m_last }  
