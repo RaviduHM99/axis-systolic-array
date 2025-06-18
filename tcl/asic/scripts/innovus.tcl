@@ -154,7 +154,7 @@ add_rings -type core_rings -nets $design(core_ring_nets) -center 1 -follow core 
 # Connect Follow Pins
 route_special -connect {core_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
 
-if {design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
+if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     # Connect pads to the rings
     route_special -connect {pad_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
 }

@@ -174,7 +174,8 @@ proc uom_start_stage {stage} {
 ###################################################
 #          uom_report_timing
 #          -------------
-#   Reports timing and saves it in the appropriate directory
+#   Reports timing and saves it in the 
+#       appropriate directory
 ###################################################
 proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
     global design this_run
@@ -185,7 +186,26 @@ proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
     #set_table_style -nosplit -no_frame_fix_width report_timing
     foreach cg $design(cost_groups) {
         report_timing -max_paths 100 -group [get_db cost_groups -match $cg] \
-            > "${reports_path}/$this_run(stage)/${cg}.timing.rpt"
+            > "${reports_path}/$this_run(stage)/${cg}.setup.timing.rpt"
+    }
+}
+
+###################################################
+#          uom_report_hold_timing
+#          -------------
+#   Reports hold timing and saves it in the 
+#       appropriate directory
+###################################################
+proc uom_report_hold_timing {{reports_path "../../tcl/asic/reports/"}} {
+    global design this_run
+    mkdir -pv ${reports_path}/$this_run(stage)/
+    set_db timing_report_fields \
+        "timing_point flags arc edge cell fanout transition delay arrival"
+    #set timing_report_enable_auto_column_width true
+    #set_table_style -nosplit -no_frame_fix_width report_timing
+    foreach cg $design(cost_groups) {
+        report_timing -early -max_paths 100 -group [get_db cost_groups -match $cg] \
+            > "${reports_path}/$this_run(stage)/${cg}.hold.timing.rpt"
     }
 }
 
@@ -197,36 +217,64 @@ proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
 ###################################################
 proc uom_create_stage_reports {{args ""}} {
     global design this_run
-    array set options {-save_db yes -report_timing yes -check_drc no -check_connectivity no -help 0 }
+    array set options {
+        -write_db           yes 
+        -report_timing      no 
+        -report_hold        no
+        -check_drc          no 
+        -check_connectivity no  
+        -help               0   }
 
-    set help_string "USAGE: uom_create_stage_reports -save_db yes/no \n \
-                    -report_timing yes/no -check_drc yes/no -check_connectivity yes/no \n \
-                    -help 1/0"
-    
     while {[llength $args]} {
         switch -glob -- [lindex $args 0] {
-            -write*     {set args [lassign $args - options(-save_db)]}
-            -*timing*   {set args [lassign $args - options(-report_timing)]}
-            -*drc*      {set args [lassign $args - options(-check_drc)]}
+            -*write*     {set args [lassign $args - options(-save_db)]}
+            -*timing*    {set args [lassign $args - options(-report_timing)]}
+            -*hold*      {set args [lassign $args - options(-report_hold)]}
+            -*drc*       {set args [lassign $args - options(-check_drc)]}
             -*conn*      {set args [lassign $args - options(-check_connectivity)]}
             -*help*      {set options(-help) 1 ; set args [lrange $args 1 end]}
             default break
         }
     }
-    if {$options(-help)} {
-        puts $help_string
-    } else {
-        uom_message "Starting to create reports for stage: $this_run(stage)" medium
-        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
-        set rpt_dir $design(reports_dir)/pnr/$this_run(stage)/
-        uom_message "Reports directory is : $rpt_dir" 
-        
-        set export_dir $design(export_dir)/
-        uom_message "Reports directory is : $export_dir"
 
+    uom_message "Starting to create reports for stage: $this_run(stage)" medium
+    if { $options(-save_db) eq "yes" } {
         mkdir -pv $design(dbs_dir)/pnr/$this_run(stage)/
-        set dbs_dir $design(dbs_dir)/pnr/$this_run(stage)/
-        uom_message "Reports directory is : $dbs_dir"
+        set dbs_proc_dir $design(dbs_dir)/pnr/$this_run(stage)/
+        uom_message "Reports directory is : $dbs_proc_dir"
+        write_db -common $dbs_proc_dir
+    }
+
+    if { $options(-report_timing) eq "yes" } {
+        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
+        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)/
+        uom_message "Reports directory is : $rpt_proc_dir" 
+        uom_report_timing $rpt_proc_dir
+    }
+
+    if { $options(-report_hold) eq "yes" } {
+        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
+        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)/
+        uom_message "Reports directory is : $rpt_proc_dir" 
+        uom_report_hold_timing $rpt_proc_dir
+    }
+
+    if { $options(-check_drc) eq "yes" } {
+        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
+        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)/
+        uom_message "Reports directory is : $rpt_proc_dir" 
+        check_drc > $rpt_proc_dir
+    }
+
+    if { $options(-check_connectivity) eq "yes" } {
+        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
+        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)/
+        uom_message "Reports directory is : $rpt_proc_dir" 
+        check_connectivity > $rpt_proc_dir
+    }
+
+    if {$options(-help)} {
+        help
     }
 }
 

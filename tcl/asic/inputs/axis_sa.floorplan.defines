@@ -15,8 +15,8 @@ set design(core_ring_layers)  "bottom [get_db $M8_db .name] top [get_db $M8_db .
 
 set design(M7_stripes_width) [expr 10*[get_db $M8_db .min_width]]
 set design(M7_stripes_spacing) [expr 5*[get_db $M8_db .min_spacing]]
-set design(M7_stripes_interval) [expr 10*[get_db $M8_db .min_spacing]]
-set design(M7_stripes_from_left) [expr 10*[get_db $M8_db .min_spacing]]
+set design(M7_stripes_interval) [expr 150*[get_db $M8_db .min_spacing]]
+set design(M7_stripes_from_left) [expr 20*[get_db $M8_db .min_spacing]]
 set design(M7_stripes_nets) "$design(digital_gnd) $design(digital_vdd)"
 
 ####################################
