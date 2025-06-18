@@ -113,7 +113,7 @@ if {$phys_synth_type == "floorplan"} {
 
 # Specify Floorplan
 create_floorplan -site $tech(STANDARD_CELL_SITE) -match_to_site \
-    -core_density_size $design(floorplan_ratio) $design(floorplan_utilization) {*}$design(floorplan_space_to_)
+    -core_density_size $design(floorplan_ratio) $design(floorplan_utilization) {*}$design(floorplan_space_to_core)
 gui_fit
 
 # Set up pads (for fullchip) or pins (for macro)
