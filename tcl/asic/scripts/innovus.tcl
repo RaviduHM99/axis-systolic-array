@@ -198,7 +198,7 @@ set_db opt_new_net_prefix  "place_opt_net_"
 place_opt_design -report_dir "$design(reports_dir)/pnr/3_placement/place_opt_design_report.rpt"
 
 # Add Tie Cells
-add_tie_hi_lo -cell "$tech(TIE_HIGH_CELL) $tech(TIE_LOW_CELL)" -prefix $tech(TIE_PREFIX)
+add_tieoffs -lib_cell "$tech(TIE_HIGH_CELL) $tech(TIE_LOW_CELL)" -prefix $tech(TIE_PREFIX)
 
 # Fix DRV
 opt_design -pre_cts -drv 
