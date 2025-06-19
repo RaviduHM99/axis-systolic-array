@@ -96,7 +96,7 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     connect_global_net $design(digital_gnd) -pin $tech(IO_GNDCORE)  -hinst i_${design(IO_MODULE)} -netlist_override
 }
 
-uom_create_stage_reports -save_db yes -report_timing no -check_drc no \
+uom_create_stage_reports -write_db yes -report_timing no -check_drc no \
                            -check_connectivity no -help 0 
 
 ####################################################
@@ -176,7 +176,7 @@ add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $d
 
 # Check DRC/LVS
 check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
-uom_create_stage_reports -save_db yes -report_timing no -check_drc yes \
+uom_create_stage_reports -write_db yes -report_timing no -check_drc yes \
                            -check_connectivity no -help 0 
 
 # Export floorplan DEF
@@ -204,7 +204,7 @@ add_tie_hi_lo -cell "$tech(TIE_HIGH_CELL) $tech(TIE_LOW_CELL)" -prefix $tech(TIE
 opt_design -pre_cts -drv 
 
 check_place > $design(pnr_reports)/3_placement/power_connectivity.rpt
-uom_create_stage_reports -save_db yes -report_timing no -check_drc yes \
+uom_create_stage_reports -write_db yes -report_timing no -check_drc yes \
                            -check_connectivity no -help 0 
 
 ####################################################
@@ -227,7 +227,7 @@ set_db opt_new_inst_prefix "cts_opt_inst_"
 set_db opt_new_net_prefix  "cts_opt_net_"
 ccopt_design -report_dir "$design(report_dir)/4_clock_tree_synthesis/ccopt_design"
 
-uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
+uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
                            -check_connectivity yes -help 0 
 
 # Open the clock tree debugger and check Clock Tree
@@ -237,7 +237,7 @@ uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
 # --------------------
 uom_start_stage "5_post_cts_hold"
 opt_design -post_cts -hold 
-uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
+uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
                            -check_connectivity yes -help 0 
 
 ####################################################
@@ -257,7 +257,7 @@ set_db route_design_detail_use_multi_cut_via_effort medium
 set_db opt_new_inst_prefix "route_opt_inst_"
 set_db opt_new_net_prefix "route_opt_net_"
 route_opt_design
-uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
+uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
                            -check_connectivity yes -help 0 
 
 # Post Route Optimization
@@ -278,7 +278,7 @@ set_db route_design_with_si_driven true
 add_fillers -cell $tech(FILL_CELL) -prefix $tech(FILL_CELL_PREFIX);
 route_eco -fix_drc
 
-uom_create_stage_reports -save_db yes -report_timing yes -check_drc yes \
+uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
                            -check_connectivity yes -help 0 
 
 ####################################################
