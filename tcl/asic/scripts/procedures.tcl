@@ -232,7 +232,7 @@ proc uom_create_stage_reports {{args ""}} {
             -*hold*      {set args [lassign $args - options(-report_hold)]}
             -*drc*       {set args [lassign $args - options(-check_drc)]}
             -*conn*      {set args [lassign $args - options(-check_connectivity)]}
-            -*help*      {set options(-help) 1 ; set args [lrange $args 1 end]}
+            -*help*      {set args [lassign $args - options(-help)]; set args [lrange $args 1 end]}
             default break
         }
     }
