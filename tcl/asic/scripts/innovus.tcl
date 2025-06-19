@@ -195,7 +195,7 @@ uom_add_m2_stripe_blockage
 set_db place_global_cong_effort auto
 set_db opt_new_inst_prefix "place_opt_inst_"
 set_db opt_new_net_prefix  "place_opt_net_"
-place_opt_design -report_dir "$design(reports_dir)/pnr/3_placement/place_opt_design_report.rpt"
+place_opt_design -report_dir "$design(reports_dir)/pnr/3_placement/place_opt_design"
 
 # Add Tie Cells
 add_tieoffs -lib_cell "$tech(TIE_HIGH_CELL) $tech(TIE_LOW_CELL)" -prefix $tech(TIE_PREFIX)

@@ -24,7 +24,7 @@ if {$runtype == "pnr"} {
 
     ## Basic Settings
     ###########################
-    set_multi_cpu_usage -local_cpu 20
+    set_multi_cpu_usage -local_cpu 8
     set design_mode 28
 
     ## Timing Analysis Settings
