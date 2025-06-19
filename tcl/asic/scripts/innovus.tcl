@@ -195,7 +195,7 @@ uom_add_m2_stripe_blockage
 set_db place_global_cong_effort auto
 set_db opt_new_inst_prefix "place_opt_inst_"
 set_db opt_new_net_prefix  "place_opt_net_"
-place_opt_design -report_dir "$design(report_dir)/3_placement/place_opt_design_report.rpt"
+place_opt_design -report_dir "$design(reports_dir)/pnr/3_placement/place_opt_design_report.rpt"
 
 # Add Tie Cells
 add_tie_hi_lo -cell "$tech(TIE_HIGH_CELL) $tech(TIE_LOW_CELL)" -prefix $tech(TIE_PREFIX)
@@ -225,7 +225,7 @@ source $design(clock_tree_spec)
 
 set_db opt_new_inst_prefix "cts_opt_inst_"
 set_db opt_new_net_prefix  "cts_opt_net_"
-ccopt_design -report_dir "$design(report_dir)/4_clock_tree_synthesis/ccopt_design"
+ccopt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
 
 uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
                            -check_connectivity yes 

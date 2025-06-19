@@ -263,14 +263,14 @@ proc uom_create_stage_reports {{args ""}} {
         mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
         set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $rpt_proc_dir" 
-        check_drc > $rpt_proc_dir/$this_run(stage).drc_report.rpt
+        check_drc > $rpt_proc_dir/drc_report.rpt
     }
 
     if { $options(-check_connectivity) eq "yes" } {
         mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
         set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $rpt_proc_dir" 
-        check_connectivity > $rpt_proc_dir/$this_run(stage).connectivity.rpt
+        check_connectivity > $rpt_proc_dir/connectivity.rpt
     }
 
     if {$options(-help)} {
