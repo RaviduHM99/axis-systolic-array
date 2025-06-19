@@ -239,36 +239,36 @@ proc uom_create_stage_reports {{args ""}} {
 
     uom_message "Starting to create reports for stage: $this_run(stage)" medium
     if { $options(-save_db) eq "yes" } {
-        mkdir -pv $design(dbs_dir)/pnr/$this_run(stage)/
-        set dbs_proc_dir $design(dbs_dir)/pnr/$this_run(stage)/
+        mkdir -pv $design(dbs_dir)/pnr/$this_run(stage)
+        set dbs_proc_dir $design(dbs_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $dbs_proc_dir"
         write_db -common $dbs_proc_dir
     }
 
     if { $options(-report_timing) eq "yes" } {
-        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
-        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)/
+        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
+        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $rpt_proc_dir" 
         uom_report_timing $rpt_proc_dir
     }
 
     if { $options(-report_hold) eq "yes" } {
-        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
-        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)/
+        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
+        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $rpt_proc_dir" 
         uom_report_hold_timing $rpt_proc_dir
     }
 
     if { $options(-check_drc) eq "yes" } {
-        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
-        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)/
+        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
+        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $rpt_proc_dir" 
         check_drc > $rpt_proc_dir
     }
 
     if { $options(-check_connectivity) eq "yes" } {
-        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)/
-        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)/
+        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
+        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $rpt_proc_dir" 
         check_connectivity > $rpt_proc_dir
     }
