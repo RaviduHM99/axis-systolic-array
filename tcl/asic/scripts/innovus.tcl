@@ -143,10 +143,12 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 
 }
 gui_redraw
+gui_fit
 
 ####################################################
 # Connect Power
 ####################################################
+uom_start_stage "power_grid_creation"
 # Create Core Ring
 add_rings -type core_rings -nets $design(core_ring_nets) -center 1 -follow core \
         -layer $design(core_ring_layers) -width $design(core_ring_width) -spacing $design(core_ring_spacing)
