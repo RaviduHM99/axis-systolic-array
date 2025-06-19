@@ -1,7 +1,7 @@
 ##########################################################
 ###     MAKE SURE YOU RAN innovus -stylus !!!!!!!!     ###
 ##########################################################
-gui_set_ui main -geometry "1480x870+0+0"
+gui_set_ui main -geometry "1920x1020+0+0"
 
 set design(TOPLEVEL) "axis_sa"
 set runtype "pnr"
@@ -97,7 +97,7 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 }
 
 uom_create_stage_reports -write_db yes -report_timing no -check_drc no \
-                           -check_connectivity no -help 0 
+                           -check_connectivity no 
 
 ####################################################
 # Floorplan
@@ -177,7 +177,7 @@ add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $d
 # Check DRC/LVS
 check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
 uom_create_stage_reports -write_db yes -report_timing no -check_drc yes \
-                           -check_connectivity no -help 0 
+                           -check_connectivity no -help 1
 
 # Export floorplan DEF
 # This can be used for loading the floorplan in subsequent runs
@@ -205,7 +205,7 @@ opt_design -pre_cts -drv
 
 check_place > $design(pnr_reports)/3_placement/power_connectivity.rpt
 uom_create_stage_reports -write_db yes -report_timing no -check_drc yes \
-                           -check_connectivity no -help 0 
+                           -check_connectivity no 
 
 ####################################################
 # Clock Tree Synthesis
@@ -228,7 +228,7 @@ set_db opt_new_net_prefix  "cts_opt_net_"
 ccopt_design -report_dir "$design(report_dir)/4_clock_tree_synthesis/ccopt_design"
 
 uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
-                           -check_connectivity yes -help 0 
+                           -check_connectivity yes 
 
 # Open the clock tree debugger and check Clock Tree
 #gui_open_ctd
@@ -238,7 +238,7 @@ uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
 uom_start_stage "5_post_cts_hold"
 opt_design -post_cts -hold 
 uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
-                           -check_connectivity yes -help 0 
+                           -check_connectivity yes 
 
 ####################################################
 # Route
@@ -258,7 +258,7 @@ set_db opt_new_inst_prefix "route_opt_inst_"
 set_db opt_new_net_prefix "route_opt_net_"
 route_opt_design
 uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
-                           -check_connectivity yes -help 0 
+                           -check_connectivity yes 
 
 # Post Route Optimization
 # -----------------------
@@ -279,7 +279,7 @@ add_fillers -cell $tech(FILL_CELL) -prefix $tech(FILL_CELL_PREFIX);
 route_eco -fix_drc
 
 uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
-                           -check_connectivity yes -help 0 
+                           -check_connectivity yes 
 
 ####################################################
 # Export
