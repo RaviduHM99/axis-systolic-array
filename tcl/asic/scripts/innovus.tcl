@@ -143,7 +143,6 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 
 }
 gui_redraw
-gui_fit
 
 ####################################################
 # Connect Power
@@ -179,13 +178,13 @@ add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $d
 # Check DRC/LVS
 check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
 uom_create_stage_reports -write_db yes -report_timing no -check_drc yes \
-                           -check_connectivity no
+                           -check_connectivity no -help 1
 
 # Export floorplan DEF
 # This can be used for loading the floorplan in subsequent runs
 #   And also as a basis for physically-aware synthesis
 write_def -floorplan -no_std_cells "$design(floorplan_def)"
-
+gui_fit
 ####################################################
 # Placement
 ####################################################

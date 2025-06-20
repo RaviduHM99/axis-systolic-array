@@ -227,7 +227,7 @@ proc uom_create_stage_reports {{args ""}} {
 
     while {[llength $args]} {
         switch -glob -- [lindex $args 0] {
-            -*write*     {set args [lassign $args - options(-save_db)]}
+            -*write*     {set args [lassign $args - options(-write_db)]}
             -*timing*    {set args [lassign $args - options(-report_timing)]}
             -*hold*      {set args [lassign $args - options(-report_hold)]}
             -*drc*       {set args [lassign $args - options(-check_drc)]}
@@ -238,7 +238,7 @@ proc uom_create_stage_reports {{args ""}} {
     }
 
     uom_message "Starting to create reports for stage: $this_run(stage)" medium
-    if { $options(-save_db) eq "yes" } {
+    if { $options(-write_db) eq "yes" } {
         mkdir -pv $design(dbs_dir)/pnr/$this_run(stage)
         set dbs_proc_dir $design(dbs_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $dbs_proc_dir"
