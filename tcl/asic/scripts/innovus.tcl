@@ -183,7 +183,9 @@ gui_fit
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/floorplan.stylus.enc
 check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
+set_multi_cpu_usage -local_cpu 1
 check_drc > $design(pnr_reports)/2_floorplan/drc_report.rpt
+set_multi_cpu_usage -local_cpu 8
 
 ####################################################
 # Placement
