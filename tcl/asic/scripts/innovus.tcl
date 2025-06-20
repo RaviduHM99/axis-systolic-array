@@ -174,17 +174,16 @@ add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $d
             -set_to_set_distance $design(M7_stripes_interval) -create_pins true \
             -max_same_layer_jog_length 10.0
 
-
-# Reporting & Save
-check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
-check_drc > $design(pnr_reports)/2_floorplan/drc_report.rpt
-write_db -common $design(dbs_dir)/pnr/floorplan.stylus.enc
-
 # Export floorplan DEF
 # This can be used for loading the floorplan in subsequent runs
 #   And also as a basis for physically-aware synthesis
 write_def -floorplan -no_std_cells "$design(floorplan_def)"
 gui_fit
+
+# Reporting & Save
+check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
+check_drc > $design(pnr_reports)/2_floorplan/drc_report.rpt
+write_db -common $design(dbs_dir)/pnr/floorplan.stylus.enc
 
 ####################################################
 # Placement
@@ -231,8 +230,10 @@ set_db opt_new_inst_prefix "cts_opt_inst_"
 set_db opt_new_net_prefix  "cts_opt_net_"
 ccopt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
 
-uom_create_stage_reports -write_db yes -report_timing yes -check_drc yes \
-                           -check_connectivity yes 
+check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
+check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
+write_db -common $design(dbs_dir)/pnr/pre_cts.stylus.enc
+uom_report_timing $design(pnr_reports)/5_post_cts_hold
 
 # Open the clock tree debugger and check Clock Tree
 #gui_open_ctd
@@ -243,10 +244,10 @@ uom_start_stage "5_post_cts_hold"
 opt_design -post_cts -hold 
 
 # Reporting & Save
-check_connectivity > $design(pnr_reports)/4_clock_tree_synthesis/cts_connectivity.rpt
-check_drc > $design(pnr_reports)/4_clock_tree_synthesis/drc_report.rpt
-write_db -common $design(dbs_dir)/pnr/cts.stylus.enc
-uom_report_timing $design(pnr_reports)/4_clock_tree_synthesis
+check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
+check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
+write_db -common $design(dbs_dir)/pnr/post_cts.stylus.enc
+uom_report_timing $design(pnr_reports)/5_post_cts_hold
 
 ####################################################
 # Route
