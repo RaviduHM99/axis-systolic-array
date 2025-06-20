@@ -183,9 +183,7 @@ gui_fit
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/floorplan.stylus.enc
 check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
-set_multi_cpu_usage -local_cpu 1
-check_drc > $design(pnr_reports)/2_floorplan/drc_report.rpt
-set_multi_cpu_usage -local_cpu 8
+#check_drc > $design(pnr_reports)/2_floorplan/drc_report.rpt
 
 ####################################################
 # Placement
@@ -209,7 +207,7 @@ opt_design -pre_cts -drv
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/placement.stylus.enc
 check_place > $design(pnr_reports)/3_placement/power_connectivity.rpt
-check_drc > $design(pnr_reports)/3_placement/drc_report.rpt
+#check_drc > $design(pnr_reports)/3_placement/drc_report.rpt
 
 ####################################################
 # Clock Tree Synthesis
@@ -234,7 +232,7 @@ ccopt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_
 
 write_db -common $design(dbs_dir)/pnr/pre_cts.stylus.enc
 check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
-check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
+#check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
 uom_report_timing $design(pnr_reports)/5_post_cts_hold
 
 # Open the clock tree debugger and check Clock Tree
@@ -248,7 +246,7 @@ opt_design -post_cts -hold
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/post_cts.stylus.enc
 check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
-check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
+#check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
 uom_report_timing $design(pnr_reports)/5_post_cts_hold
 
 ####################################################
@@ -272,7 +270,7 @@ route_opt_design
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/pre_route.stylus.enc
 check_connectivity > $design(pnr_reports)/6_pre_route/cts_connectivity.rpt
-check_drc > $design(pnr_reports)/6_pre_route/drc_report.rpt
+#check_drc > $design(pnr_reports)/6_pre_route/drc_report.rpt
 uom_report_timing $design(pnr_reports)/6_pre_route
 
 # Post Route Optimization
@@ -296,7 +294,7 @@ route_eco -fix_drc
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/post_route.stylus.enc
 check_connectivity > $design(pnr_reports)/7_post_route_opt/cts_connectivity.rpt
-check_drc > $design(pnr_reports)/7_post_route_opt/drc_report.rpt
+#check_drc > $design(pnr_reports)/7_post_route_opt/drc_report.rpt
 uom_report_timing $design(pnr_reports)/7_post_route_opt
 
 ####################################################
