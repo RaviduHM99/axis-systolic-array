@@ -57,12 +57,12 @@ set tech(ANTENNA_CELL)      ANTENNA2_A9PP140ZTUL_C35
 
 # Routing Rules
 set tech(LAYER_NAMES)       [lrange [get_db layers .name] 0 9]
-set tech(MIN_SPACING_X)     [lrange [get_db layers .min_spacing] 2]
-set tech(MIN_WIDTH_X)       [lrange [get_db layers .min_width] 2]
-set tech(MIN_SPACING_Y)     [lrange [get_db layers .min_spacing] 3]
-set tech(MIN_WIDTH_Y)       [lrange [get_db layers .min_width] 3]
-set tech(MIN_SPACING_Z)     [lrange [get_db layers .min_spacing] 7]
-set tech(MIN_WIDTH_Z)       [lrange [get_db layers .min_width] 7]
+set tech(MIN_SPACING_X)     [lindex [get_db layers .min_spacing] 2]
+set tech(MIN_WIDTH_X)       [lindex [get_db layers .min_width] 2]
+set tech(MIN_SPACING_Y)     [lindex [get_db layers .min_spacing] 3]
+set tech(MIN_WIDTH_Y)       [lindex [get_db layers .min_width] 3]
+set tech(MIN_SPACING_Z)     [lindex [get_db layers .min_spacing] 7]
+set tech(MIN_WIDTH_Z)       [lindex [get_db layers .min_width] 7]
 set tech(MIN_SPACING_STRIPES) 0.25 ; # Comes from [dbGet head.layers.spacingTables]
 
 # Set Clock Tree Specs 
