@@ -220,7 +220,8 @@ source $design(clock_tree_spec)
 
 set_db opt_new_inst_prefix "cts_opt_inst_"
 set_db opt_new_net_prefix  "cts_opt_net_"
-ccopt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
+# ccopt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
+clock_opt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
 
 write_db -common $design(dbs_dir)/pnr/pre_cts.stylus.enc
 check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
