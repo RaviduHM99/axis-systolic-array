@@ -129,6 +129,10 @@ proc uom_default_cost_groups {} {
         lappend design(cost_groups) "in2out"
     } elseif {$runtype == "pnr"} {
         create_basic_path_groups -expanded
+        lappend design(cost_groups) "reg2reg"
+        lappend design(cost_groups) "in2reg"
+        lappend design(cost_groups) "reg2out"
+        lappend design(cost_groups) "in2out"
     }
 }
 
@@ -185,8 +189,13 @@ proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
     #set timing_report_enable_auto_column_width true
     #set_table_style -nosplit -no_frame_fix_width report_timing
     foreach cg $design(cost_groups) {
-        report_timing -max_paths 100 -group [get_db cost_groups -match $cg] \
-            > "${reports_path}/$this_run(stage)/${cg}.setup.timing.rpt"
+        if {$runtype == "synthesis"} {
+            report_timing -max_paths 100 -group [get_db cost_groups -match $cg] \
+                > "${reports_path}/$this_run(stage)/${cg}.setup.timing.rpt"
+        } elseif {$runtype == "pnr"} {
+            report_timing -max_paths 100 -group $cg \
+                > "${reports_path}/$this_run(stage)/${cg}.setup.timing.rpt"
+        }
     }
 }
 
