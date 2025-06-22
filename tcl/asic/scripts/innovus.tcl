@@ -215,14 +215,6 @@ check_place > $design(pnr_reports)/3_placement/power_connectivity.rpt
 uom_start_stage "4_clock_tree_synthesis"
 
 # Load Clock Tree Configuration
-create_clock_tree_spec -out_file tmp_clock_spec.ccopt 
-help
-# Run until this examine clock tree spec
-##########################################################
-##########################################################
-##########################################################
-##########################################################
-##########################################################
 reset_ccopt_config
 source $design(clock_tree_spec)
 
@@ -235,6 +227,7 @@ check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
 #check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
 uom_report_timing $design(pnr_reports)/5_post_cts_hold
 
+help
 # Open the clock tree debugger and check Clock Tree
 #gui_open_ctd
 

@@ -40,15 +40,15 @@ set_db cts_target_max_transition_time_leaf  $tech(CLOCK_SLEW)
     
 # Define Non-Default Clock Routing Rules
 # --------------------------------------
-create_route_rule -name 2w2s -width_multiplier {M1:M9 2} -spacing_multiplier {M1:M9 2}
+create_route_rule -name 2w2s_cts -width_multiplier {M1:M8 2} -spacing_multiplier {M1:M8 2}
 
-create_route_type -name clkroute_top -route_rule 2w2s -shield_net $design(all_ground_nets) \
+create_route_type -name clkroute_top -route_rule 2w2s_cts -shield_net $design(all_ground_nets) \
     -top_preferred_layer $tech(cts_top_routing_layer_top) \
     -bottom_preferred_layer $tech(cts_bottom_routing_layer_top)
-create_route_type -name clkroute_trunk -route_rule 2w2s -shield_net $design(all_ground_nets) \
+create_route_type -name clkroute_trunk -route_rule 2w2s_cts -shield_net $design(all_ground_nets) \
     -top_preferred_layer $tech(cts_top_routing_layer_trunk) \
     -bottom_preferred_layer $tech(cts_bottom_routing_layer_trunk)
-create_route_type -name clkroute_leaf -route_rule 2w2s \
+create_route_type -name clkroute_leaf -route_rule 2w2s_cts \
     -top_preferred_layer $tech(cts_top_routing_layer_leaf) \
     -bottom_preferred_layer $tech(cts_bottom_routing_layer_leaf)
 

@@ -66,7 +66,7 @@ set tech(MIN_WIDTH_Z)       [lrange [get_db layers .min_width] 7]
 set tech(MIN_SPACING_STRIPES) 0.25 ; # Comes from [dbGet head.layers.spacingTables]
 
 # Set Clock Tree Specs 
-# set tech(CCOPT_DRIVING_PIN) {BUF_X0P5B_A9PP140ZTUL_C35/A BUF_X0P5B_A9PP140ZTUL_C35/Y}
+set tech(CCOPT_DRIVING_PIN) {BUF_X0P5B_A9PP140ZTUL_C35/A BUF_X0P5B_A9PP140ZTUL_C35/Y}
 # set tech(CLOCK_BUFFERS)     BUF_X0P5B_A9PP140ZTUL_C35
 # set tech(CLOKC_GATES)       
 # set tech(CLOCK_INVERTERS)   
