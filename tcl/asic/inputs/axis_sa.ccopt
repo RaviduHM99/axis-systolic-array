@@ -75,8 +75,4 @@ set_db cts_route_type_top       clkroute_top
 set_db cts_route_type_trunk     clkroute_trunk
 set_db cts_route_type_leaf      clkroute_leaf
 
-# Allow CTS to resize dont_touch cells (such as clock gates and muxes)
-# -------------------------------------------------------------------
-set_db cts_allow_resize_of_dont_touch_cells true
-
 check_clock_tree_convergence
