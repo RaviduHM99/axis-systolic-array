@@ -228,7 +228,6 @@ check_connectivity > $design(pnr_reports)/4_clock_tree_synthesis/cts_connectivit
 #check_drc > $design(pnr_reports)/4_clock_tree_synthesis/drc_report.rpt
 uom_report_timing $design(pnr_reports)
 
-help
 # Open the clock tree debugger and check Clock Tree
 #gui_open_ctd
 
@@ -288,8 +287,8 @@ route_eco -fix_drc
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/post_route.stylus.enc
 check_connectivity > $design(pnr_reports)/7_post_route_opt/cts_connectivity.rpt
-#check_drc > $design(pnr_reports)/7_post_route_opt/drc_report.rpt
 uom_report_timing $design(pnr_reports)
+check_drc > $design(pnr_reports)/7_post_route_opt/drc_report.rpt
 
 ####################################################
 # Export
