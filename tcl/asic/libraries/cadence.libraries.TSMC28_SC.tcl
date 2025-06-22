@@ -79,9 +79,9 @@ set tech(DATA_SLEW)         0.00108
 set tech(INPUT_SLEW)        0.00108
 
 # Clock Route Rules
-set tech(cts_top_routing_layer_top)         [lindex [get_db layers] 6]   
-set tech(cts_bottom_routing_layer_top)      [lindex [get_db layers] 5]
-set tech(cts_top_routing_layer_trunk)       [lindex [get_db layers] 6]
-set tech(cts_bottom_routing_layer_trunk)    [lindex [get_db layers] 5]
-set tech(cts_top_routing_layer_leaf)        [lindex [get_db layers] 4]
-set tech(cts_bottom_routing_layer_leaf)     [lindex [get_db layers] 3]
+set tech(cts_top_routing_layer_top)         [get_db [lindex [get_db layers] 6] .name]  
+set tech(cts_bottom_routing_layer_top)      [get_db [lindex [get_db layers] 5] .name]  
+set tech(cts_top_routing_layer_trunk)       [get_db [lindex [get_db layers] 6] .name]  
+set tech(cts_bottom_routing_layer_trunk)    [get_db [lindex [get_db layers] 5] .name]  
+set tech(cts_top_routing_layer_leaf)        [get_db [lindex [get_db layers] 4] .name]  
+set tech(cts_bottom_routing_layer_leaf)     [get_db [lindex [get_db layers] 3] .name]  
