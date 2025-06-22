@@ -182,7 +182,7 @@ proc uom_start_stage {stage} {
 #       appropriate directory
 ###################################################
 proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
-    global design this_run
+    global design runtype this_run
     mkdir -pv ${reports_path}/$this_run(stage)/
     set_db timing_report_fields \
         "timing_point flags arc edge cell fanout transition delay arrival"
