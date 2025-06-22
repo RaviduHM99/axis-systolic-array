@@ -38,16 +38,50 @@ set tech(SDC_LOAD_PIN)      BUF_X0P5B_A9PP140ZTUL_C35/A
 set tech(SDC_DRIVING_CELL)  BUF_X0P5B_A9PP140ZTUL_C35
 
 # Set Tie High and Tie Low cells
-set tech(TIE_PREFIX)    TIEOFF_
-set tech(TIE_HIGH_CELL) TIEHI_X1M_A9PP140ZTUL_C35
-set tech(TIE_LOW_CELL)  TIELO_X1M_A9PP140ZTUL_C35
+set tech(TIE_PREFIX)        TIEOFF_
+set tech(TIE_HIGH_CELL)     TIEHI_X1M_A9PP140ZTUL_C35
+set tech(TIE_LOW_CELL)      TIELO_X1M_A9PP140ZTUL_C35
 
 # Set End Cap Cells, Fill Tie Cells
-set tech(END_CAP_PREFIX)  ENDCAP_
-set tech(END_CAP_CELL)    ENDCAPTIE3_A9PP140ZTUL_C35 
-set tech(FILL_TIE_PREFIX) FILLTIE 
-set tech(FILL_TIE_CELL)   FILLTIE5_A9PP140ZTUL_C35
+set tech(END_CAP_PREFIX)    ENDCAP_
+set tech(END_CAP_CELL)      ENDCAPTIE3_A9PP140ZTUL_C35 
+set tech(FILL_TIE_PREFIX)   FILLTIE 
+set tech(FILL_TIE_CELL)     FILLTIE5_A9PP140ZTUL_C35
 
 # Set Fill Cells
 set tech(FILL_CELL_PREFIX) FILLER_CELL_
-set tech(FILL_CELL)       "FILLSGCAP2_A9PP140ZTUL_C35 FILLSGCAP3_A9PP140ZTUL_C35 FILLSGCAP4_A9PP140ZTUL_C35 FILLSGCAP8_A9PP140ZTUL_C35 FILLSGCAP16_A9PP140ZTUL_C35 FILLSGCAP32_A9PP140ZTUL_C35 FILLSGCAP64_A9PP140ZTUL_C35 FILLSGCAP128_A9PP140ZTUL_C35"
+set tech(FILL_CELL)         "FILLSGCAP2_A9PP140ZTUL_C35 FILLSGCAP3_A9PP140ZTUL_C35 FILLSGCAP4_A9PP140ZTUL_C35 FILLSGCAP8_A9PP140ZTUL_C35 FILLSGCAP16_A9PP140ZTUL_C35 FILLSGCAP32_A9PP140ZTUL_C35 FILLSGCAP64_A9PP140ZTUL_C35 FILLSGCAP128_A9PP140ZTUL_C35"
+
+# Set Antenna Cell
+set tech(ANTENNA_CELL)      ANTENNA2_A9PP140ZTUL_C35
+
+# Routing Rules
+set tech(LAYER_NAMES)       [lrange [get_db layers .name] 0 9]
+set tech(MIN_SPACING_X)     [lrange [get_db layers .min_spacing] 2]
+set tech(MIN_WIDTH_X)       [lrange [get_db layers .min_width] 2]
+set tech(MIN_SPACING_Y)     [lrange [get_db layers .min_spacing] 3]
+set tech(MIN_WIDTH_Y)       [lrange [get_db layers .min_width] 3]
+set tech(MIN_SPACING_Z)     [lrange [get_db layers .min_spacing] 7]
+set tech(MIN_WIDTH_Z)       [lrange [get_db layers .min_width] 7]
+set tech(MIN_SPACING_STRIPES) 0.25 ; # Comes from [dbGet head.layers.spacingTables]
+
+# Set Clock Tree Specs 
+# set tech(CCOPT_DRIVING_PIN) {BUF_X0P5B_A9PP140ZTUL_C35/A BUF_X0P5B_A9PP140ZTUL_C35/Y}
+# set tech(CLOCK_BUFFERS)     BUF_X0P5B_A9PP140ZTUL_C35
+# set tech(CLOKC_GATES)       
+# set tech(CLOCK_INVERTERS)   
+# set tech(CLOCK_LOGIC)       MXGL2
+# set tech(CLOCK_DELAYS)      DLYCLK8
+
+# Set Slew Rates from Documentation
+set tech(CLOCK_SLEW)        0.00108
+set tech(DATA_SLEW)         0.00108
+set tech(INPUT_SLEW)        0.00108
+
+# Clock Route Rules
+set tech(cts_top_routing_layer_top)         [lindex [get_db layers] 6]   
+set tech(cts_bottom_routing_layer_top)      [lindex [get_db layers] 5]
+set tech(cts_top_routing_layer_trunk)       [lindex [get_db layers] 6]
+set tech(cts_bottom_routing_layer_trunk)    [lindex [get_db layers] 5]
+set tech(cts_top_routing_layer_leaf)        [lindex [get_db layers] 4]
+set tech(cts_bottom_routing_layer_leaf)     [lindex [get_db layers] 3]

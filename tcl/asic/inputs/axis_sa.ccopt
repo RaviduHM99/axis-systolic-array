@@ -1,8 +1,10 @@
+####################################################################
+#                      Clock Tree Setup Script                     #
+####################################################################
 # To get a list of all properties:
 # get_db -category cts *
-
-
-# Define Clcok Trees and Skew Groups
+# Define Clock Trees and Skew Groups
+# --------------------------------------
 
 foreach clk_name $design(clock_list) \
         clk_port $design(clock_port_list) \
@@ -11,49 +13,51 @@ foreach clk_name $design(clock_list) \
             create_skew_group -name $clk_name -sources $clk_port -auto_sinks
             set_db clock_tree:$clk_name .cts_clock_tree_source_driver $tech(CCOPT_DRIVING_PIN)
             set_db port:$clk_port .cts_clock_period $clk_period
+            # Skew group to balance non generated clock
+            set_db skew_group:$clk_name .cts_skew_group_include_source_latency true
+            set_db skew_group:$clk_name .cts_skew_group_created_from_clock $clk_name
+            set_db skew_group:$clk_name .cts_skew_group_created_from_constraint_modes {functional_mode}
+            set_db skew_group:$clk_name .cts_skew_group_created_from_delay_corners {wc_dly_corner bc_dly_corner}
         }
 
-# To define specific CTS members:
-# Add pins to a skew Groups
-#   update_skew_group -skew_group $skew_group -add_sinks $pins
-# Or define Stop Pins 
-#   set_db pin:$pin .cts_sink_type stop 
-# Define an Ignore Pin 
-#   set_db pin:$pin .cts_sink_type ignore 
-# Define an Exclude Pin 
-#   set_db pin:$pin .cts_sink_type exclude
-
 # SDC Style Constraints
-set_db cts_target_max_transition_time $design(CLOCK_MAX_TRANSITION)
-set_db cts_max_fanout $design(CLOCK_MAX_FANOUT)
-set_db cts_target_max_capacitance $design(CLOCK_MAX_CAPACITANCE)
-# set_db cts_target_insertion_delay 0
-# set_db cts_target_skew 0.2
+# --------------------------------------
+set_db cts_target_max_transition_time       $design(CLOCK_MAX_TRANSITION)
+set_db cts_max_fanout                       $design(CLOCK_MAX_FANOUT)
+set_db cts_target_max_capacitance           $design(CLOCK_MAX_CAPACITANCE)
+set_db cts_target_max_transition_time_top   $tech(CLOCK_SLEW)
+set_db cts_target_max_transition_time_trunk $tech(CLOCK_SLEW)
+set_db cts_target_max_transition_time_leaf  $tech(CLOCK_SLEW)
 
 # Library Cells
-set_db cts_buffer_cells $tech(CLOCK_BUFFERS)
-set_db cts_clock_gating_cells $tech(CLOKC_GATES)
-set_db cts_inverter_cells $tech(CLOCK_INVERTERS)
-set_db cts_logic_cells $tech(CLOCK_LOGIC)
-set_db ccts_delay_cells $tech(CLOCK_DELAYS)
+# --------------------------------------
+# set_db cts_buffer_cells                     $tech(CLOCK_BUFFERS)
+# set_db cts_clock_gating_cells               $tech(CLOKC_GATES)
+# set_db cts_inverter_cells                   $tech(CLOCK_INVERTERS)
+# set_db cts_logic_cells                      $tech(CLOCK_LOGIC)
+# set_db cts_delay_cells                      $tech(CLOCK_DELAYS)
 
+    
 # Define Non-Default Clock Routing Rules
 # --------------------------------------
-# create_route_rule -name CTS_2S2W \
-#                    -spacing_multiplier "M7:M8 2" \
-#                    -width_multiplier   "M7:M8 2" \
-#                    -min_cut            "VIA6:VIA8 2"
-# create_route_type -name clk_top -route_rule CTS_2S2W \
-#                    -top_preferred_layer M8 -bottom_preferred_layer M7
-#                    -shield_net VSS
-# create_route_type -name clk_trunk -route_rule CTS_2S2W \
-#                    -top_preferred_layer M8 -bottom_preferred_layer M7
-#                    -shield_net VSS
-# set_db cts_route_type_top   clk_top
-# set_db cts_route_type_trunk clk_trunk
-# set_db cts_route_type_leaf  clk_leaf
+create_route_rule -name 2w2s -width_multiplier {M1:M9 2} -spacing_multiplier {M1:M9 2}
+
+create_route_type -name clkroute_top -route_rule 2w2s -shield_net $design(all_ground_nets) \
+    -top_preferred_layer $tech(cts_top_routing_layer_top) \
+    -bottom_preferred_layer $tech(cts_bottom_routing_layer_top)
+create_route_type -name clkroute_trunk -route_rule 2w2s -shield_net $design(all_ground_nets) \
+    -top_preferred_layer $tech(cts_top_routing_layer_trunk) \
+    -bottom_preferred_layer $tech(cts_bottom_routing_layer_trunk)
+create_route_type -name clkroute_leaf -route_rule 2w2s \
+    -top_preferred_layer $tech(cts_top_routing_layer_leaf) \
+    -bottom_preferred_layer $tech(cts_bottom_routing_layer_leaf)
+
+set_db cts_route_type_top       clkroute_top
+set_db cts_route_type_trunk     clkroute_trunk
+set_db cts_route_type_leaf      clkroute_leaf
 
 # Allow CTS to resize dont_touch cells (such as clock gates and muxes)
-# set_db cts_allow_resize_of_dont_touch_cells true
+# -------------------------------------------------------------------
+set_db cts_allow_resize_of_dont_touch_cells true
 
 check_clock_tree_convergence
