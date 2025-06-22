@@ -55,16 +55,6 @@ set tech(FILL_CELL)         "FILLSGCAP2_A9PP140ZTUL_C35 FILLSGCAP3_A9PP140ZTUL_C
 # Set Antenna Cell
 set tech(ANTENNA_CELL)      ANTENNA2_A9PP140ZTUL_C35
 
-# Routing Rules
-set tech(LAYER_NAMES)       [lrange [get_db layers .name] 0 9]
-set tech(MIN_SPACING_X)     [lindex [get_db layers .min_spacing] 2]
-set tech(MIN_WIDTH_X)       [lindex [get_db layers .min_width] 2]
-set tech(MIN_SPACING_Y)     [lindex [get_db layers .min_spacing] 3]
-set tech(MIN_WIDTH_Y)       [lindex [get_db layers .min_width] 3]
-set tech(MIN_SPACING_Z)     [lindex [get_db layers .min_spacing] 7]
-set tech(MIN_WIDTH_Z)       [lindex [get_db layers .min_width] 7]
-set tech(MIN_SPACING_STRIPES) 0.25 ; # Comes from [dbGet head.layers.spacingTables]
-
 # Set Clock Tree Specs 
 set tech(CCOPT_DRIVING_PIN) {BUF_X0P5B_A9PP140ZTUL_C35/A BUF_X0P5B_A9PP140ZTUL_C35/Y}
 # set tech(CLOCK_BUFFERS)     BUF_X0P5B_A9PP140ZTUL_C35
@@ -77,11 +67,3 @@ set tech(CCOPT_DRIVING_PIN) {BUF_X0P5B_A9PP140ZTUL_C35/A BUF_X0P5B_A9PP140ZTUL_C
 set tech(CLOCK_SLEW)        0.00108
 set tech(DATA_SLEW)         0.00108
 set tech(INPUT_SLEW)        0.00108
-
-# Clock Route Rules
-set tech(cts_top_routing_layer_top)         [get_db [lindex [get_db layers] 6] .name]  
-set tech(cts_bottom_routing_layer_top)      [get_db [lindex [get_db layers] 5] .name]  
-set tech(cts_top_routing_layer_trunk)       [get_db [lindex [get_db layers] 6] .name]  
-set tech(cts_bottom_routing_layer_trunk)    [get_db [lindex [get_db layers] 5] .name]  
-set tech(cts_top_routing_layer_leaf)        [get_db [lindex [get_db layers] 4] .name]  
-set tech(cts_bottom_routing_layer_leaf)     [get_db [lindex [get_db layers] 3] .name]  
