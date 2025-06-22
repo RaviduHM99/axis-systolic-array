@@ -224,9 +224,9 @@ set_db opt_new_net_prefix  "cts_opt_net_"
 clock_opt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
 
 write_db -common $design(dbs_dir)/pnr/pre_cts.stylus.enc
-check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
-#check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
-uom_report_timing $design(pnr_reports)/5_post_cts_hold
+check_connectivity > $design(pnr_reports)/4_clock_tree_synthesis/cts_connectivity.rpt
+#check_drc > $design(pnr_reports)/4_clock_tree_synthesis/drc_report.rpt
+uom_report_timing $design(pnr_reports)
 
 help
 # Open the clock tree debugger and check Clock Tree
@@ -241,7 +241,7 @@ opt_design -post_cts -hold
 write_db -common $design(dbs_dir)/pnr/post_cts.stylus.enc
 check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
 #check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
-uom_report_timing $design(pnr_reports)/5_post_cts_hold
+uom_report_timing $design(pnr_reports)
 
 ####################################################
 # Route
@@ -265,7 +265,7 @@ route_opt_design
 write_db -common $design(dbs_dir)/pnr/pre_route.stylus.enc
 check_connectivity > $design(pnr_reports)/6_pre_route/cts_connectivity.rpt
 #check_drc > $design(pnr_reports)/6_pre_route/drc_report.rpt
-uom_report_timing $design(pnr_reports)/6_pre_route
+uom_report_timing $design(pnr_reports)
 
 # Post Route Optimization
 # -----------------------
@@ -289,7 +289,7 @@ route_eco -fix_drc
 write_db -common $design(dbs_dir)/pnr/post_route.stylus.enc
 check_connectivity > $design(pnr_reports)/7_post_route_opt/cts_connectivity.rpt
 #check_drc > $design(pnr_reports)/7_post_route_opt/drc_report.rpt
-uom_report_timing $design(pnr_reports)/7_post_route_opt
+uom_report_timing $design(pnr_reports)
 
 ####################################################
 # Export
