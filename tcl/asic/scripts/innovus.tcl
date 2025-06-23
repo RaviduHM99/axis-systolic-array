@@ -253,9 +253,10 @@ uom_start_stage "6_pre_route"
 # uom_delete_m2_stripe_blockage
 delete_route_blockages -type routes
 
-set_db route_design_with_timing_driven true
-set_db route_design_with_si_driven false
+set_db route_design_with_timing_driven              true
+set_db route_design_with_si_driven                  false
 set_db route_design_detail_use_multi_cut_via_effort medium
+set_db delaycal_enable_si                           false
 
 set_db opt_new_inst_prefix "route_opt_inst_"
 set_db opt_new_net_prefix "route_opt_net_"
@@ -272,15 +273,15 @@ uom_report_timing $design(pnr_reports)
 uom_start_stage "7_post_route_opt"
 opt_design -post_route -setup -hold
 
-set_db route_design_with_timing_driven false
-#set_db route_design_with_si_driven false
-set_db route_design_detail_post_route_spread_wire true
+set_db route_design_with_timing_driven              false
+#set_db route_design_with_si_driven                 false
+set_db route_design_detail_post_route_spread_wire   true
 set_db route_design_detail_use_multi_cut_via_effort high
 route_design -wire_opt
 route_design -via_opt
-set_db route_design_detail_post_route_spread_wire false
-set_db route_design_with_timing_driven true
-#set_db route_design_with_si_driven true
+set_db route_design_detail_post_route_spread_wire   false
+set_db route_design_with_timing_driven              true
+#set_db route_design_with_si_driven                 true
 
 add_fillers -cell $tech(FILL_CELL) -prefix $tech(FILL_CELL_PREFIX);
 route_eco -fix_drc
