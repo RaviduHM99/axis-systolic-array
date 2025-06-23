@@ -302,7 +302,7 @@ route_eco -fix_drc
 
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/post_route.stylus.enc
-check_connectivity > $design(pnr_reports)/7_post_route_opt/cts_connectivity.rpt
+check_connectivity > $design(pnr_reports)/7_post_route_opt/post_route_connectivity.rpt
 uom_report_timing $design(pnr_reports)
 uom_report_hold_timing $design(pnr_reports)
 check_drc -out_file $design(pnr_reports)/7_post_route_opt/drc_report.rpt
