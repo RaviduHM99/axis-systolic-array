@@ -2,6 +2,8 @@ run/build
 run/work*
 tcl/asic/dbs*
 tcl/asic/exports*
+tcl/asic/reports/pnr/3_placement/place_opt_design
+tcl/asic/reports/pnr/4_clock_tree_synthesis/ccopt_design
 vivado
 .vscode
 docs

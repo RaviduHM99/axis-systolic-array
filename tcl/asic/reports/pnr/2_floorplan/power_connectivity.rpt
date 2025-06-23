@@ -1,0 +1,47 @@
+VERIFY_CONNECTIVITY use new engine.
+
+******** Start: VERIFY CONNECTIVITY ********
+Start Time: Mon Jun 23 11:19:09 2025
+
+Design Name: axis_sa
+Database Units: 2000
+Design Boundary: (0.0000, 0.0000) (200.2000, 159.7400)
+Error Limit = 1000; Warning Limit = 50
+Check specified nets
+Use 8 pthreads
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2865 has not been placed. Please make sure instance g43980 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin A of net n_2865 has not been placed. Please make sure instance g42966 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin QN of net n_2865 has not been placed. Please make sure instance ro_reg[2][2][2] is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2864 has not been placed. Please make sure instance g45344 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin A of net n_2864 has not been placed. Please make sure instance g43062 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin QN of net n_2864 has not been placed. Please make sure instance ro_reg[0][3][1] is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2872 has not been placed. Please make sure instance g45412 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin A of net n_2872 has not been placed. Please make sure instance g42107 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin QN of net n_2872 has not been placed. Please make sure instance ro_reg[2][4][2] is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2880 has not been placed. Please make sure instance g43989 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin A of net n_2880 has not been placed. Please make sure instance g42974 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin QN of net n_2880 has not been placed. Please make sure instance ro_reg[2][2][10] is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2888 has not been placed. Please make sure instance g43987 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin A of net n_2888 has not been placed. Please make sure instance g42972 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin QN of net n_2888 has not been placed. Please make sure instance ro_reg[2][2][8] is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2896 has not been placed. Please make sure instance g44002 is placed and rerun check_connectivity.
+**WARN: (EMS-27):	Message (IMPVFC-96) has exceeded the current message display limit of 20.
+To increase the message display limit, refer to the product command reference manual.
+**WARN: (EMS-27):	Message (IMPVFC-96) has exceeded the current message display limit of 20.
+To increase the message display limit, refer to the product command reference manual.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2868 has not been placed. Please make sure instance g43996 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2873 has not been placed. Please make sure instance g45410 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2867 has not been placed. Please make sure instance g43977 is placed and rerun check_connectivity.
+**WARN: (IMPVFC-96):	Instance pin B1N of net n_2866 has not been placed. Please make sure instance g43979 is placed and rerun check_connectivity.
+
+Begin Summary 
+  Found no problems or warnings.
+End Summary
+
+End Time: Mon Jun 23 11:19:09 2025
+Time Elapsed: 0:00:00.0
+
+******** End: VERIFY CONNECTIVITY ********
+  Verification Complete : 0 Viols.  0 Wrngs.
+  (CPU Time: 0:00:00.1  MEM: 2.000M)
+
