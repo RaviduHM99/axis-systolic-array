@@ -213,8 +213,13 @@ proc uom_report_hold_timing {{reports_path "../../tcl/asic/reports/"}} {
     #set timing_report_enable_auto_column_width true
     #set_table_style -nosplit -no_frame_fix_width report_timing
     foreach cg $design(cost_groups) {
+        if {$runtype == "synthesis"} {
         report_timing -early -max_paths 100 -group [get_db cost_groups -match $cg] \
             > "${reports_path}/$this_run(stage)/${cg}.hold.timing.rpt"
+        } elseif {$runtype == "pnr"} {
+        report_timing -early -max_paths 100 -group $cg \
+            > "${reports_path}/$this_run(stage)/${cg}.hold.timing.rpt"
+        }
     }
 }
 

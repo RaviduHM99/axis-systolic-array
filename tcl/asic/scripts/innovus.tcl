@@ -1,5 +1,6 @@
 ##########################################################
 ###     MAKE SURE YOU RAN innovus -stylus !!!!!!!!     ###
+###         get_common_ui_map legacy_command           ###
 ##########################################################
 gui_set_ui main -geometry "1920x1020+0+0"
 
@@ -178,12 +179,15 @@ add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $d
 # This can be used for loading the floorplan in subsequent runs
 #   And also as a basis for physically-aware synthesis
 write_def -floorplan -no_std_cells "$design(floorplan_def)"
-gui_fit
 
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/floorplan.stylus.enc
 check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
-#check_drc > $design(pnr_reports)/2_floorplan/drc_report.rpt
+check_drc -out_file $design(pnr_reports)/2_floorplan/drc_report.rpt
+
+# Screenshot of the floorplan
+gui_fit
+write_to_gif $design(pnr_reports)/screenshots/1_Floorplan.gif
 
 ####################################################
 # Placement
@@ -207,7 +211,11 @@ opt_design -pre_cts -drv
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/placement.stylus.enc
 check_place > $design(pnr_reports)/3_placement/power_connectivity.rpt
-#check_drc > $design(pnr_reports)/3_placement/drc_report.rpt
+check_drc -out_file $design(pnr_reports)/3_placement/drc_report.rpt
+
+# Screenshot of the floorplan
+gui_fit
+write_to_gif $design(pnr_reports)/screenshots/2_Placement.gif
 
 ####################################################
 # Clock Tree Synthesis
@@ -225,7 +233,7 @@ clock_opt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/cc
 
 write_db -common $design(dbs_dir)/pnr/pre_cts.stylus.enc
 check_connectivity > $design(pnr_reports)/4_clock_tree_synthesis/cts_connectivity.rpt
-#check_drc > $design(pnr_reports)/4_clock_tree_synthesis/drc_report.rpt
+check_drc -out_file $design(pnr_reports)/4_clock_tree_synthesis/drc_report.rpt
 uom_report_timing $design(pnr_reports)
 
 # Open the clock tree debugger and check Clock Tree
@@ -239,8 +247,12 @@ opt_design -post_cts -hold
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/post_cts.stylus.enc
 check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
-#check_drc > $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
+check_drc -out_file $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
 uom_report_timing $design(pnr_reports)
+
+# Screenshot of the floorplan
+gui_fit
+write_to_gif $design(pnr_reports)/screenshots/3_CTS.gif
 
 ####################################################
 # Route
@@ -265,7 +277,7 @@ route_opt_design
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/pre_route.stylus.enc
 check_connectivity > $design(pnr_reports)/6_pre_route/cts_connectivity.rpt
-#check_drc > $design(pnr_reports)/6_pre_route/drc_report.rpt
+check_drc -out_file $design(pnr_reports)/6_pre_route/drc_report.rpt
 uom_report_timing $design(pnr_reports)
 
 # Post Route Optimization
@@ -283,14 +295,21 @@ set_db route_design_detail_post_route_spread_wire   false
 set_db route_design_with_timing_driven              true
 #set_db route_design_with_si_driven                 true
 
-add_fillers -cell $tech(FILL_CELL) -prefix $tech(FILL_CELL_PREFIX);
+add_fillers -base_cells $tech(FILL_CELLS) -prefix $tech(FILL_CELL_PREFIX) \
+            -check_different_cells true -check_drc -check_min_hole true \
+            -check_via_enclosure true -fill_gap
 route_eco -fix_drc
 
 # Reporting & Save
 write_db -common $design(dbs_dir)/pnr/post_route.stylus.enc
 check_connectivity > $design(pnr_reports)/7_post_route_opt/cts_connectivity.rpt
 uom_report_timing $design(pnr_reports)
-check_drc > $design(pnr_reports)/7_post_route_opt/drc_report.rpt
+uom_report_hold_timing $design(pnr_reports)
+check_drc -out_file $design(pnr_reports)/7_post_route_opt/drc_report.rpt
+
+# Screenshot of the floorplan
+gui_fit
+write_to_gif $design(pnr_reports)/screenshots/4_Post_Route.gif
 
 ####################################################
 # Export
@@ -299,10 +318,10 @@ uom_start_stage "8_signoff"
 
 # Write out a netlist for gls simulation
 # ---------------------------------------------
-enics_message "Writing the post route netlist to $design(postroute_netlist)"
+uom_message "Writing the post route netlist to $design(postroute_netlist)"
 write_netlist > $design(postroute_netlist)
 
 # Write out SDF for backannotation simulation
 # -------------------------------------------
-enics_message "Writing the post route SDF to $design(postroute_sdf)"
+uom_message "Writing the post route SDF to $design(postroute_sdf)"
 write_sdf > $design(postroute_sdf)
