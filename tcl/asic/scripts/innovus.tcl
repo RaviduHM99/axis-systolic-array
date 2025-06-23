@@ -250,10 +250,11 @@ uom_report_timing $design(pnr_reports)
 uom_start_stage "6_pre_route"
 
 # Get rid of the M2 stripe blockages that are no longer needed and cause annoying DRC violations
-uom_delete_m2_stripe_blockage
+# uom_delete_m2_stripe_blockage
+delete_route_blockages -type routes
 
 set_db route_design_with_timing_driven true
-#set_db route_design_with_si_driven true
+set_db route_design_with_si_driven false
 set_db route_design_detail_use_multi_cut_via_effort medium
 
 set_db opt_new_inst_prefix "route_opt_inst_"

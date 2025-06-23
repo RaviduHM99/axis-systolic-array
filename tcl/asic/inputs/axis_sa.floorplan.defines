@@ -29,8 +29,10 @@ proc uom_add_m2_stripe_blockage {} {
     set m1_name [get_db [lindex [get_db layers] 1] .name]
     set m2_name [get_db [lindex [get_db layers] 2] .name]
     set m7_name [get_db [lindex [get_db layers] 7] .name]
+    set m2_route_blockage_list ""
     select_routes -shapes stripe -layer $m7_name -nets $design(M7_stripes_nets)
     foreach stripe [get_db selected] {
+        lappend m2_route_blockage_list "M2_pwr_stripe_route_blk"
         create_route_blockage -name M2_pwr_stripe_route_blk \
         -layer "$m1_name $m2_name" \
         -spacing [expr 2*[get_db [lindex [get_db layers] 1] .min_spacing]] \
