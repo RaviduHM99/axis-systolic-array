@@ -44,7 +44,7 @@ if {$runtype == "pnr"} {
     set_db add_tieoffs_prefix        $tech(TIE_PREFIX)
     set_db add_tieoffs_max_fanout    20
     set_db add_tieoffs_max_distance  250
-    set_db add_fillers_cells         $tech(FILL_CELL)
+    set_db add_fillers_cells         $tech(FILL_CELLS)
     set_db add_fillers_check_drc     true
     set_db add_fillers_prefix        $tech(FILL_CELL_PREFIX)
     
