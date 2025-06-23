@@ -319,9 +319,9 @@ uom_start_stage "8_signoff"
 # Write out a netlist for gls simulation
 # ---------------------------------------------
 uom_message "Writing the post route netlist to $design(postroute_netlist)"
-write_netlist > $design(postroute_netlist)
+write_netlist -top_module $design(TOPLEVEL) -top_module_first -flat $design(postroute_netlist)
 
 # Write out SDF for backannotation simulation
 # -------------------------------------------
 uom_message "Writing the post route SDF to $design(postroute_sdf)"
-write_sdf > $design(postroute_sdf)
+write_sdf -version 3.0 -min_view bc_analysis_view -typical_view tc_analysis_view -max_view wc_analysis_view $design(postroute_sdf) 

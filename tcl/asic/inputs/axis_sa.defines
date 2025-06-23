@@ -106,8 +106,8 @@ set design(clock_tree_spec)                      "$design(inputs_dir)/$design(TO
 ################################################
 #               MMMC
 ################################################
-set design(selected_setup_analysis_views) "wc_analysis_view"
-set design(selected_hold_analysis_views)  "bc_analysis_view"
+set design(selected_setup_analysis_views) "wc_analysis_view tc_analysis_view"
+set design(selected_hold_analysis_views)  "bc_analysis_view tc_analysis_view"
 set design(selected_power_analysis_views) "wc_analysis_view"
 
 ################################################
