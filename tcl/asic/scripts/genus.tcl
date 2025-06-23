@@ -139,6 +139,7 @@ set_db design:${design(TOPLEVEL)} .retime true
 # ------------------------
 set_db design_process_node      $TECH_NODE
 set_db number_of_routing_layers $METAL_LAYERS
+#set_db design_tech_node         N7
 
 
 if {$phys_synth_type == "floorplan"} {
