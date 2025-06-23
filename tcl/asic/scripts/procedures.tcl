@@ -206,7 +206,7 @@ proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
 #       appropriate directory
 ###################################################
 proc uom_report_hold_timing {{reports_path "../../tcl/asic/reports/"}} {
-    global design this_run
+    global design runtype this_run
     mkdir -pv ${reports_path}/$this_run(stage)/
     set_db timing_report_fields \
         "timing_point flags arc edge cell fanout transition delay arrival"
@@ -253,8 +253,8 @@ proc uom_create_stage_reports {{args ""}} {
 
     uom_message "Starting to create reports for stage: $this_run(stage)" medium
     if { $options(-write_db) eq "yes" } {
-        mkdir -pv $design(dbs_dir)/pnr/$this_run(stage)
-        set dbs_proc_dir $design(dbs_dir)/pnr/$this_run(stage)
+        mkdir -pv $design(dbs_dir)/pnr
+        set dbs_proc_dir $design(dbs_dir)/pnr/$this_run(stage).stylus.enc
         uom_message "Reports directory is : $dbs_proc_dir"
         write_db -common $dbs_proc_dir
     }
@@ -277,7 +277,7 @@ proc uom_create_stage_reports {{args ""}} {
         mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
         set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
         uom_message "Reports directory is : $rpt_proc_dir" 
-        check_drc > $rpt_proc_dir/drc_report.rpt
+        check_drc -out_file $rpt_proc_dir/drc_report.rpt
     }
 
     if { $options(-check_connectivity) eq "yes" } {
