@@ -5,18 +5,20 @@ set_db source_verbose true ; #Sourcing files will be re.
 
 # Attributes that only Genus understands...
 if {$runtype == "synthesis"} {
-    set_db information_level 9 ; # The log file will rep.
-    set_db hdl_max_loop_limit 100000
-    set_db max_cpus_per_server 50
-    set_db design_process_node 28
-    #set_db design_tech_node N7
+    set_db information_level        9 ; # The log file will rep.
+    set_db hdl_max_loop_limit       100000
+    set_db max_cpus_per_server      50
+    set_db design_process_node      28
+    #set_db design_tech_node         N7
+    set_db number_of_routing_layers 9
+    set_db 
     if {$design(HAS_SCAN) == "no"} {
         set_db use_scan_seqs_for_non_dft false
     }
-    set_db retime_async_reset true
-    set_db hdl_language v2001 -quiet
-    set_db lp_insert_clock_gating false
-    set_db detailed_sdc_messages true ; # helps read_sdc
+    set_db retime_async_reset       true
+    set_db hdl_language v2001       -quiet
+    set_db lp_insert_clock_gating   false
+    set_db detailed_sdc_messages    true ; # helps read_sdc
 }
 
 ###################################
@@ -26,9 +28,9 @@ if {$runtype == "pnr"} {
 
     ## Basic Settings
     ###########################
-    set_multi_cpu_usage -local_cpu 8
-    set_db design_process_node 28
-    #set_db design_tech_node N7
+    set_multi_cpu_usage -local_cpu  8
+    set_db design_process_node      28
+    #set_db design_tech_node         N7
 
     ## Timing Analysis Settings
     ###############################

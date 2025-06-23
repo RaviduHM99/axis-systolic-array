@@ -143,13 +143,13 @@ set_db number_of_routing_layers $METAL_LAYERS
 
 if {$phys_synth_type == "floorplan"} {
     # Set Synthesis Efforts
-    set_db syn_generic_effort high           	; # low|medium|high
-    set_db syn_map_effort high                  ; # low|medium|high
-    set_db syn_opt_effort extreme               ; # low|medium|high|extreme
+    set_db syn_generic_effort           high    ; # low|medium|high
+    set_db syn_map_effort               high    ; # low|medium|high
+    set_db syn_opt_effort               extreme ; # low|medium|high|extreme
 
-    set_db opt_spatial_effort extreme           ; # legacy|standard|extreme
+    set_db opt_spatial_effort           extreme ; # legacy|standard|extreme
     set_db opt_leakage_to_dynamic_ratio 1.0
-    set_db design_power_effort high             ; # none|low|high
+    set_db design_power_effort          high    ; # none|low|high
 
     # Synthesize to generics and place generics in floorplan
     uom_start_stage "syn_generic_ispatial_flow"
@@ -166,9 +166,9 @@ if {$phys_synth_type == "floorplan"} {
 
 } else {
     # Set Synthesis Efforts
-    set_db syn_generic_effort high           	; # low|medium|high
-    set_db syn_map_effort high                  ; # low|medium|high
-    set_db syn_opt_effort extreme               ; # low|medium|high|extreme
+    set_db syn_generic_effort           high    ; # low|medium|high
+    set_db syn_map_effort               high    ; # low|medium|high
+    set_db syn_opt_effort               extreme ; # low|medium|high|extreme
 
     # Synthesize to generics and place generics in floorplan
     uom_start_stage "syn_generic_rtl_flow"
