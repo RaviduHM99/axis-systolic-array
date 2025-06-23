@@ -106,7 +106,7 @@ proc uom_reload_sdc {{constraint_mode all}} {
 ###################################################
 proc uom_default_cost_groups {} {
     global runtype design
-    if {$runtype == "synthesis"} {
+    if { $runtype == "synthesis" } {
         # reg2reg
         define_cost_group -name reg2reg -design $design(TOPLEVEL)
         path_group -from [all_registers] -to [all_registers] -group reg2reg -name reg2reg \
@@ -127,7 +127,7 @@ proc uom_default_cost_groups {} {
         path_group -from [all_inputs] -to [all_outputs] -group in2out -name in2out \
             -view $design(selected_setup_analysis_views)
         lappend design(cost_groups) "in2out"
-    } elseif {$runtype == "pnr"} {
+    } elseif { $runtype == "pnr" } {
         create_basic_path_groups -expanded
         lappend design(cost_groups) "reg2reg"
         lappend design(cost_groups) "in2reg"
