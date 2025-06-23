@@ -8,6 +8,8 @@ if {$runtype == "synthesis"} {
     set_db information_level 9 ; # The log file will rep.
     set_db hdl_max_loop_limit 100000
     set_db max_cpus_per_server 50
+    set_db design_process_node 28
+    #set_db design_tech_node N7
     if {$design(HAS_SCAN) == "no"} {
         set_db use_scan_seqs_for_non_dft false
     }
