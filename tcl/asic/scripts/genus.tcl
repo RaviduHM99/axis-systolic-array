@@ -163,7 +163,7 @@ if {$phys_synth_type == "floorplan"} {
 
     # Post synthesis optimization
     uom_start_stage "4_post_syn_opt_ispatial_flow"
-    syn_opt -spatial
+    syn_opt
 
 } else {
     # Set Synthesis Efforts
