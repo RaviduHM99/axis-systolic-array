@@ -154,11 +154,11 @@ if {$phys_synth_type == "floorplan"} {
 
     # Synthesize to generics and place generics in floorplan
     uom_start_stage "syn_generic_ispatial_flow"
-    syn_generic -physical
+    syn_generic
 
     # Map technology
     uom_start_stage "3_technology_mapping_ispatial_flow"
-    syn_map -physical
+    syn_map
     uom_report_timing $design(synthesis_reports)
 
     # Post synthesis optimization
