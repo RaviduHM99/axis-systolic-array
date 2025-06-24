@@ -209,7 +209,7 @@ opt_design -pre_cts -drv
 
 # Reporting & Save
 check_place > $design(pnr_reports)/3_placement/placement_report.rpt
-uom_create_stage_reports -write_db yes -check_drc yes 
+uom_create_stage_reports -write_db yes -check_drc yes -help
 
 # Screenshot of the floorplan
 gui_fit
