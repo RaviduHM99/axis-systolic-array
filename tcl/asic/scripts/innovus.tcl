@@ -98,7 +98,7 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
 }
 
 # Reporting & Save
-write_db -common $design(dbs_dir)/pnr/init_design.stylus.enc
+uom_create_stage_reports -write_db yes
 
 ####################################################
 # Floorplan
@@ -181,9 +181,8 @@ add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $d
 write_def -floorplan -no_std_cells "$design(floorplan_def)"
 
 # Reporting & Save
-write_db -common $design(dbs_dir)/pnr/floorplan.stylus.enc
 check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
-check_drc -out_file $design(pnr_reports)/2_floorplan/drc_report.rpt
+uom_create_stage_reports -write_db yes -check_drc yes 
 
 # Screenshot of the floorplan
 gui_fit
@@ -209,9 +208,8 @@ add_tieoffs -lib_cell "$tech(TIE_HIGH_CELL) $tech(TIE_LOW_CELL)" -prefix $tech(T
 opt_design -pre_cts -drv 
 
 # Reporting & Save
-write_db -common $design(dbs_dir)/pnr/placement.stylus.enc
-check_place > $design(pnr_reports)/3_placement/power_connectivity.rpt
-check_drc -out_file $design(pnr_reports)/3_placement/drc_report.rpt
+check_place > $design(pnr_reports)/3_placement/placement_report.rpt
+uom_create_stage_reports -write_db yes -check_drc yes 
 
 # Screenshot of the floorplan
 gui_fit
@@ -231,10 +229,8 @@ set_db opt_new_net_prefix  "cts_opt_net_"
 # ccopt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
 clock_opt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
 
-write_db -common $design(dbs_dir)/pnr/pre_cts.stylus.enc
-check_connectivity > $design(pnr_reports)/4_clock_tree_synthesis/cts_connectivity.rpt
-check_drc -out_file $design(pnr_reports)/4_clock_tree_synthesis/drc_report.rpt
-uom_report_timing $design(pnr_reports)
+# Reporting & Save
+uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes
 
 # Open the clock tree debugger and check Clock Tree
 #gui_open_ctd
@@ -245,10 +241,7 @@ uom_start_stage "5_post_cts_hold"
 opt_design -post_cts -hold 
 
 # Reporting & Save
-write_db -common $design(dbs_dir)/pnr/post_cts.stylus.enc
-check_connectivity > $design(pnr_reports)/5_post_cts_hold/cts_connectivity.rpt
-check_drc -out_file $design(pnr_reports)/5_post_cts_hold/drc_report.rpt
-uom_report_timing $design(pnr_reports)
+uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes
 
 # Screenshot of the floorplan
 gui_fit
@@ -275,10 +268,7 @@ set_db opt_new_net_prefix "route_opt_net_"
 route_opt_design
 
 # Reporting & Save
-write_db -common $design(dbs_dir)/pnr/pre_route.stylus.enc
-check_connectivity > $design(pnr_reports)/6_pre_route/cts_connectivity.rpt
-check_drc -out_file $design(pnr_reports)/6_pre_route/drc_report.rpt
-uom_report_timing $design(pnr_reports)
+uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes
 
 # Post Route Optimization
 # -----------------------
@@ -306,11 +296,7 @@ add_fillers -base_cells $tech(FILL_CELLS) -prefix $tech(FILL_CELL_PREFIX) \
 route_eco -fix_drc
 
 # Reporting & Save
-write_db -common $design(dbs_dir)/pnr/post_route.stylus.enc
-check_connectivity > $design(pnr_reports)/7_post_route_opt/post_route_connectivity.rpt
-uom_report_timing $design(pnr_reports)
-uom_report_hold_timing $design(pnr_reports)
-check_drc -out_file $design(pnr_reports)/7_post_route_opt/drc_report.rpt
+uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes -report_hold yes
 
 # Screenshot of the floorplan
 gui_fit
