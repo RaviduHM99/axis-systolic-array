@@ -110,12 +110,12 @@ if {$phys_synth_type == "floorplan"} {
     # You need to read a .def file for the floorplan to enable physical synthesis
     uom_message "Loading the floorplan DEF"
     read_def $design(floorplan_def)
+} else {
+    # Specify Floorplan
+    create_floorplan -site $tech(STANDARD_CELL_SITE) -match_to_site \
+        -core_density_size $design(floorplan_ratio) $design(floorplan_utilization) {*}$design(floorplan_space_to_core)
+    gui_fit
 }
-
-# Specify Floorplan
-create_floorplan -site $tech(STANDARD_CELL_SITE) -match_to_site \
-    -core_density_size $design(floorplan_ratio) $design(floorplan_utilization) {*}$design(floorplan_space_to_core)
-gui_fit
 
 # Set up pads (for fullchip) or pins (for macro)
 if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
