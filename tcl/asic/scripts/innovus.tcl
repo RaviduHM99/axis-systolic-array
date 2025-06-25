@@ -334,7 +334,7 @@ route_eco -fix_drc
 if {$timing_lib_type == "ccs_ocv"} {
     set_db timing_analysis_engine             statistical
 }
-uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes
+uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes -report_hold yes
 if {$timing_lib_type == "ccs_ocv"} {
     set_db timing_analysis_engine             static
 }
