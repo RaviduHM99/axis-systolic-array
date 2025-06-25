@@ -42,7 +42,7 @@ if {$runtype == "pnr"} {
         set_db delaycal_equivalent_waveform_type  moments 
         set_db delaycal_equivalent_waveform_model propagation
         set_db timing_derate_aocv_dynamic_delays  false
-        set_db timing_enalbe_si_cppr              true
+        set_db timing_enable_si_cppr              true
         set_db timing_library_read_ccs_noise_data true
         set_db timing_aocv_derate_mode            aocv_multiplicative
     }
