@@ -53,8 +53,14 @@ set_db init_power_nets  $design(all_power_nets)
 uom_message "Suppressing the following messages that are reported due to the LIB definitions"
 uom_message "$tech(LIB_SUPPRESS_MESSAGES_INNOVUS)"
 set_message -suppress -id $tech(LIB_SUPPRESS_MESSAGES_INNOVUS)
-uom_message "Reading MMMC File"
-read_mmmc $design(mmmc_view_file)
+
+if {$timing_lib_type == "nldm"} {
+    uom_message "Loading MMMC File with NLDM Libs"
+    read_mmmc $design(mmmc_nldm_view_file)
+} else {
+    uom_message "Loading MMMC File with CCS & OCV Libs"
+    read_mmmc $design(mmmc_ocv_view_file)
+}
 
 # LEFs
 uom_message "Suppressing the following messages that are reported due to the LEF definitions"
@@ -141,7 +147,6 @@ if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
     edit_pin -spread_direction clockwise -spread_type center \
              -layer M4 -side Right -fix_overlap 1 -spacing 2 \
              -pin $design(RIGHT_OUTPUT_PINS)       
-
 }
 gui_redraw
 
@@ -255,13 +260,19 @@ write_to_gif $design(pnr_reports)/screenshots/3_CTS.gif
 uom_start_stage "6_pre_route"
 
 # Get rid of the M2 stripe blockages that are no longer needed and cause annoying DRC violations
-# uom_delete_m2_stripe_blockage
 delete_route_blockages -type routes
 
-set_db route_design_with_timing_driven              true
-set_db route_design_with_si_driven                  false
-set_db route_design_detail_use_multi_cut_via_effort medium
-set_db delaycal_enable_si                           false
+
+set_db route_design_with_timing_driven                  true
+set_db route_design_detail_use_multi_cut_via_effort     medium
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db route_design_with_si_driven                  true
+    set_db delaycal_enable_si                           true
+} else {
+    set_db route_design_with_si_driven                  false
+    set_db delaycal_enable_si                           false
+}
+
 
 set_db opt_new_inst_prefix "route_opt_inst_"
 set_db opt_new_net_prefix "route_opt_net_"
@@ -275,15 +286,21 @@ uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_
 uom_start_stage "7_post_route_opt"
 opt_design -post_route -setup -hold
 
-set_db route_design_with_timing_driven              false
-#set_db route_design_with_si_driven                 false
-set_db route_design_detail_post_route_spread_wire   true
-set_db route_design_detail_use_multi_cut_via_effort high
+set_db route_design_with_timing_driven                  false
+set_db route_design_detail_post_route_spread_wire       true
+set_db route_design_detail_use_multi_cut_via_effort     high
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db route_design_with_si_driven                  false
+    set_db delaycal_enable_si                           false
+}
 route_design -wire_opt
 route_design -via_opt
-set_db route_design_detail_post_route_spread_wire   false
-set_db route_design_with_timing_driven              true
-#set_db route_design_with_si_driven                 true
+set_db route_design_detail_post_route_spread_wire       false
+set_db route_design_with_timing_driven                  true
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db route_design_with_si_driven                  true
+    set_db delaycal_enable_si                           true
+}
 
 # Add Filler Cells with DRC errors
 add_fillers -base_cells $tech(FILL_CELLS) -prefix $tech(FILL_CELL_PREFIX) \

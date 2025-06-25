@@ -23,7 +23,7 @@ set design(M7_stripes_nets) "$design(digital_gnd) $design(digital_vdd)"
 ##       Routing blockages        ##
 ####################################
 proc uom_add_m2_stripe_blockage {} {
-    global design
+    global design m2_route_blockage_list
     # Add M2 routing blockages around vertical power stripes to prevent M2 routing DRCs near them
     deselect_routes
     set m1_name [get_db [lindex [get_db layers] 1] .name]
@@ -39,12 +39,6 @@ proc uom_add_m2_stripe_blockage {} {
         -area [get_db $stripe .rect]
     }
     deselect_routes
-}
-
-proc uom_delete_m2_stripe_blockage {} {
-    deselect_obj -all
-    select_obj [get_db route_blockages if {.name == M2_pwr_stripe_route_blk}]
-    delete_selected_from_floorplan
 }
 
 ####################################

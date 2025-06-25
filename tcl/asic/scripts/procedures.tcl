@@ -260,15 +260,15 @@ proc uom_create_stage_reports {{args ""}} {
     }
 
     if { $options(-report_timing) eq "yes" } {
-        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
-        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
+        mkdir -pv $design(reports_dir)/pnr
+        set rpt_proc_dir $design(reports_dir)/pnr
         uom_message "Reports directory is : $rpt_proc_dir" 
         uom_report_timing $rpt_proc_dir
     }
 
     if { $options(-report_hold) eq "yes" } {
-        mkdir -pv $design(reports_dir)/pnr/$this_run(stage)
-        set rpt_proc_dir $design(reports_dir)/pnr/$this_run(stage)
+        mkdir -pv $design(reports_dir)/pnr
+        set rpt_proc_dir $design(reports_dir)/pnr
         uom_message "Reports directory is : $rpt_proc_dir" 
         uom_report_hold_timing $rpt_proc_dir
     }

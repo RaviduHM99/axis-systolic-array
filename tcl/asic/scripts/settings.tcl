@@ -8,13 +8,18 @@ if {$runtype == "synthesis"} {
     set_db information_level        9 ; # The log file will rep.
     set_db hdl_max_loop_limit       100000
     set_db max_cpus_per_server      50
-    if {$design(HAS_SCAN) == "no"} {
-        set_db use_scan_seqs_for_non_dft false
-    }
     set_db retime_async_reset       true
     set_db hdl_language v2001       -quiet
     set_db lp_insert_clock_gating   false
     set_db detailed_sdc_messages    true ; # helps read_sdc
+
+    if {$design(HAS_SCAN) == "no"} {
+        set_db use_scan_seqs_for_non_dft false
+    }
+
+    if {$timing_lib_type == "ccs_ocv"} {
+        phys_enable_ocv -native_aocv
+    }
 }
 
 ###################################
@@ -28,18 +33,23 @@ if {$runtype == "pnr"} {
     set_db design_process_node      28
     #set_db design_tech_node         N7
 
-    ## Timing Analysis Settings
+    ## Timing Analysis OCV Settings
     ###############################
-    #set_db timing_analysis_type             ocv
-    #set_db timing_analysis_cppr             both
-
-    #set_db timing_analysis_aocv             true
-    #set_db timing_enable_aocv_slack_based   true
-    #set_db timing_aocv_analysis_mode        launch_capture; #{launch_capture | clock_only | separate_data}
-    #set_db timing_extract_model_aocv_mode   graph_based
-    #set_db timing_aocv_derate_mode          aocv_additive;  #{aocv_multiplicative | aocv_additive}
-
-    #set_db timing_analysis_socv             true
+    if {$timing_lib_type == "ccs_ocv"} {
+        set_db timing_analysis_type               ocv
+        set_db timing_analysis_engine             statistical
+        set_db timing_analysis_cppr               both
+        set_db timing_analysis_aocv               true
+        set_db timing_enable_aocv_slack_based     true
+        set_db timing_aocv_analysis_mode          launch_capture
+        set_db timing_extract_model_aocv_mode     path_based
+        set_db delaycal_equivalent_waveform_type  moments
+        set_db delaycal_equivalent_waveform_mode  propagation
+        set_db timing_derate_aocv_dynamic_delays  false
+        set_db timing_enalbe_si_cppr              true
+        set_db timing_library_read_ccs_noise_data true
+        set_db timing_aocv_derate_mode            aocv_multiplicative
+    }
 
     ## Floorplan Settings
     ###############################
@@ -60,12 +70,12 @@ if {$runtype == "pnr"} {
     ## Routing Settings
     ##################################
     set_db route_design_concurrent_minimize_via_count_effort high
-    set_db route_design_antenna_diode_insertion true
-    set_db route_design_antenna_cell_name $tech(ANTENNA_CELL)
+    set_db route_design_antenna_diode_insertion              true
+    set_db route_design_antenna_cell_name                    $tech(ANTENNA_CELL)
     ### don't use pin as a jumper - make one contact
-    set_db route_design_allow_pin_as_feedthru false
+    set_db route_design_allow_pin_as_feedthru                false
     ### don't taper to the output pin causing EM issues
-    set_db route_design_detail_no_taper_on_output_pin true
+    set_db route_design_detail_no_taper_on_output_pin        true
 }
 
 ###################################

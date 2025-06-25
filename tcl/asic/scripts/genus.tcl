@@ -33,14 +33,14 @@ uom_message "$design(DESIGN_SUPPRESS_MESSAGES_GENUS)"
 suppress_messages $design(DESIGN_SUPPRESS_MESSAGES_GENUS)
 
 #################################################################
-#              Print Values to debug file                       #
+#                 Print Values to debug file                    #
 #################################################################
 set var_list {runtype phys_synth_type}
 set dic_list {paths tech tech_files design}
 uom_print_debug_data w $debug_file "after everything was loaded" $var_list $dic_list
 
 #################################################################
-#                           Read MMMC                           #
+#                       Read MMMC                               #
 #################################################################
 uom_start_stage "init_libraries"
 
@@ -51,11 +51,16 @@ suppress_messages $tech(LIB_SUPPRESS_MESSAGES_GENUS)
 
 # Load MMMC File
 # --------------
-uom_message "Loading MMMC File"
-read_mmmc $design(mmmc_view_file)
+if {$timing_lib_type == "nldm"} {
+    uom_message "Loading MMMC File with NLDM Libs"
+    read_mmmc $design(mmmc_nldm_view_file)
+} else {
+    uom_message "Loading MMMC File with CCS & OCV Libs"
+    read_mmmc $design(mmmc_ocv_view_file)
+}
 
 #################################################################
-#               SDC File Generation                             #
+#                    SDC File Generation                        #
 #################################################################
 uom_create_sdc_file
 
