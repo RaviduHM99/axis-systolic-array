@@ -57,7 +57,6 @@ if {$timing_lib_type == "nldm"} {
 } else {
     uom_message "Loading MMMC File with CCS & OCV Libs"
     read_mmmc $design(mmmc_ocv_view_file)
-    phys_enable_ocv -native_aocv -design $design(TOPLEVEL)
 }
 
 #################################################################
@@ -132,6 +131,12 @@ if {$phys_synth_type == "floorplan"} {
 #                          Synthesize                           #
 #################################################################
 uom_start_stage "2_pre_synthesis"
+
+# Define OCV Methodology for Timing Analysis
+# ------------------------------------------
+if {$timing_lib_type == "ccs_ocv"} {
+    phys_enable_ocv -native_aocv -design $design(TOPLEVEL)
+}
 
 # Define cost groups (reg2reg, in2reg, reg2out, in2out)
 # -----------------------------------------------------
