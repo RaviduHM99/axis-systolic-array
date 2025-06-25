@@ -39,8 +39,8 @@ if {$runtype == "pnr"} {
         set_db timing_enable_aocv_slack_based     true
         set_db timing_aocv_analysis_mode          launch_capture
         set_db timing_extract_model_aocv_mode     path_based
-        set_db delaycal_equivalent_waveform_type  moments
-        set_db delaycal_equivalent_waveform_mode  propagation
+        set_db delaycal_equivalent_waveform_type  moments 
+        set_db delaycal_equivalent_waveform_model propagation
         set_db timing_derate_aocv_dynamic_delays  false
         set_db timing_enalbe_si_cppr              true
         set_db timing_library_read_ccs_noise_data true
