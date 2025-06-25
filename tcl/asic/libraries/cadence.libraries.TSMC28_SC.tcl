@@ -1,5 +1,7 @@
 # Set Paths for Timing Libs
-set paths(LIB_Paths) "$paths(PDK_ROOT)/STD_Libs/lib"
+set paths(LIB_Paths)    "$paths(PDK_ROOT)/STD_Libs/lib"
+set paths(CCS_Paths)    "$paths(PDK_ROOT)/STD_Libs/lib-ccs-tn"
+set paths(AOCV_Paths)   "$paths(PDK_ROOT)/STD_Libs/aocv"
 
 # General
 set tech(STANDARD_CELL_VDD)   VDD
@@ -70,46 +72,46 @@ set tech(INPUT_SLEW)        0.00108
 
 # CCS Libs
 
-set tech_files(CCS_STD_CELL_LVT_BC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_0p77v_m40c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_LVT_BC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_0p77v_m40c.lib_ccs_tn"
     set tech_files(ALL_BC_CCS_LIBS) $tech_files(CCS_STD_CELL_LVT_BC_LIB)
-set tech_files(CCS_STD_CELL_LVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_LVT_WC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c.lib_ccs_tn"
     set tech_files(ALL_WC_CCS_LIBS) $tech_files(CCS_STD_CELL_LVT_WC_LIB)
-set tech_files(CCS_STD_CELL_LVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p70v_85c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_LVT_TC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p70v_85c.lib_ccs_tn"
     set tech_files(ALL_TC_CCS_LIBS) $tech_files(CCS_STD_CELL_LVT_TC_LIB)
 
-set tech_files(CCS_STD_CELL_RVT_BC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_0p88v_m40c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_RVT_BC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_0p88v_m40c.lib_ccs_tn"
     lappend tech_files(ALL_BC_CCS_LIBS) $tech_files(CCS_STD_CELL_RVT_BC_LIB)
-set tech_files(CCS_STD_CELL_RVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p81v_125c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_RVT_WC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p81v_125c.lib_ccs_tn"
     lappend tech_files(ALL_WC_CCS_LIBS) $tech_files(CCS_STD_CELL_RVT_WC_LIB)
-set tech_files(CCS_STD_CELL_RVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p90v_85c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_RVT_TC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p90v_85c.lib_ccs_tn"
     lappend tech_files(ALL_TC_CCS_LIBS) $tech_files(CCS_STD_CELL_RVT_TC_LIB)
 
-set tech_files(CCS_STD_CELL_HVT_BC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_1p05v_m40c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_HVT_BC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_1p05v_m40c.lib_ccs_tn"
     lappend tech_files(ALL_BC_CCS_LIBS) $tech_files(CCS_STD_CELL_HVT_BC_LIB)
-set tech_files(CCS_STD_CELL_HVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p90v_125c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_HVT_WC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p90v_125c.lib_ccs_tn"
     lappend tech_files(ALL_WC_CCS_LIBS) $tech_files(CCS_STD_CELL_HVT_WC_LIB)
-set tech_files(CCS_STD_CELL_HVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_1p05v_85c.lib_ccs_tn"
+set tech_files(CCS_STD_CELL_HVT_TC_LIB) "$paths(CCS_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_1p05v_85c.lib_ccs_tn"
     lappend tech_files(ALL_TC_CCS_LIBS) $tech_files(CCS_STD_CELL_HVT_TC_LIB)
 
 # AOCV Libs
 
-set tech_files(AOCV_STD_CELL_LVT_BC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_0p77v_m40c_10pct.aocv3"
+set tech_files(AOCV_STD_CELL_LVT_BC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_0p77v_m40c_10pct.aocv3"
     set tech_files(ALL_BC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_LVT_BC_LIB)
-set tech_files(AOCV_STD_CELL_LVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c_5pct.aocv3"
+set tech_files(AOCV_STD_CELL_LVT_WC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p72v_125c_5pct.aocv3"
     set tech_files(ALL_WC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_LVT_WC_LIB)
-set tech_files(AOCV_STD_CELL_LVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p70v_85c_7pct.aocv3"
+set tech_files(AOCV_STD_CELL_LVT_TC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p70v_85c_7pct.aocv3"
     set tech_files(ALL_TC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_LVT_TC_LIB)
 
-set tech_files(AOCV_STD_CELL_RVT_BC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_0p88v_m40c_10pct.aocv3"
+set tech_files(AOCV_STD_CELL_RVT_BC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_0p88v_m40c_10pct.aocv3"
     lappend tech_files(ALL_BC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_RVT_BC_LIB)
-set tech_files(AOCV_STD_CELL_RVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p81v_125c_5pct.aocv3"
+set tech_files(AOCV_STD_CELL_RVT_WC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p81v_125c_5pct.aocv3"
     lappend tech_files(ALL_WC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_RVT_WC_LIB)
-set tech_files(AOCV_STD_CELL_RVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p90v_85c_7pct.aocv3"
+set tech_files(AOCV_STD_CELL_RVT_TC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_0p90v_85c_7pct.aocv3"
     lappend tech_files(ALL_TC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_RVT_TC_LIB)
 
-set tech_files(AOCV_STD_CELL_HVT_BC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_1p05v_m40c_10pct.aocv3"
+set tech_files(AOCV_STD_CELL_HVT_BC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ffg_cbestt_min_1p05v_m40c_10pct.aocv3"
     lappend tech_files(ALL_BC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_HVT_BC_LIB)
-set tech_files(AOCV_STD_CELL_HVT_WC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p90v_125c_5pct.aocv3"
+set tech_files(AOCV_STD_CELL_HVT_WC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_ssg_cworstt_max_0p90v_125c_5pct.aocv3"
     lappend tech_files(ALL_WC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_HVT_WC_LIB)
-set tech_files(AOCV_STD_CELL_HVT_TC_LIB) "$paths(LIB_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_1p05v_85c_7pct.aocv3"
+set tech_files(AOCV_STD_CELL_HVT_TC_LIB) "$paths(AOCV_Paths)/sc9mcpp140z_cln28ht_base_ulvt_c35_tt_ctypical_max_1p05v_85c_7pct.aocv3"
     lappend tech_files(ALL_TC_AOCV_LIBS) $tech_files(AOCV_STD_CELL_HVT_TC_LIB)
