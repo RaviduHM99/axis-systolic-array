@@ -57,6 +57,7 @@ if {$timing_lib_type == "nldm"} {
 } else {
     uom_message "Loading MMMC File with CCS & OCV Libs"
     read_mmmc $design(mmmc_ocv_view_file)
+    phys_enable_ocv -native_aocv -design $design(TOPLEVEL)
 }
 
 #################################################################

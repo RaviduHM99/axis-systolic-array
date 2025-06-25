@@ -16,10 +16,6 @@ if {$runtype == "synthesis"} {
     if {$design(HAS_SCAN) == "no"} {
         set_db use_scan_seqs_for_non_dft false
     }
-
-    if {$timing_lib_type == "ccs_ocv"} {
-        phys_enable_ocv -native_aocv
-    }
 }
 
 ###################################
