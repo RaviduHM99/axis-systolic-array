@@ -33,7 +33,7 @@ if {$runtype == "pnr"} {
     ###############################
     if {$timing_lib_type == "ccs_ocv"} {
         set_db timing_analysis_type               ocv
-        set_db timing_analysis_engine             statistical
+        set_db timing_analysis_engine             static
         set_db timing_analysis_cppr               both
         set_db timing_analysis_aocv               true
         set_db timing_enable_aocv_slack_based     true

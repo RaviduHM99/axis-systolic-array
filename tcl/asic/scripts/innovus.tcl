@@ -121,69 +121,69 @@ if {$phys_synth_type == "floorplan"} {
     create_floorplan -site $tech(STANDARD_CELL_SITE) -match_to_site \
         -core_density_size $design(floorplan_ratio) $design(floorplan_utilization) {*}$design(floorplan_space_to_core)
     gui_fit
+
+    # Set up pads (for fullchip) or pins (for macro)
+    if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
+        # Reload the IO file after resizing the floorplan
+        read_io_file $design(io_file)
+        # Add IO Fillers
+        add_io_fillers -cells $tech(IO_FILLERS) -prefix IOFILLER
+        # Connect Pad Rings
+        route_special -connect {pad_ring} -nets "$design(digital_gnd) $design(digital_vdd) \
+                                $design(io_gnd) $design(io_vdd)"
+    } elseif {$design(FULLCHIP_OR_MACRO) == "MACRO"} {
+        # Spread pins
+        set pins_to_spread [get_db ports .name]
+        edit_pin -spread_direction clockwise -spread_type center \
+                -layer M5 -side Top -fix_overlap 1 -spacing 2 \
+                -pin $design(CLOCK_PIN)
+        edit_pin -spread_direction clockwise -spread_type center \
+                -layer M3 -side Top -fix_overlap 1 -spacing 2 \
+                -pin $design(TOP_INPUT_PINS)
+        edit_pin -spread_direction clockwise -spread_type center \
+                -layer M4 -side Left -fix_overlap 1 -spacing 2 \
+                -pin $design(LEFT_INPUT_PINS)
+        edit_pin -spread_direction clockwise -spread_type center \
+                -layer M4 -side Right -fix_overlap 1 -spacing 2 \
+                -pin $design(RIGHT_OUTPUT_PINS)       
+    }
+    gui_redraw
+
+    ####################################################
+    # Connect Power
+    ####################################################
+    # Create Core Ring
+    add_rings -type core_rings -nets $design(core_ring_nets) -center 1 -follow core \
+            -layer $design(core_ring_layers) -width $design(core_ring_width) -spacing $design(core_ring_spacing)
+
+    # Connect Follow Pins
+    route_special -connect {core_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
+
+    if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
+        # Connect pads to the rings
+        route_special -connect {pad_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
+    }
+
+    # Add End Caps
+    add_endcaps -prefix $tech(END_CAP_PREFIX)
+
+    # Add Well Taps
+    add_well_taps -cell $tech(FILL_TIE_CELL) -checker_board -prefix $tech(FILL_TIE_PREFIX) \
+            -cell_interval [expr 2 * $design(WELLTAP_RULE)]
+    check_well_taps -max_distance $design(WELLTAP_RULE)
+
+    # Add Stripes
+    add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $design(M7_stripes_nets) \
+                -width $design(M7_stripes_width) -spacing $design(M7_stripes_spacing) \
+                -start_from left -start_offset $design(M7_stripes_from_left) \
+                -set_to_set_distance $design(M7_stripes_interval) -create_pins true \
+                -max_same_layer_jog_length 10.0
+
+    # Export floorplan DEF
+    # This can be used for loading the floorplan in subsequent runs
+    #   And also as a basis for physically-aware synthesis
+    write_def -floorplan -no_std_cells "$design(floorplan_def)"
 }
-
-# Set up pads (for fullchip) or pins (for macro)
-if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
-    # Reload the IO file after resizing the floorplan
-    read_io_file $design(io_file)
-    # Add IO Fillers
-    add_io_fillers -cells $tech(IO_FILLERS) -prefix IOFILLER
-    # Connect Pad Rings
-    route_special -connect {pad_ring} -nets "$design(digital_gnd) $design(digital_vdd) \
-                            $design(io_gnd) $design(io_vdd)"
-} elseif {$design(FULLCHIP_OR_MACRO) == "MACRO"} {
-    # Spread pins
-    set pins_to_spread [get_db ports .name]
-    edit_pin -spread_direction clockwise -spread_type center \
-             -layer M5 -side Top -fix_overlap 1 -spacing 2 \
-             -pin $design(CLOCK_PIN)
-    edit_pin -spread_direction clockwise -spread_type center \
-             -layer M3 -side Top -fix_overlap 1 -spacing 2 \
-             -pin $design(TOP_INPUT_PINS)
-    edit_pin -spread_direction clockwise -spread_type center \
-             -layer M4 -side Left -fix_overlap 1 -spacing 2 \
-             -pin $design(LEFT_INPUT_PINS)
-    edit_pin -spread_direction clockwise -spread_type center \
-             -layer M4 -side Right -fix_overlap 1 -spacing 2 \
-             -pin $design(RIGHT_OUTPUT_PINS)       
-}
-gui_redraw
-
-####################################################
-# Connect Power
-####################################################
-# Create Core Ring
-add_rings -type core_rings -nets $design(core_ring_nets) -center 1 -follow core \
-        -layer $design(core_ring_layers) -width $design(core_ring_width) -spacing $design(core_ring_spacing)
-
-# Connect Follow Pins
-route_special -connect {core_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
-
-if {$design(FULLCHIP_OR_MACRO) == "FULLCHIP"} {
-    # Connect pads to the rings
-    route_special -connect {pad_pin} -nets $design(core_ring_nets) -pad_pin_port_connect all_geom -detailed_log
-}
-
-# Add End Caps
-add_endcaps -prefix $tech(END_CAP_PREFIX)
-
-# Add Well Taps
-add_well_taps -cell $tech(FILL_TIE_CELL) -checker_board -prefix $tech(FILL_TIE_PREFIX) \
-        -cell_interval [expr 2 * $design(WELLTAP_RULE)]
-check_well_taps -max_distance $design(WELLTAP_RULE)
-
-# Add Stripes
-add_stripes -layer [lindex [get_db layers .name] 7] -direction vertical -nets $design(M7_stripes_nets) \
-            -width $design(M7_stripes_width) -spacing $design(M7_stripes_spacing) \
-            -start_from left -start_offset $design(M7_stripes_from_left) \
-            -set_to_set_distance $design(M7_stripes_interval) -create_pins true \
-            -max_same_layer_jog_length 10.0
-
-# Export floorplan DEF
-# This can be used for loading the floorplan in subsequent runs
-#   And also as a basis for physically-aware synthesis
-write_def -floorplan -no_std_cells "$design(floorplan_def)"
 
 # Reporting & Save
 check_connectivity -type special > $design(pnr_reports)/2_floorplan/power_connectivity.rpt
@@ -235,7 +235,13 @@ set_db opt_new_net_prefix  "cts_opt_net_"
 clock_opt_design -report_dir "$design(reports_dir)/pnr/4_clock_tree_synthesis/ccopt_design"
 
 # Reporting & Save
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db timing_analysis_engine             statistical
+}
 uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db timing_analysis_engine             static
+}
 
 # Open the clock tree debugger and check Clock Tree
 #gui_open_ctd
@@ -246,7 +252,13 @@ uom_start_stage "5_post_cts_hold"
 opt_design -post_cts -hold 
 
 # Reporting & Save
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db timing_analysis_engine             statistical
+}
 uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db timing_analysis_engine             static
+}
 
 # Screenshot of the floorplan
 gui_fit
@@ -279,7 +291,13 @@ set_db opt_new_net_prefix "route_opt_net_"
 route_opt_design
 
 # Reporting & Save
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db timing_analysis_engine             statistical
+}
 uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db timing_analysis_engine             static
+}
 
 # Post Route Optimization
 # -----------------------
@@ -313,7 +331,13 @@ add_fillers -base_cells $tech(FILL_CELLS) -prefix $tech(FILL_CELL_PREFIX) \
 route_eco -fix_drc
 
 # Reporting & Save
-uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes -report_hold yes
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db timing_analysis_engine             statistical
+}
+uom_create_stage_reports -write_db yes -check_drc yes -report_timing yes -check_connectivity yes
+if {$timing_lib_type == "ccs_ocv"} {
+    set_db timing_analysis_engine             static
+}
 
 # Screenshot of the floorplan
 gui_fit
