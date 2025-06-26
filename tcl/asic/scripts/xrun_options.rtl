@@ -8,6 +8,3 @@
 -define RTL
 -f ../../tcl/asic/sourcecode/axis_sa_src_list.txt
 -f ../../tcl/asic/sourcecode/axis_sa_tb_list.txt
-
-# Optionally add a tcl script to run upon Xcelium Invocation
-# -input ../script/simulation.tcl

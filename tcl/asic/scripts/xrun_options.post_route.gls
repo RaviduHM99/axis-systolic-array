@@ -7,5 +7,3 @@
 -define GATE_LEVEL
 -f ../sourcecode/axis_sa_src_list_glv.txt
 
-# Optionally add a tcl script to run upon Xcelium Invocation
--input ../scripts/simulation.tcl

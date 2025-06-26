@@ -35,9 +35,9 @@ simvision simcontrol run -time 1
 #dumptcf -output $design(tcf_file) -scope "#$design(tb_name).$design(dut_name)" -overwrite -verbose
 
 #dumptcf -end
-simvision window geometry Console 1336x500+10+700
-simvision window geometry "Design Browser 1" 1336x500+10+700
-simvision window geometry "Waveform 1" 1336x400+10+25
+simvision window geometry Console 1920x1020+10+700
+simvision window geometry "Design Browser 1" 1920x1020+10+700
+simvision window geometry "Waveform 1" 1920x1020+10+25
 simvision waveform xview limits 0 2000000ps
 
 reset
