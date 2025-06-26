@@ -5,5 +5,5 @@
 -nospecify
 -timescale 1ns/1ps
 -define GATE_LEVEL
--f ../sourcecode/axis_sa_src_list_glv.txt
+-f ../../tcl/asic/sourcecode/axis_sa_src_list_glv.txt
 

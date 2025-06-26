@@ -2,7 +2,7 @@
 -f ../../tcl/asic/libraries/libraries.TSMC28_VERILOG.f
 
 // List your RTL files here
-../../tcl/asic/export/post_synth/axis_sa.postsyn.v
+../../tcl/asic/export/post_synth/axis_sa_rtl_flow.postsyn.v
 
 // Put your testbench file inside the xrun_options script
 ../../tcl/asic/sourcecode/axis_sa_tb_list.txt
