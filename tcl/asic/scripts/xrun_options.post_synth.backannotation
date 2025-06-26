@@ -6,7 +6,7 @@
 -timescale 1ns/1ps
 -define GATE_LEVEL
 -define BACKANNOTATION
--define SDF_FILE=\"../../tcl/asic/export/post_synth/axis_sa_rtl_flow.postsyn.sdf"
+-define SDF_FILE=\"../../tcl/asic/exports/axis_sa_rtl_flow.postsyn.sdf"
 -define SDF_CORNER=\"MAXIMUM"
 -f ../../tcl/asic/sourcecode/axis_sa_src_list_glv.txt
 +sdf_verbose
