@@ -1,5 +1,5 @@
-// If you have Standard Cell Instantatiations, make sure to add this to your source list
--f ../../tcl/asic/libraries/libraries_TSMC7_STD.f
+// If you have Standard Cell & MACRO Instantatiations, make sure to add this to your source list
+-f ../../tcl/asic/libraries/libraries.TSMC28_VERILOG.f
 
 // List your RTL files here
 ../../tcl/asic/export/post_synth/axis_sa.postsyn.v
