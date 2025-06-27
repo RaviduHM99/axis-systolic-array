@@ -7,7 +7,7 @@ set design(HAS_SCAN)          "no";
 
 set mmmc_or_simple "mmmc";         # "simple"    - using "read_lib"
                                    # "mmmc"      - using "read_mmmc"
-set phys_synth_type "floorplan" ;  # "none"      - don't read any tech files
+set phys_synth_type "lef" ;  # "none"      - don't read any tech files
                                    # "lef"       - only read lef - RTL Floorplaning Flow
                                    # "floorplan" - read in DEF - iSpatial Flow
 set timing_lib_type "nldm";        # "nldm"      - Linear Model Libs 
