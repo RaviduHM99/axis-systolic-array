@@ -217,9 +217,6 @@ foreach rpt $post_synth_reports {
 #################################################################
 #                     Exporting the Design                      #
 #################################################################
-# Input & Output Ports Style
-bitblast_all_ports
-
 if {$phys_synth_type == "floorplan"} {
     uom_start_stage "export_post_synth_design_ispatial"
 

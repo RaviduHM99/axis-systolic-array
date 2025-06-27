@@ -12,7 +12,6 @@ if {$runtype == "synthesis"} {
     set_db hdl_language v2001       -quiet
     set_db lp_insert_clock_gating   false
     set_db detailed_sdc_messages    true ; # helps read_sdc
-    set_db bit_blasted_port_style %s_%d
     if {$design(HAS_SCAN) == "no"} {
         set_db use_scan_seqs_for_non_dft false
     }
@@ -28,7 +27,6 @@ if {$runtype == "pnr"} {
     set_multi_cpu_usage -local_cpu  8
     set_db design_process_node      28
     #set_db design_tech_node         N7
-    set_db bit_blasted_port_style %s_%d
 
     ## Timing Analysis OCV Settings
     ###############################
