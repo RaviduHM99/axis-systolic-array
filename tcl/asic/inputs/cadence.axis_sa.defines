@@ -79,10 +79,10 @@ set design(read_hdl_list)                        "$design(sourcecode_dir)/$desig
 set design(testbench_dir)                        "$design(project_root)/tb"
 set design(scripts_dir)                          "$design(asic_root)/scripts"
 set design(export_dir)                           "$design(asic_root)/exports"
-set design(reports_dir)                          "$design(asic_root)/reports"
+set design(reports_dir)                          "$design(asic_root)/reports/cadence"
 set design(dbs_dir)                              "$design(asic_root)/dbs/cadence"
-set design(synthesis_reports)                    "$design(reports_dir)/cadence/synthesis"
-set design(pnr_reports)                          "$design(reports_dir)/cadence/pnr"
+set design(synthesis_reports)                    "$design(reports_dir)/synthesis"
+set design(pnr_reports)                          "$design(reports_dir)/pnr"
 set design(functional_sdc)                       "$design(inputs_dir)/cadence.$design(TOPLEVEL).sdc"
 
 set design(postsyn_netlist_ispatial)             "$design(export_dir)/cadence/$design(TOPLEVEL)_ispatial.postsyn.v"

@@ -1,1 +1,0 @@
- set tech(EXTERNAL_SDC_LOAD)

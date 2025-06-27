@@ -181,7 +181,7 @@ proc uom_start_stage {stage} {
 #   Reports timing and saves it in the 
 #       appropriate directory
 ###################################################
-proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
+proc uom_report_timing {{reports_path "../../tcl/asic/reports/cadence"}} {
     global design runtype this_run
     mkdir -pv ${reports_path}/$this_run(stage)/
     set_db timing_report_fields \
@@ -205,7 +205,7 @@ proc uom_report_timing {{reports_path "../../tcl/asic/reports/"}} {
 #   Reports hold timing and saves it in the 
 #       appropriate directory
 ###################################################
-proc uom_report_hold_timing {{reports_path "../../tcl/asic/reports/"}} {
+proc uom_report_hold_timing {{reports_path "../../tcl/asic/reports/cadence"}} {
     global design runtype this_run
     mkdir -pv ${reports_path}/$this_run(stage)/
     set_db timing_report_fields \

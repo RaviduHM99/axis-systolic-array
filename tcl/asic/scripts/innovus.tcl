@@ -12,12 +12,12 @@ set debug_file "debug.innovus.txt"
 # Starting Stage - Load defines and technology
 ####################################################
 # Load general procedures
-source ../../tcl/asic/scripts/procedures.tcl -quiet
+source ../../tcl/asic/scripts/cadence.procedures.tcl -quiet
 
 uom_start_stage "loading_basic_settings"
 
 # Load the specific definitions for this project
-source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet
+source ../../tcl/asic/inputs/cadence.$design(TOPLEVEL).defines -quiet
 
 # Load the library paths and definitions for this technology files
 source ../../tcl/asic/libraries/cadence.libraries.$TECHNOLOGY.tcl -quiet
@@ -80,7 +80,7 @@ if {$phys_synth_type == "floorplan"} {
 init_design
 
 # Load general settings
-source ../../tcl/asic/scripts/settings.tcl -quiet
+source ../../tcl/asic/scripts/cadence.settings.tcl -quiet
 
 # Create cost groups
 uom_default_cost_groups
@@ -110,7 +110,7 @@ uom_create_stage_reports -write_db yes
 # Floorplan
 ####################################################
 uom_start_stage "2_floorplan"
-source ../../tcl/asic/inputs/$design(TOPLEVEL).floorplan.defines -quiet
+source ../../tcl/asic/inputs/cadence.$design(TOPLEVEL).floorplan.defines -quiet
 
 if {$phys_synth_type == "floorplan"} {
     # You need to read a .def file for the floorplan to enable physical synthesis
