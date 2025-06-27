@@ -348,6 +348,9 @@ write_to_gif $design(pnr_reports)/screenshots/4_Post_Route.gif
 ####################################################
 uom_start_stage "8_signoff"
 
+# Input & Output Port Naming
+bitblast_ports $design(TOPLEVEL)
+
 # Write out a netlist for gls simulation
 # ---------------------------------------------
 uom_message "Writing the post route netlist to $design(postroute_netlist)"
