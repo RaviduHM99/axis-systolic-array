@@ -35,7 +35,32 @@ module axis_sa_tb;
   wire [R-1:0] m_keep = '1;
 
   `ifdef GATE_LEVEL
-    axis_sa DUT (.*);
+    axis_sa DUT (
+      .clk(clk),
+      .rstn(rstn),
+      .s_ready(s_ready),
+      .s_valid(s_valid),
+      .s_last(s_last),
+      .\sx_data[0](sx_data[0]),
+      .\sx_data[1](sx_data[1]),
+      .\sx_data[2](sx_data[2]),
+      .\sx_data[3](sx_data[3]),
+      .\sk_data[0](sk_data[0]),
+      .\sk_data[1](sk_data[1]),
+      .\sk_data[2](sk_data[2]),
+      .\sk_data[3](sk_data[3]),
+      .\sk_data[4](sk_data[4]),
+      .\sk_data[5](sk_data[5]),
+      .\sk_data[6](sk_data[6]),
+      .\sk_data[7](sk_data[7]),
+      .m_ready(m_ready),
+      .m_valid(m_valid),
+      .m_last(m_last),
+      .\m_data[0](m_data[0]),
+      .\m_data[1](m_data[1]),
+      .\m_data[2](m_data[2]),
+      .\m_data[3](m_data[3])
+    );
   `else
     axis_sa #(.R(R), .C(C), .WX(WX), .WK(WK), .WY(WY), .LM(LM), .LA(LA)) DUT (.*);
   `endif
