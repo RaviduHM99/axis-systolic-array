@@ -11,4 +11,4 @@
 -f ../../tcl/asic/sourcecode/axis_sa_src_list_glv.txt
 +sdf_verbose
 -sdfstats ../../tcl/asic/reports/synthesis/gls_sdf_report/sdf_statistics.rpt
--input ../../tcl/asic/scripts/backannotation.tcl
+-input ../../tcl/asic/scripts/xrun.backannotation.tcl

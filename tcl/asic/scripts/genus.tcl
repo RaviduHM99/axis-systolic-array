@@ -11,15 +11,15 @@ set debug_file "debug.genus.txt"
 #################################################################
 
 # Load General Procedures
-source ../../tcl/asic/scripts/procedures.tcl -quiet
+source ../../tcl/asic/scripts/cadence.procedures.tcl -quiet
 
 uom_start_stage "loading_basic_settings"
 
 # Load the specific definitions for this project
-source ../../tcl/asic/inputs/$design(TOPLEVEL).defines -quiet
+source ../../tcl/asic/inputs/cadence.$design(TOPLEVEL).defines -quiet
 
 # Load general settings
-source ../../tcl/asic/scripts/settings.tcl -quiet
+source ../../tcl/asic/scripts/cadence.settings.tcl -quiet
 
 # Load the library paths and definitions for this technology
 source ../../tcl/asic/libraries/cadence.libraries.$TECHNOLOGY.tcl -quiet
