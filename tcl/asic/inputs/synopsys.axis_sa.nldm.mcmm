@@ -1,0 +1,35 @@
+# Best-Worst Case Scenerio #
+# ------------------------ #
+create_scenario bc_wc_scenario
+set_operating_conditions bc_wc_timing_condition \
+        -analysis_type bc_wc \
+        -min_library 
+        -max_library 
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_WC) -min_tluplus $tech_files(TLUPLUS_BC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios bc_wc_scenario -setup true -hold true -leakge_power false
+
+#    Worst Case Scenerio   #
+# ------------------------ #
+create_scenario wc_scenario
+set_operating_conditions wc_timing_condition \
+        -library
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_WC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios wc_scenario -setup true -hold false -leakge_power false
+
+#    Best Case Scenerio    #
+# ------------------------ #
+create_scenario bc_scenario
+set_operating_conditions bc_timing_condition \
+        -library
+set_tlu_plus_files -min_tluplus $tech_files(TLUPLUS_BC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios bc_scenario -setup false -hold true -leakge_power false
+
+#  Typical Case Scenerio   #
+# ------------------------ #
+create_scenario typical_scenario
+set_operating_conditions typical_timing_condition \
+        -library
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_TC) -min_tluplus $tech_files(TLUPLUS_TC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios typical_scenario -setup true -hold true -leakge_power false
+
+9 scenarios or

@@ -79,27 +79,27 @@ set design(read_hdl_list)                        "$design(sourcecode_dir)/$desig
 set design(testbench_dir)                        "$design(project_root)/tb"
 set design(scripts_dir)                          "$design(asic_root)/scripts"
 set design(export_dir)                           "$design(asic_root)/exports"
-set design(reports_dir)                          "$design(asic_root)/reports/cadence"
-set design(dbs_dir)                              "$design(asic_root)/dbs/cadence"
+set design(reports_dir)                          "$design(asic_root)/reports/synopsys"
+set design(dbs_dir)                              "$design(asic_root)/dbs/synopsys"
 set design(synthesis_reports)                    "$design(reports_dir)/synthesis"
 set design(pnr_reports)                          "$design(reports_dir)/pnr"
-set design(functional_sdc)                       "$design(inputs_dir)/cadence.$design(TOPLEVEL).sdc"
+set design(functional_sdc)                       "$design(inputs_dir)/synopsys.$design(TOPLEVEL).sdc"
 
-set design(postsyn_netlist_ispatial)             "$design(export_dir)/cadence/$design(TOPLEVEL)_ispatial.postsyn.v"
+set design(postsyn_netlist_ispatial)             "$design(export_dir)/synopsys/$design(TOPLEVEL)_ispatial.postsyn.v"
 set design(postsyn_db_base_name_ispatial)        "$design(dbs_dir)/synthesis/2_post_synth_ispatial/$design(TOPLEVEL)"
 set design(postsyn_db_ispatial)                  "$design(postsyn_db_base_name_ispatial)_ispatial.stylus.enc"
-set design(postsyn_sdf_ispatial)                 "$design(export_dir)/cadence/$design(TOPLEVEL)_ispatial.postsyn.sdf"
-set design(postsyn_netlist_rtl_flow)             "$design(export_dir)/cadence/$design(TOPLEVEL)_rtl_flow.postsyn.v"
+set design(postsyn_sdf_ispatial)                 "$design(export_dir)/synopsys/$design(TOPLEVEL)_ispatial.postsyn.sdf"
+set design(postsyn_netlist_rtl_flow)             "$design(export_dir)/synopsys/$design(TOPLEVEL)_rtl_flow.postsyn.v"
 set design(postsyn_db_base_name_rtl_flow)        "$design(dbs_dir)/synthesis/2_post_synth_rtl_flow/$design(TOPLEVEL)"
 set design(postsyn_db_rtl_flow)                  "$design(postsyn_db_base_name_rtl_flow)_rtl_flow.stylus.enc"
-set design(postsyn_sdf_rtl_flow)                 "$design(export_dir)/cadence/$design(TOPLEVEL)_rtl_flow.postsyn.sdf"
+set design(postsyn_sdf_rtl_flow)                 "$design(export_dir)/synopsys/$design(TOPLEVEL)_rtl_flow.postsyn.sdf"
 
-set design(floorplan_def)                        "$design(export_dir)/cadence/$design(TOPLEVEL).floorplan.def"
-set design(postroute_netlist)                    "$design(export_dir)/cadence/$design(TOPLEVEL).final.v"
-set design(postroute_sdf)                        "$design(export_dir)/cadence/$design(TOPLEVEL).final.sdf"
-set design(mmmc_nldm_view_file)                  "$design(inputs_dir)/cadence.$design(TOPLEVEL).nldm.mmmc"
-set design(mmmc_ocv_view_file)                   "$design(inputs_dir)/cadence.$design(TOPLEVEL).ocv.mmmc"
-set design(clock_tree_spec)                      "$design(inputs_dir)/cadence.$design(TOPLEVEL).ccopt"
+set design(floorplan_def)                        "$design(export_dir)/synopsys/$design(TOPLEVEL).floorplan.def"
+set design(postroute_netlist)                    "$design(export_dir)/synopsys/$design(TOPLEVEL).final.v"
+set design(postroute_sdf)                        "$design(export_dir)/synopsys/$design(TOPLEVEL).final.sdf"
+set design(mmmc_nldm_view_file)                  "$design(inputs_dir)/synopsys.$design(TOPLEVEL).nldm.mcmm"
+set design(mmmc_ocv_view_file)                   "$design(inputs_dir)/synopsys.$design(TOPLEVEL).ocv.mcmm"
+set design(clock_tree_spec)                      "$design(inputs_dir)/synopsys.$design(TOPLEVEL).ccopt"
 # set design(io_file)                            "$design(inputs_dir)/$design(TOPLEVEL).io"
 # set design(UPF_file)                           "$design(inputs_dir)/$design(TOPLEVEL).upf"
 # set design(CPF_file)                           "$design(inputs_dir)/$design(TOPLEVEL).cpf"
@@ -107,7 +107,7 @@ set design(clock_tree_spec)                      "$design(inputs_dir)/cadence.$d
 # set design(size_only_file)                     "$design(inputs_dir)/$design(TOPLEVEL).size_only"
 
 ################################################
-#               MMMC
+#               MCMM
 ################################################
 if { $runtype == "synthesis" } {
     set design(selected_setup_analysis_views) wc_analysis_view
@@ -148,8 +148,8 @@ set design(dut_name) "DUT"
 
 # For Backannotation and Power Reporting
 set design(backannotation_script) "$design(inputs_dir)/$design(TOPLEVEL).backannotation.tcl"
-set design(tcf_file)              "$design(export_dir)/cadence/$design(tb_name).tcf"
-set design(vcd_file)              "$design(export_dir)/cadence/$design(tb_name).vcd"
+set design(tcf_file)              "$design(export_dir)/synopsys/$design(tb_name).tcf"
+set design(vcd_file)              "$design(export_dir)/synopsys/$design(tb_name).vcd"
 set design(power_report_flow)     "vcd" ; # "vcd" or "tcf"
 set design(power_report_period)     2
 set design(power_report_start_time) 0
@@ -158,15 +158,15 @@ set design(power_report_end_time)   1500
 ################################################
 #               Get rid of annoying messages
 ################################################
-set design(DESIGN_SUPPRESS_MESSAGES_GENUS) "ST-110 ST-112 CFM-5 CFM-1"
-# Stop reporting elaboration of multi-dimensional array
-lappend design(DESIGN_SUPPRESS_MESSAGES_GENUS) "CDFG-250"
-# Stop reporting implementation inference (chipWare)
-lappend design(DESIGN_SUPPRESS_MESSAGES_GENUS) {*} "CWD-19 CWD-36"
-# Stop reporting Replaced logic with a constant value
-lappend design(DESIGN_SUPPRESS_MESSAGES_GENUS) "CDFG-771"
-# Stop reporting unreachable case statements
-lappend design(DESIGN_SUPPRESS_MESSAGES_GENUS) "CDFG-472"
+# set design(DESIGN_SUPPRESS_MESSAGES_GENUS) "ST-110 ST-112 CFM-5 CFM-1"
+# # Stop reporting elaboration of multi-dimensional array
+# lappend design(DESIGN_SUPPRESS_MESSAGES_GENUS) "CDFG-250"
+# # Stop reporting implementation inference (chipWare)
+# lappend design(DESIGN_SUPPRESS_MESSAGES_GENUS) {*} "CWD-19 CWD-36"
+# # Stop reporting Replaced logic with a constant value
+# lappend design(DESIGN_SUPPRESS_MESSAGES_GENUS) "CDFG-771"
+# # Stop reporting unreachable case statements
+# lappend design(DESIGN_SUPPRESS_MESSAGES_GENUS) "CDFG-472"
 
 # set design(DESIGN_SUPPRESS_MESSAGES_INNOVUS) ""
 # Stop reporting mismatch in voltage between IOs and sta...

@@ -1,0 +1,10 @@
+-sv
+-v93
+-debug
+-gui
+-delay_trigger
+-timescale 1ns/1ps
++bus_conflict_off
+-define RTL
+-f ../../tcl/asic/sourcecode/axis_sa_src_list.txt
+-f ../../tcl/asic/sourcecode/axis_sa_tb_list.txt
