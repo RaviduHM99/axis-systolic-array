@@ -61,8 +61,8 @@ uom_start_stage "init_libraries"
 # Read LIBs
 # ---------
 uom_message "Loading the library abstracts"
-set target_library "$tech_files(STANDARD_CELLS_RVT_TC_LIB)"
-set link_library [concat "* $target_library "]
+set target_library "$tech_files(ALL_WC_LIBS)"
+set link_library [concat "* $target_library $tech_files(ALL_TC_LIBS) $tech_files(ALL_BC_LIBS)"]
 
 #################################################################
 #                 Read Milkyway & Tech files                    #
@@ -91,7 +91,7 @@ check_library >> $design(synthesis_reports)/1_init_libraries/check_library.rpt
 #################################################################
 uom_start_stage "read_rtl"
 
-read_file -format sv -f $design(read_hdl_list)
+read_file -format sverilog -f $design(read_hdl_list)
 
 #################################################################
 #                  Elaborate and Init Design                    #
@@ -99,51 +99,33 @@ read_file -format sv -f $design(read_hdl_list)
 # Elaborate
 # ---------
 uom_start_stage "elaborate"
-elaborate $design(TOPLEVEL)
-uniquify $design(TOPLEVEL)
+current_design $design(TOPLEVEL)
+link -force
+uniquify
 
 # Check Design
 # ------------
-uom_start_stage "1_post_elaboration_design"
+uom_start_stage "post_elaboration_design"
 uom_message "Checking design post elaboration"
-check_design -unresolved
-check_design -all > $design(synthesis_reports)/1_post_elaboration/check_design_post_elab.rpt
-if {[check_design -status]} {
-    puts "uomINFO: ############### There is an issure with check design. You better look at it! ###############"
-}
-
-# Init Design
-# -----------
-uom_message "Running init_design in an MMMC flow"
-init_design
-
-# Check Timing
-# ------------
-uom_message "Checking timing intent (lint) after init_design"
-check_timing_intent > $design(synthesis_reports)/1_post_elaboration/check_timing_post_elab.rpt
+check_design -all > $design(synthesis_reports)/2_post_elaboration/check_design_post_elab.rpt
 
 # Save elaborated design
 # ----------------------
-write_design -base_name $design(dbs_dir)/synthesis/1_post_elaboration/$design(TOPLEVEL)
+write_file -hierarchy -format ddc -output $design(dbs_dir)/synthesis/2_post_elaboration/$design(TOPLEVEL).ddc
 
 #################################################################
 #                       Read MCMM                               #
 #################################################################
-uom_start_stage "init_libraries"
+uom_start_stage "init_mcmm_flow"
 
-# Suppress messages
-uom_message "Suppressing the following messages that are reported due to the library definitions"
-uom_message "$tech(LIB_SUPPRESS_MESSAGES_GENUS)"
-suppress_messages $tech(LIB_SUPPRESS_MESSAGES_GENUS)
-
-# Load MMMC File
+# Load MCMM File
 # --------------
 if {$timing_lib_type == "nldm"} {
     uom_message "Loading MMMC File with NLDM Libs"
-    read_mmmc $design(mmmc_nldm_view_file)
+    source $design(mcmm_nldm_view_file)
 } else {
     uom_message "Loading MMMC File with CCS & OCV Libs"
-    read_mmmc $design(mmmc_ocv_view_file)
+    source $design(mcmm_ocv_view_file)
 }
 
 #################################################################
@@ -158,7 +140,7 @@ if {$phys_synth_type == "floorplan"} {
 #################################################################
 #                          Synthesize                           #
 #################################################################
-uom_start_stage "2_pre_synthesis"
+uom_start_stage "3_pre_synthesis"
 
 # Define OCV Methodology for Timing Analysis
 # ------------------------------------------
@@ -169,60 +151,31 @@ if {$timing_lib_type == "ccs_ocv"} {
 # Define cost groups (reg2reg, in2reg, reg2out, in2out)
 # -----------------------------------------------------
 uom_default_cost_groups
-uom_report_timing $design(synthesis_reports)
-
-# Set Retime
-set_db design:${design(TOPLEVEL)} .retime true
 
 # Physical Flow Attributes
 # ------------------------
-set_db design_process_node      $TECH_NODE
-set_db number_of_routing_layers $METAL_LAYERS
+# set_db design_process_node      $TECH_NODE
+# set_db number_of_routing_layers $METAL_LAYERS
 #set_db design_tech_node         N7
+#Compiler directives Synthesis
+set compile_effort   "high"
+set_app_var ungroup_keep_original_design true
+set_register_merging [get_designs $top_module] false
+set compile_seqmap_propagate_constants false
+set compile_seqmap_propagate_high_effort false
+set compile_seqmap_propagate_constants true
+set compile_delete_unloaded_sequential_cells false
+set hdlin_ff_always_sync_set_reset "true"
 
+current_design $top_module
 
-if {$phys_synth_type == "floorplan"} {
-    # Set Synthesis Efforts
-    set_db syn_generic_effort           high    ; # low|medium|high
-    set_db syn_map_effort               high    ; # low|medium|high
-    set_db syn_opt_effort               extreme ; # low|medium|high|extreme
+# Compile
 
-    set_db opt_spatial_effort           extreme ; # legacy|standard|extreme
-    set_db opt_leakage_to_dynamic_ratio 1.0
-    set_db design_power_effort          high    ; # none|low|high
+compile_ultra -spg -no_seq_output_inversion
+compile_ultra -spg -retime -no_seq_output_inversion -incremental
 
-    # Synthesize to generics and place generics in floorplan
-    uom_start_stage "syn_generic_ispatial_flow"
-    syn_generic
+ungroup -all -flatten
 
-    # Map technology
-    uom_start_stage "3_technology_mapping_ispatial_flow"
-    syn_map
-    uom_report_timing $design(synthesis_reports)
-
-    # Post synthesis optimization
-    uom_start_stage "4_post_syn_opt_ispatial_flow"
-    syn_opt
-
-} else {
-    # Set Synthesis Efforts
-    set_db syn_generic_effort           high    ; # low|medium|high
-    set_db syn_map_effort               high    ; # low|medium|high
-    set_db syn_opt_effort               extreme ; # low|medium|high|extreme
-
-    # Synthesize to generics and place generics in floorplan
-    uom_start_stage "syn_generic_rtl_flow"
-    syn_generic 
-
-    # Map technology
-    uom_start_stage "3_technology_mapping_rtl_flow"
-    syn_map 
-    uom_report_timing $design(synthesis_reports)
-
-    # Post synthesis optimization
-    uom_start_stage "4_post_syn_opt_rtl_flow"
-    syn_opt
-}
 
 #################################################################
 #                     Post Synthesis Reports                    #

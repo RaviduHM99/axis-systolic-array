@@ -79,34 +79,19 @@ proc uom_reload_scripts {} {
 ###################################################
 proc uom_default_cost_groups {} {
     global runtype design
-    if { $runtype == "synthesis" } {
-        # reg2reg
-        define_cost_group -name reg2reg -design $design(TOPLEVEL)
-        path_group -from [all_registers] -to [all_registers] -group reg2reg -name reg2reg \
-            -view $design(selected_setup_analysis_views)
-        lappend design(cost_groups) "reg2reg"
-        # in2reg
-        define_cost_group -name in2reg -design $design(TOPLEVEL)
-        path_group -from [all_inputs] -to [all_registers] -group in2reg -name in2reg \
-            -view $design(selected_setup_analysis_views)
-        lappend design(cost_groups) "in2reg"
-        # reg2out
-        define_cost_group -name reg2out -design $design(TOPLEVEL)
-        path_group -from [all_registers] -to [all_outputs] -group reg2out -name reg2out \
-            -view $design(selected_setup_analysis_views)
-        lappend design(cost_groups) "reg2out"
-        # in2out
-        define_cost_group -name in2out -design $design(TOPLEVEL)
-        path_group -from [all_inputs] -to [all_outputs] -group in2out -name in2out \
-            -view $design(selected_setup_analysis_views)
-        lappend design(cost_groups) "in2out"
-    } elseif { $runtype == "pnr" } {
-        create_basic_path_groups -expanded
-        lappend design(cost_groups) "reg2reg"
-        lappend design(cost_groups) "in2reg"
-        lappend design(cost_groups) "reg2out"
-        lappend design(cost_groups) "in2out"
-    }
+    # reg2reg
+    group_path -from [all_registers] -to [all_registers] -weight 50 -name reg2reg
+    # in2reg
+    path_group -from [all_inputs] -to [all_registers] -weight 20 -name in2reg 
+    # reg2out
+    path_group -from [all_registers] -to [all_outputs] -weight 30 -name reg2out
+    # in2out
+    path_group -from [all_inputs] -to [all_outputs] -weight 5 -name in2out
+
+    lappend design(cost_groups) "reg2reg"
+    lappend design(cost_groups) "in2reg"
+    lappend design(cost_groups) "reg2out"
+    lappend design(cost_groups) "in2out"
 }
 
 ###################################################
@@ -155,19 +140,13 @@ proc uom_start_stage {stage} {
 #       appropriate directory
 ###################################################
 proc uom_report_timing {{reports_path "../../tcl/asic/reports/cadence"}} {
-    global design runtype this_run
+    global design runtype this_run scenarios_list
     mkdir -pv ${reports_path}/$this_run(stage)/
-    set_db timing_report_fields \
-        "timing_point flags arc edge cell fanout transition delay arrival"
-    #set timing_report_enable_auto_column_width true
-    #set_table_style -nosplit -no_frame_fix_width report_timing
-    foreach cg $design(cost_groups) {
-        if {$runtype == "synthesis"} {
-            report_timing -max_paths 100 -group [get_db cost_groups -match $cg] \
-                > "${reports_path}/$this_run(stage)/${cg}.setup.timing.rpt"
-        } elseif {$runtype == "pnr"} {
-            report_timing -max_paths 100 -group $cg \
-                > "${reports_path}/$this_run(stage)/${cg}.setup.timing.rpt"
+
+    foreach scnrio $scenarios_list {
+        foreach cg $design(cost_groups) {
+            report_timing -max_paths 100 -group $cg -scenarios $scnrio\
+                > "${reports_path}/$this_run(stage)/${cg}.${scnrio}.setup.timing.rpt"
         }
     }
 }

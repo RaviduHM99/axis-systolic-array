@@ -8,26 +8,74 @@ set_operating_conditions bc_wc_timing_condition \
 set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_WC) -min_tluplus $tech_files(TLUPLUS_BC) -tech2itf_map $tech_files(TLUPLUS_MAP)
 set_scenario_options -scenarios bc_wc_scenario -setup true -hold true -leakge_power false
 
-#    Worst Case Scenerio   #
-# ------------------------ #
-create_scenario wc_scenario
+#    Worst Case Scenerio - LVT   #
+# ------------------------------ #
+create_scenario wc_scenario_lvt
 set_operating_conditions wc_timing_condition \
-        -library
+        -library $tech_files(STANDARD_CELLS_LVT_WC_LIB)
 set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_WC) -tech2itf_map $tech_files(TLUPLUS_MAP)
-set_scenario_options -scenarios wc_scenario -setup true -hold false -leakge_power false
+set_scenario_options -scenarios wc_scenario_lvt -setup true -hold false -leakge_power false
 
-#    Best Case Scenerio    #
-# ------------------------ #
-create_scenario bc_scenario
+#    Best Case Scenerio - LVT   #
+# ----------------------------- #
+create_scenario bc_scenario_lvt
 set_operating_conditions bc_timing_condition \
-        -library
-set_tlu_plus_files -min_tluplus $tech_files(TLUPLUS_BC) -tech2itf_map $tech_files(TLUPLUS_MAP)
-set_scenario_options -scenarios bc_scenario -setup false -hold true -leakge_power false
+        -library $tech_files(STANDARD_CELLS_LVT_BC_LIB)
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_BC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios bc_scenario_lvt -setup false -hold true -leakge_power false
 
-#  Typical Case Scenerio   #
-# ------------------------ #
-create_scenario typical_scenario
+#  Typical Case Scenerio - LVT   #
+# ------------------------------ #
+create_scenario typical_scenario_lvt
 set_operating_conditions typical_timing_condition \
-        -library
-set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_TC) -min_tluplus $tech_files(TLUPLUS_TC) -tech2itf_map $tech_files(TLUPLUS_MAP)
-set_scenario_options -scenarios typical_scenario -setup true -hold true -leakge_power false
+        -library $tech_files(STANDARD_CELLS_LVT_TC_LIB)
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_TC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios typical_scenario_lvt -setup true -hold true -leakge_power false
+
+#    Worst Case Scenerio - RVT   #
+# ------------------------------ #
+create_scenario wc_scenario_rvt
+set_operating_conditions wc_timing_condition \
+        -library $tech_files(STANDARD_CELLS_RVT_WC_LIB)
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_WC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios wc_scenario_rvt -setup true -hold false -leakge_power false
+
+#    Best Case Scenerio - RVT   #
+# ----------------------------- #
+create_scenario bc_scenario_rvt
+set_operating_conditions bc_timing_condition \
+        -library $tech_files(STANDARD_CELLS_RVT_BC_LIB)
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_BC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios bc_scenario_rvt -setup false -hold true -leakge_power false
+
+#  Typical Case Scenerio - RVT   #
+# ------------------------------ #
+create_scenario typical_scenario_rvt
+set_operating_conditions typical_timing_condition \
+        -library $tech_files(STANDARD_CELLS_RVT_TC_LIB)
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_TC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios typical_scenario_rvt -setup true -hold true -leakge_power false
+
+#    Worst Case Scenerio - HVT   #
+# ------------------------------ #
+create_scenario wc_scenario_hvt
+set_operating_conditions wc_timing_condition \
+        -library $tech_files(STANDARD_CELLS_HVT_WC_LIB)
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_WC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios wc_scenario_hvt -setup true -hold false -leakge_power false
+
+#    Best Case Scenerio - HVT   #
+# ----------------------------- #
+create_scenario bc_scenario_hvt
+set_operating_conditions bc_timing_condition \
+        -library $tech_files(STANDARD_CELLS_HVT_BC_LIB)
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_BC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios bc_scenario_hvt -setup false -hold true -leakge_power false
+
+#  Typical Case Scenerio - HVT   #
+# ------------------------------ #
+create_scenario typical_scenario_hvt
+set_operating_conditions typical_timing_condition \
+        -library $tech_files(STANDARD_CELLS_TVT_TC_LIB)
+set_tlu_plus_files -max_tluplus $tech_files(TLUPLUS_TC) -tech2itf_map $tech_files(TLUPLUS_MAP)
+set_scenario_options -scenarios typical_scenario_hvt -setup true -hold true -leakge_power false
