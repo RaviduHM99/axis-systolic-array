@@ -10,7 +10,7 @@ set mmmc_or_simple "mmmc";         # "simple"    - using "read_lib"
 set phys_synth_type "lef" ;  # "none"      - don't read any tech files
                                    # "lef"       - only read lef - RTL Floorplaning Flow
                                    # "floorplan" - read in DEF - iSpatial Flow
-set timing_lib_type "nldm";        # "nldm"      - Linear Model Libs 
+set timing_lib_type "nldm";        # "nldm"      - Non Linear Model Libs 
                                    # "ccs_ocv"   - CCS and OCV libs
 
 ################################################
